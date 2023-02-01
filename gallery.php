@@ -53,11 +53,12 @@ session_start();
     <div class="container">              
         <div class="row">
             <div class="gallery-filter d-none d-sm-block">
-                <button class="btn btn-default filter-button" data-filter="all">All</button>
-                <button class="btn btn-default filter-button" data-filter="1">Ξενοδοχεία</button>
-                <button class="btn btn-default filter-button" data-filter="2">Ξενώνες</button>
-                <button class="btn btn-default filter-button" data-filter="3"> Λέσχες</button>
-                <button class="btn btn-default filter-button" data-filter="4">Εστιατόρια</button>
+                <button class="btn btn-default filter-button" data-filter="all"> All </button>
+                <button class="btn btn-default filter-button" data-filter="1"> Ξενοδοχεία </button>
+                <button class="btn btn-default filter-button" data-filter="2"> Ξενώνες </button>
+                <button class="btn btn-default filter-button" data-filter="3"> Λέσχες </button>
+                <button class="btn btn-default filter-button" data-filter="4"> Εστιατόρια </button>
+                <button class="btn btn-default filter-button" data-filter="5"> Νοσοκομεία </button>
             </div>
             <br/>
 
@@ -77,6 +78,8 @@ session_start();
                 }else if($filterValue == "3"){
                     $query .= " AND category_id = '$filterValue' ";
                 }else if($filterValue == "4"){
+                    $query .= " AND category_id = '$filterValue' ";
+                }else if($filterValue == "5"){
                     $query .= " AND category_id = '$filterValue' ";
                 }
                 $result = mysqli_query($dbc, $query);
@@ -102,7 +105,9 @@ session_start();
                                 echo'</div>';
                         }
                     echo'</div>';
+                    if(mysqli_num_rows($result) >3){
                     echo'<div id="load-more"> load more </div>';
+                    };
                 echo'</div>';
             ?>    
             <!-- This script is used to show/load more items in a webpage by clicking a button with the id "load-more". 
@@ -127,7 +132,7 @@ session_start();
             }
             }
             </script>
-            
+
 
 
             <script>

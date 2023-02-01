@@ -46,10 +46,10 @@
              <div id="menu" class="col-lg-9 col-md-12 d-none d-lg-block nav-col">
                 
                          <ul class="navbad">
-                             <!-- <li class="nav-item active">
+                             <li class="nav-item active">
                                  <a class="nav-link" href="index.php">Home
                                  </a>
-                             </li> -->
+                             </li>
                              <li class="nav-item">
                                  <a class="nav-link" href="packages.php">Cities</a>
                              </li>

@@ -128,6 +128,13 @@ if(!isset($city_id)){
                   fringilla, aptent eu dignissim.
                 </p>
               </div>
+              <!-- <script>
+                document.querySelector('.col-card').addEventListener('click', function() {
+                  var latitude = <?php echo $location['latitude']; ?>;
+                  var longitude = <?php echo $location['longitude']; ?>;
+                  window.location.href = 'https://maps.google.com/?q=' + latitude + ',' + longitude;
+                });
+              </script> -->
             </div>
           </div>
           <div class="col-lg-4 col-md-6">
@@ -163,163 +170,83 @@ if(!isset($city_id)){
     </div>
 
     <!-- ################# Popular Packages Starts Here #######################--->
+<?php
+    $query = "SELECT * FROM category c inner join choice ch on ch.category_id = c.category_id inner join pictures p on ch.choice_id = p.choice_id where city_id='$city_id' AND c.category_id = 4 ORDER BY RAND() LIMIT 3";
+$result = mysqli_query($dbc, $query);
 
-    <div class="popular-pack no-bgpack container-fluid">
-      <div class="container">
-        <div class="session-title">
-          <h2>Προτάσεις</h2>
-          <p>
-            <!-- Sagittis vulputate magna sagittis sagittis erat feugiat nullam
-            cubilia amet dignissim Euismod. -->
-          </p>
-        </div>
-
-        <div class="row pack-row">
-        <?php 
-              $query = " SELECT c.city_id, city_name , path, description FROM image i inner join city c ON c.city_id = i.city_id GROUP BY c.city_id
-                    ORDER BY city_name limit 3 ";
-              $result = mysqli_query($dbc, $query);
-              while ($data = mysqli_fetch_assoc($result)){
-        ?>  
-          <div class="col-lg-4 col-md-6 col-sm-6">
-            <div class="pack-col">
-              <img src="assets/images/packages/p1.jpg" alt="" />
-              <!-- <div class="revire row no-margin">
-                <ul class="rat">
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                </ul>
-                <span class="pric"> $750 </span>
-              </div> -->
-              <div class="detail row no-margin">
-                <h4>Amazon Cruise</h4>
-                <p>Mattis interdum nunc massa. Velit. Nonummy penatibus</p>
-              </div>
-              <div class="options row no-margin">
-                <!-- <ul>
-                  <li><i class="fas fa-car"></i></li>
-                  <li><i class="fab fa-fly"></i></li>
-                  <li><i class="fas fa-cocktail"></i></li>
-                  <li><i class="fas fa-umbrella-beach"></i></li>
-                  <li><i class="far fa-bell"></i></li>
-                </ul> -->
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 col-sm-6">
-            <div class="pack-col">
-              <img src="assets/images/packages/p2.jpg" alt="" />
-              <div class="revire row no-margin">
-                <ul class="rat">
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                </ul>
-                <span class="pric"> $750 </span>
-              </div>
-              <div class="detail row no-margin">
-                <h4>Amazon Cruise</h4>
-                <p>Mattis interdum nunc massa. Velit. Nonummy penatibus</p>
-              </div>
-              <div class="options row no-margin">
-                <ul>
-                  <li><i class="fas fa-car"></i></li>
-                  <li><i class="fab fa-fly"></i></li>
-                  <li><i class="fas fa-cocktail"></i></li>
-                  <li><i class="fas fa-umbrella-beach"></i></li>
-                  <li><i class="far fa-bell"></i></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 col-sm-6">
-            <div class="pack-col">
-              <img src="assets/images/packages/p3.jpg" alt="" />
-              <div class="revire row no-margin">
-                <ul class="rat">
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                </ul>
-                <span class="pric"> $750 </span>
-              </div>
-              <div class="detail row no-margin">
-                <h4>Amazon Cruise</h4>
-                <p>Mattis interdum nunc massa. Velit. Nonummy penatibus</p>
-              </div>
-              <div class="options row no-margin">
-                <ul>
-                  <li><i class="fas fa-car"></i></li>
-                  <li><i class="fab fa-fly"></i></li>
-                  <li><i class="fas fa-cocktail"></i></li>
-                  <li><i class="fas fa-umbrella-beach"></i></li>
-                  <li><i class="far fa-bell"></i></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-        
-        <?php };?>
-        </div>
-      </div>
-    </div>
-
+echo '<div class="popular-pack no-bgpack container-fluid">';
+echo '  <div class="container">';
+echo '    <div class="session-title">';
+echo '      <h2>Προτάσεις Εστιατορίων</h2>';
+echo '      <p>';
+echo'         <a href="http://localhost/project%20php/bootstrap-travel-website-templates/gallery.php?filter=4">Περισσότερα</a>';
+echo '      </p>';
+echo '    </div>';
+echo '    <div class="row pack-row">';
+while ($data = mysqli_fetch_assoc($result)) {
+  echo '      <div class="col-lg-4 col-md-6 col-sm-6">';
+  echo '        <div class="pack-col">';
+  echo '          <img src="./pictures/' . $data['path'] . '.jpg" alt="" />';
+  echo '          <div class="revire row no-margin">';
+  echo '            <ul class="rat">';
+  echo '              <li><i class="fa fa-star"></i></li>';
+  echo '              <li><i class="fa fa-star"></i></li>';
+  echo '              <li><i class="fa fa-star"></i></li>';
+  echo '              <li><i class="fa fa-star"></i></li>';
+  echo '              <li><i class="fa fa-star"></i></li>';
+  echo '            </ul>';
+  echo '          </div>';
+  echo '          <div class="detail row no-margin">';
+  echo '            <h4>' . $data['name'] . '</h4>';
+ // echo '            <p>' . $data['description'] . '</p>';
+  echo '          </div>';
+  echo '          <div class="options row no-margin d-flex justify-content-center">';
+  echo'           <div class="dest-col">';              
+  echo'               <button class="btn btn-outline-success">Book Now</button>';
+  echo'          </div>';
+  // echo '            <ul>';
+  // echo '              <li><i class="fas fa-utensils"></i></li>';
+  // echo '              <li><i class="fas fa-glass-cheers"></i></li>';
+  // echo '              <li><i class="fas fa-concierge-bell"></i></li>';
+  // echo '            </ul>';
+  echo '          </div>';
+  echo '        </div>';
+  echo '      </div>';
+}
+echo '    </div>';
+echo '  </div>';
+echo '</div>';
+?>
     <!--################### Destinations Starts Here #######################--->
 
-    <div class="destinations container-fluid">
-      <div class="container">
-        <div class="session-title">
-          <h2>Our Destinations</h2>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-            sollicitudin nisi id consequat bibendum. Phasellus at convallis
-            elit. In purus enim, scelerisque id arcu vitae
-          </p>
-        </div>
-        <div class="dest-row row">
-          <div class="col-lg-4 col-md-6">
-            <div class="dest-col">
-              <div class="dest-img">
-                <img src="assets/images/destination/d2.jpg" alt="" />
-              </div>
-              <h3>Switzerland</h3>
+    <?php
+    $query = "SELECT * FROM category c inner join choice ch on ch.category_id = c.category_id inner join pictures p on ch.choice_id = p.choice_id where city_id='$city_id' AND c.category_id = 1 ORDER BY RAND() LIMIT 3";
+    $result = mysqli_query($dbc, $query);
+echo'    <div class="destinations container-fluid">';
+echo'      <div class="container">';
+echo'        <div class="session-title">';
+echo'          <h2>Προτάσεις Ξενοδοχείων</h2>';
+echo'          <p>';
+echo'            <a href="http://localhost/project%20php/bootstrap-travel-website-templates/gallery.php?filter=1">Περισσότερα</a>';
+echo'           </p>';
+echo'         </div>';
+echo'         <div class="dest-row row">';
+          while ($data = mysqli_fetch_assoc($result)) {
+echo'          <div class="col-lg-4 col-md-6">';
+echo'            <div class="dest-col">';
+echo'              <div class="dest-img">';
+echo'                <img src="./pictures/' . $data['path'] . '.jpg" alt="" />';
+echo'              </div>';
+echo'              <h3> ' . $data["name"] . ' </h3>';
 
-              <button class="btn btn-outline-success">Book Now</button>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="dest-col">
-              <div class="dest-img">
-                <img src="assets/images/destination/d3.jpg" alt="" />
-              </div>
-              <h3>Maldives</h3>
-
-              <button class="btn btn-outline-success">Book Now</button>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="dest-col">
-              <div class="dest-img">
-                <img src="assets/images/destination/d4.jpg" alt="" />
-              </div>
-              <h3>Srilanka</h3>
-
-              <button class="btn btn-outline-success">Book Now</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+echo'              <button class="btn btn-outline-success">Book Now</button>';
+echo'            </div>';
+echo'          </div>';
+          }
+echo'        </div>';
+echo'      </div>';
+echo'    </div>';
+ ?>
 
     <!--################### Tour Type Starts Here #######################--->
     <div id="why" class="our-capablit container-fluid">
