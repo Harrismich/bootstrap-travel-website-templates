@@ -4,7 +4,6 @@ CREATE TABLE role (
     role_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL
 );
-
 -- drop table role;
 CREATE TABLE user (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -246,6 +245,8 @@ INSERT INTO pictures (choice_id, path)
 VALUES (18,'tarolla');
 INSERT INTO pictures (choice_id, path)
 VALUES (19,'hospitalAlexpoli');
+INSERT INTO pictures (choice_id, path)
+VALUES (1,'31doors');
 
 
 

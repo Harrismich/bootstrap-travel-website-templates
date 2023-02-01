@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				$_SESSION['logged_in_user'] = true;
 				$_SESSION['user_id']=$userid;
 				$_SESSION['username']=$username;
-       			header('Location: city.php');
+       			header('Location: index.php');
    			}	
 		}else {
 			echo '<script>alert("Password or Username are invalid ")</script>';
