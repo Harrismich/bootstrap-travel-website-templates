@@ -96,7 +96,7 @@ session_start();
                                     echo  '<button class="btn"><a href= '. $data['map'] .'> google map </a></button>';
                                         echo'<div class="icons">';
                                         echo' <span> <i class="fas fa-calendar"></i>'. date("d-m-Y", strtotime($data['timestamp'])) .'</span>';
-                                        echo'<span> <i class="fas fa-user"></i> by admin </span>';
+                                        echo'<a href="index.php"> <span> <i class="fas fa-star"></i> Make Review </span></a>';
                                         echo' </div>';
                                     echo' </div>';
                                 echo'</div>';
