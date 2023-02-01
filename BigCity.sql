@@ -70,8 +70,9 @@ CREATE TABLE user_choice (
 CREATE TABLE criticals (
     criticals_id INT AUTO_INCREMENT PRIMARY KEY,
     choice_id INT NOT NULL,
-    FOREIGN KEY (choice_id) REFERENCES choice(choice_id),
-    comment VARCHAR(255) 
+    rate INT NOT NULL,
+    comment TEXT,
+    FOREIGN KEY (choice_id) REFERENCES choice(choice_id)
 );
 -- drop table criticals;
 
