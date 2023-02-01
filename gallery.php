@@ -98,8 +98,14 @@ session_start();
                                     echo "<h6> <a href = " .$data['link'] . "><strong>Link:</strong> Επισκευθείτε μας </a></h6>";
                                     echo  '<button class="btn"><a href= '. $data['map'] .'> google map </a></button>';
                                         echo'<div class="icons">';
-                                        echo' <span> <i class="fas fa-calendar"></i>'. date("d-m-Y", strtotime($data['timestamp'])) .'</span>';
-                                        echo'<a href="index.php"> <span> <i class="fas fa-star"></i> Make Review </span></a>';
+                                        echo' <span> <i class="fas fa-calendar"></i>'. date("d-m-Y", strtotime($data['timestamp'])) .'</span>';?>
+                                        <button onclick="myFunction()"><span> <i class="fas fa-star"></i> Make Review </span></button>
+                                        <script>
+                                            function myFunction() {
+                                            var myWindow = window.open("ytcritics.php", "Κριτικές", "width=200,height=100");
+                                            }
+                                        </script>
+                                       <?php //echo'<a href="index.php"> <span> <i class="fas fa-star"></i> Make Review </span></a>';
                                         echo' </div>';
                                     echo' </div>';
                                 echo'</div>';

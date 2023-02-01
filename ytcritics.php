@@ -7,6 +7,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
   </head>
   <body>
+
+  <script>
+      window.onload = function() {
+        // Get the container class from the original HTML file
+        let container = window.opener.document.querySelector('.container');
+
+        // Copy the content of the container class to the popup window
+        document.querySelector('.container').innerHTML = container.innerHTML;
+      };
+    </script>
+
   <?php
 
 if (isset($_POST['submit1'])) {
