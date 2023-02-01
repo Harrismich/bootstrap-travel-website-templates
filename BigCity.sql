@@ -4,6 +4,7 @@ CREATE TABLE role (
     role_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL
 );
+
 -- drop table role;
 CREATE TABLE user (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
