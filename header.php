@@ -37,7 +37,7 @@
      <div class="container">
          <div class="row nav-row">
              <div class="col-lg-3 col-md-12 logo">
-                 <a href="index.html">
+                 <a href="index.php">
                      <img src="assets/images/logo.png" alt="">
                      <a data-toggle="collapse" data-target="#menu" href="#menu"><i class="fas d-block d-lg-none  small-menu fa-bars"></i></a>
                  </a>
