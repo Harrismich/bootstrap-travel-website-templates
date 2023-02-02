@@ -1,12 +1,10 @@
 <?php 
 require_once('database.php');
 session_start();
-// if (!isset($_SESSION['logged_in_user']) || !$_SESSION['logged_in_user']) {
-// 	header("Location: login.php");
-// }
-// if(!isset($_SESSION['city'])){
-//   header("Location: city.php");
-// }
+if (!isset($_SESSION['logged_in_user']) || !$_SESSION['logged_in_user']) {
+	header("Location: login.php");
+}
+$user_id = $_SESSION['user_id'];
 ?>
 
 
@@ -33,8 +31,6 @@ session_start();
 
 <?php include('header.php');?>
  
-
-    
     <!--  ************************* Page Title Starts Here ************************** -->
     <div class="page-nav no-margin row">
         <div class="container">
@@ -86,36 +82,87 @@ session_start();
                 echo'<div class="container">';        
                     echo'<div class="box-container">';
                         while ($data = mysqli_fetch_assoc($result)) {   
-                                echo' <div class="box">';
-                                    echo' <div class="image">';
-                                    echo "<img src='./pictures/" . $data['path'] . ".jpg' class='d-block w-100' />";
-                                    echo'</div>';
-                                    echo' <div class="content">';
-                                    echo "<h3>". $data['name'] . " </h4> ";
-                                    echo"<br>";
-                                    echo "<h6><strong> Διεύθυνση: </strong>" .$data['address'] ."</h6>";
-                                    echo "<h6><strong> Τηλέφωνα: </strong>" .$data['phone_number'] ."</h6>";
-                                    echo "<h6> <a href = " .$data['link'] . "><strong>Link:</strong> Επισκευθείτε μας </a></h6>";
-                                    echo  '<button class="btn"><a href= '. $data['map'] .'> google map </a></button>';
-                                        echo'<div class="icons">';
-                                        echo' <span> <i class="fas fa-calendar"></i>'. date("d-m-Y", strtotime($data['timestamp'])) .'</span>';?>
-                                        <button onclick="myFunction()"><span> <i class="fas fa-star"></i> Make Review </span></button>
-                                        <script>
-                                            function myFunction() {
-                                            var myWindow = window.open("ytcritics.php", "Κριτικές", "width=200,height=100");
-                                            }
-                                        </script>
-                                       <?php //echo'<a href="index.php"> <span> <i class="fas fa-star"></i> Make Review </span></a>';
-                                        echo' </div>';
-                                    echo' </div>';
-                                echo'</div>';
+                            echo' <div class="box">';
+                            echo' <div class="image">';
+                            echo '</span>';
+                            echo "<img src='./pictures/" . $data['path'] . ".jpg' class='d-block w-100' />";
+                            echo'</div>';
+                            echo' <div class="content">';
+                            // echo'<input type="hidden" id="choice_id" name="choice_id[]" value= ' . $data['choice_id'] . '';
+                            echo "<h3>". $data['name'] . " </h4> ";
+                            echo"<br>";
+                            echo "<h6><strong> Διεύθυνση: </strong>" .$data['address'] ."</h6>";
+                            echo "<h6><strong> Τηλέφωνα: </strong>" .$data['phone_number'] ."</h6>";
+                            echo "<h6> <a href = " .$data['link'] . "><strong>Link:</strong> Επισκευθείτε μας </a></h6>";
+                            echo '<button class="btn"><a href= "about_us.php?name=' . urlencode($data['choice_id']) . '"> Read More </a></button>';
+                            
+                            // echo  '<button class="btn"><a href= '. $data['map'] .'> google map </a></button>';
+                            echo '<div class="icons">';
+                            echo'<input type="hidden" id="choice_id" name="choice_id" value= ' . $data['choice_id'] . '';
+
+                                echo '<a href="#">';
+                                echo '<i id="heart" value= '. $data['choice_id'] . ' class="fa fa-heart heart"></i>';
+                                echo '</a>  ';
+                            ?>
+                            <button onclick="myFunction()"><span> <i class="fas fa-star"></i> Make Review </span></button>
+                            <script>
+                            function myFunction() {
+                            var myWindow = window.open("ytcritics.php", "Κριτικές", "width=600,height=600");
+                            }
+                            </script>
+                            <?php //echo'<a href="index.php"> <span> <i class="fas fa-star"></i> Make Review </span></a>';
+                            echo' </div>';
+                            echo' </div>';
+                            echo'</div>';
                         }
                     echo'</div>';
                     if(mysqli_num_rows($result) >3){
                     echo'<div id="load-more"> load more </div>';
                     };
                 echo'</div>';
-            ?>    
+                ?>  
+        </div>
+    </div>  
+</div>                                    
+                                            <!-- ######## Gallery End ####### -->  
+
+
+                                            <!-- ######## scripts ####### -->  
+
+
+
+                <!-- Με το κλικ η καρδιά ενεργοποιείται -->
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+                <script>
+                    const heart = document.getElementById("heart");
+                    heart.style.color = "grey";
+                    heart.addEventListener("click", function () {
+                        if (heart.style.color === "grey") {
+                        heart.style.color = "red";
+                        $.ajax({
+                            type: "POST",
+                            url: "addToFavorites.php",
+                            data: { action: "add", choice_id: $("#choice_id").val() },
+                            success: function (response) {
+                            console.log("Favorite stored successfully");
+                            }
+                        });
+                        } else {
+                        heart.style.color = "grey";
+                        $.ajax({
+                            type: "POST",
+                            url: "addToFavorites.php",
+                            data: { action: "delete", choice_id: $("#choice_id").val() },
+                            success: function (response) {
+                            console.log("Favorite deleted successfully");
+                            }
+                        });
+                        }
+                    });
+                </script>
+
             <!-- This script is used to show/load more items in a webpage by clicking a button with the id "load-more". 
             The script initializes the variable currentItem to 3, meaning it displays the first three items. 
             When the load more button is clicked, the script retrieves all elements with the class .box and adds them to the array boxes. 
@@ -124,40 +171,35 @@ session_start();
             Finally, if currentItem becomes equal to or greater than the length of the boxes array, 
             the load more button is hidden by setting its display style to 'none'.              -->
             <script>
-            let loadMoreBtn = document.querySelector('#load-more');
-            let currentItem = 3;
-            loadMoreBtn.onclick = () =>{
-            let boxes = [...document.querySelectorAll('.container .box-container .box')];
-            for (var i = currentItem; i < currentItem + 3; i++){
-            boxes[i].style.display = 'inline-block';
-            }
-            currentItem += 3;
+                let loadMoreBtn = document.querySelector('#load-more');
+                let currentItem = 3;
+                loadMoreBtn.onclick = () =>{
+                let boxes = [...document.querySelectorAll('.container .box-container .box')];
+                for (var i = currentItem; i < currentItem + 3; i++){
+                boxes[i].style.display = 'inline-block';
+                }
+                currentItem += 3;
 
-            if(currentItem >= boxes.length){
-            loadMoreBtn.style.display = 'none';
-            }
-            }
+                if(currentItem >= boxes.length){
+                loadMoreBtn.style.display = 'none';
+                }
+                }
             </script>
 
 
 
+            <!--Περνάει μέσω url το filtervalue ωστε να περάσει από τα if $filtervalue για να του εμφανίσει π.χ ξενοδοχεια, εστιατόρια -->
             <script>
-            const filterButtons = document.querySelectorAll('.filter-button');
-            filterButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                const filterValue = this.getAttribute('data-filter');
-                location.href = 'gallery.php?filter=' + filterValue;
+                const filterButtons = document.querySelectorAll('.filter-button');
+                filterButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                    const filterValue = this.getAttribute('data-filter');
+                    location.href = 'gallery.php?filter=' + filterValue;
+                    });
                 });
-            });
             </script>
-
-
-            <script src="app.js"></script>
-                
-        </div>
-    </div>  
-</div>
-        <!-- ######## Gallery End ####### -->    
+      
+          
 
         
         
@@ -165,6 +207,13 @@ session_start();
   <!--  ************************* Footer Start Here ************************** -->
   <?php include('footer.php');?>     
 
+
+
+
+
+
+
+  
     <div class="copy">
             <div class="container">
                 <a href="https://www.smarteyeapps.com/">2019 &copy; All Rights Reserved | Designed and Developed by Smarteyeapps</a>
