@@ -55,7 +55,7 @@ CREATE TABLE pictures (
 	picture_id INT AUTO_INCREMENT PRIMARY KEY,
     choice_id INT NOT NULL,
     path VARCHAR(255) NOT NULL,
-      timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	FOREIGN KEY (choice_id) REFERENCES choice (choice_id)
 );
 
@@ -67,12 +67,16 @@ CREATE TABLE user_choice (
 	FOREIGN KEY (choice_id) REFERENCES choice(choice_id)
 );
 -- drop table user_choice;
-CREATE TABLE criticals (
-    criticals_id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE reviews (
+    reviews_id INT AUTO_INCREMENT PRIMARY KEY,
     choice_id INT NOT NULL,
+    user_id INT NOT NULL,
     rate INT NOT NULL,
+    title VARCHAR (255),
     comment TEXT,
-    FOREIGN KEY (choice_id) REFERENCES choice(choice_id)
+    r_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (choice_id) REFERENCES choice(choice_id),
+    FOREIGN KEY (user_id) REFERENCES user(user_id)
 );
 -- drop table criticals;
 

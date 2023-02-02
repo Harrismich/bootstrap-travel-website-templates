@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="assets/css/all.min.css">
     <link rel="stylesheet" href="assets/css/animate.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+    <link rel="stylesheet" href="css/style_2.css">
+    <!--<link rel="stylesheet" href="style.css">-->
 </head>
 
     <body>
@@ -36,8 +38,8 @@
     
     
      <!--*************** Blog Starts Here ***************-->
-                     
-    <div class="container-fluid blog">
+
+    <!--<div class="container-fluid blog">
         <div class="container">
              
                 <div class="blog-row row">
@@ -102,7 +104,7 @@
             </div>
         </div>
         
-    </div>  
+    </div>  -->
        
 
   <!--  ************************* Footer Start Here ************************** -->
