@@ -54,7 +54,7 @@
                                  <a class="nav-link" href="packages.php">Cities</a>
                              </li>
                              <li class="nav-item">
-                                 <a class="nav-link" href="gallery.php">Gallery</a>
+                                 <a class="nav-link" href="favorites.php">Favorites</a>
                              </li>
                              <li class="nav-item">
                                  <a class="nav-link" href="about_us.php">About Us</a>
@@ -65,9 +65,6 @@
                              <li class="nav-item">
                                  <a class="nav-link" href="contact_us.php">Contact US</a>
                              </li>
-
-
-
 
                          </ul>
                          
