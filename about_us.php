@@ -6,10 +6,8 @@ session_start();
 // if (!isset($_SESSION['logged_in_user']) || !$_SESSION['logged_in_user']) {
 // 	header("Location: login.php");
 // }
-// if(!isset($_SESSION['city'])){
-//   header("Location: city.php");
-// }
 
+$user_id = $_SESSION['user_id'];
 $name = urldecode($_GET['name']); ?>
 
 

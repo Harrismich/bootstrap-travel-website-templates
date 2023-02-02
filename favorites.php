@@ -75,7 +75,7 @@ $user_id = $_SESSION["user_id"];
                             // echo  '<button class="btn"><a href= '. $data['map'] .'> google map </a></button>';
                             echo '<div class="icons">';
                             echo'<input type="hidden" id="choice_id" name="choice_id" value= ' . $data['choice_id'] . '';
-                                
+                            
                                 echo '<a href="#">';
                                 echo '<i id="heart" class="fa fa-heart heart" style="color: red;"></i>';
                                 echo '</a>  ';

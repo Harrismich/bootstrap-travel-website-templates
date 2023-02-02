@@ -47,8 +47,7 @@
                 
                          <ul class="navbad">
                              <li class="nav-item active">
-                                 <a class="nav-link" href="index.php">Home
-                                 </a>
+                             <a class="nav-link" href="index.php?city_id=<?php echo $_SESSION['city_id']; ?>">Home</a>
                              </li>
                              <li class="nav-item">
                                  <a class="nav-link" href="packages.php">Cities</a>

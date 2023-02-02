@@ -104,7 +104,7 @@ $user_id = $_SESSION['user_id'];
                                 echo '<i id="heart" value= '. $data['choice_id'] . ' class="fa fa-heart heart"></i>';
                                 echo '</a>  ';
                             ?>
-                            <button onclick="myFunction()"><span> <i class="fas fa-star"></i> Make Review </span></button>
+                            <?php if($_SESSION['logged_in_user']){?><button onclick="myFunction()"><span> <i class="fas fa-star"></i> Make Review </span></button><?php } ?>
                             <script>
                             function myFunction() {
                             var myWindow = window.open("ytcritics.php", "Κριτικές", "width=600,height=600");
