@@ -16,13 +16,24 @@ $user_id = $_SESSION['user_id'];
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Travelet Free Website Tempalte | Smarteyeapps.com</title>
     <link rel="shortcut icon" href="assets/images/fav.png" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="assets/images/fav.jpg">
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/all.min.css">
     <link rel="stylesheet" href="assets/css/animate.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <style>
+    .not-in-favorites {
+      color: grey;
+    }
+
+    .in-favorites{
+      color: red;
+    }
+    
+  </style>
 </head>
 
     <body>
@@ -61,12 +72,13 @@ $user_id = $_SESSION['user_id'];
             <?php
                 $city = $_SESSION['city_id'];
                 $filterValue = "all";
+                // Ανάλογα την επιλογή του χρήστη αλλάζει το query στην βάση για να εμφανίσει μόνο τα αποτελέσματα που επέλεξε
                 if (isset($_GET["filter"])) {
                     $filterValue = $_GET["filter"];
                 }
-                $query = "SELECT * FROM pictures p inner join choice ch on p.choice_id=ch.choice_id where ch.city_id = '$city' ";
+                $query = "SELECT * FROM pictures p inner join choice ch on p.choice_id=ch.choice_id  where ch.city_id = '$city' ";
                 if ($filterValue == "all") {
-                    $query = "SELECT * FROM pictures p inner join choice ch on p.choice_id=ch.choice_id where ch.city_id = '$city' ";
+                    $query = "SELECT * FROM pictures p inner join choice ch on p.choice_id=ch.choice_id left join user_choice uc on uc.choice_id = ch.choice_id where ch.city_id = '$city' ";
                 }else if($filterValue == "1"){
                     $query .= "AND category_id = '$filterValue' " ;
                 }else if($filterValue == "2"){
@@ -83,85 +95,105 @@ $user_id = $_SESSION['user_id'];
                     echo'<div class="box-container">';
                         while ($data = mysqli_fetch_assoc($result)) {   
                             echo' <div class="box">';
-                            echo' <div class="image">';
-                            echo '</span>';
-                            echo "<img src='./pictures/" . $data['path'] . ".jpg' class='d-block w-100' />";
-                            echo'</div>';
-                            echo' <div class="content">';
-                            // echo'<input type="hidden" id="choice_id" name="choice_id[]" value= ' . $data['choice_id'] . '';
-                            echo "<h3>". $data['name'] . " </h4> ";
-                            echo"<br>";
-                            echo "<h6><strong> Διεύθυνση: </strong>" .$data['address'] ."</h6>";
-                            echo "<h6><strong> Τηλέφωνα: </strong>" .$data['phone_number'] ."</h6>";
-                            echo "<h6> <a href = " .$data['link'] . "><strong>Link:</strong> Επισκευθείτε μας </a></h6>";
-                            echo '<button class="btn"><a href= "about_us.php?name=' . urlencode($data['choice_id']) . '"> Read More </a></button>';
-                            
-                            // echo  '<button class="btn"><a href= '. $data['map'] .'> google map </a></button>';
-                            echo '<div class="icons">';
-                            echo'<input type="hidden" id="choice_id" name="choice_id" value= ' . $data['choice_id'] . '';
+                                echo' <div class="image">';
+                                    echo "<img src='./pictures/" . $data['path'] . ".jpg' class='d-block w-100' />";
+                                echo' </div>';
+                                echo' <div class="content">';
+                                    echo "<h3>". $data['name'] . " </h4> ";
+                                    echo"<br>";
+                                    echo "<h6><strong> Διεύθυνση: </strong>" .$data['address'] ."</h6>";
+                                    echo "<h6><strong> Τηλέφωνα: </strong>" .$data['phone_number'] ."</h6>";
+                                    echo "<h6> <a href = " .$data['link'] . "><strong>Link:</strong> Επισκευθείτε μας </a></h6>";
+                                    echo '<button class="btn"><a href= "about_us.php?name=' . urlencode($data['choice_id']) . '"> Read More </a></button>';
+                                    echo '<div class="icons">';
+                                    echo '<input type="hidden" class="choice_id" value="'. $data['choice_id'] . '">';
+                                    echo '<a href="#" class="favorites-btn">';
+                                        echo' <i class="fa fa-heart heart not-in-favorites"></i>';                                      
+                                    echo '</a>  ';
 
-                                echo '<a href="#">';
-                                echo '<i id="heart" value= '. $data['choice_id'] . ' class="fa fa-heart heart"></i>';
-                                echo '</a>  ';
-                            ?>
-                            <?php if($_SESSION['logged_in_user']){?><button onclick="myFunction()"><span> <i class="fas fa-star"></i> Make Review </span></button><?php } ?>
-                            <script>
-                            function myFunction() {
-                            var myWindow = window.open("ytcritics.php", "Κριτικές", "width=600,height=600");
-                            }
-                            </script>
-                            <?php //echo'<a href="index.php"> <span> <i class="fas fa-star"></i> Make Review </span></a>';
-                            echo' </div>';
-                            echo' </div>';
+                                        ?>
+                                        <?php if($_SESSION['logged_in_user']){?><button onclick="myFunction()"><span> <i class="fas fa-star"></i> Make Review </span></button><?php } ?>
+                                        <script>
+                                        function myFunction() {
+                                        var myWindow = window.open("ytcritics.php", "Κριτικές", "width=600,height=600");
+                                        }
+                                        </script>
+                                        <?php //echo'<a href="index.php"> <span> <i class="fas fa-star"></i> Make Review </span></a>';
+                                    echo' </div>';
+                                echo' </div>';
                             echo'</div>';
-                        }
+                                }
                     echo'</div>';
                     if(mysqli_num_rows($result) >3){
-                    echo'<div id="load-more"> load more </div>';
+                        echo'<div id="load-more"> load more </div>';
                     };
                 echo'</div>';
                 ?>  
         </div>
     </div>  
 </div>                                    
+
+
                                             <!-- ######## Gallery End ####### -->  
 
 
-                                            <!-- ######## scripts ####### -->  
 
+ <!-- echo  '<button class="btn"><a href= '. $data['map'] .'> google map </a></button>'; -->
+                                            <!-- ######## scripts ####### -->  
+ <!-- // Select the ".heart" element within the DOM element the event handler is being triggered on
+  var heart = $(this).find(".heart");
+
+  // Select the closest ".card" element to the DOM element the event handler is being triggered on, 
+  // and then select the ".card-title" element within that ".card" and retrieve its text content
+  var cardTitle = $(this).closest(".card").find(".card-title").text();
+
+  // Select the closest ".card" element to the DOM element the event handler is being triggered on,
+  // and then select the ".choiceId" element within that ".card" and retrieve its value attribute
+  var choiceId = $(this).closest(".card").find(".choiceId").val(); -->
 
 
                 <!-- Με το κλικ η καρδιά ενεργοποιείται -->
+
+
+                <script>
+                    $(document).ready(function() {
+                    $(".favorites-btn").click(function() {
+                        
+                        var heart = $(this).find(".heart");
+                        var choice_id = $(this).closest('.icons').find('.choice_id').val();
+                        console.log("choice_id:", choice_id);
+                        if (heart.hasClass("not-in-favorites")) {
+                            heart.removeClass("not-in-mfavorites");
+                            heart.addClass("in-favorites");
+                            $.ajax({
+                                type: "POST",
+                                url: "addToFavorites.php",
+                                data: { action: "add", choice_id: choice_id},
+                                success: function(response) {
+                                console.log(response);
+                                }
+                            });
+                        } else {
+                            heart.removeClass("in-favorites");
+                            heart.addClass("not-in-favorites");
+                            $.ajax({
+                                type: "POST",
+                                url: "addToFavorites.php",
+                                data: { action: "delete", choice_id: choice_id},
+                                success: function(response) {
+                                console.log(response);
+                                }
+                            });
+                        }
+                    });
+                    });
+                </script>
+
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
                 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-                <script>
-                    const heart = document.getElementById("heart");
-                    heart.style.color = "grey";
-                    heart.addEventListener("click", function () {
-                        if (heart.style.color === "grey") {
-                        heart.style.color = "red";
-                        $.ajax({
-                            type: "POST",
-                            url: "addToFavorites.php",
-                            data: { action: "add", choice_id: $("#choice_id").val() },
-                            success: function (response) {
-                            console.log("Favorite stored successfully");
-                            }
-                        });
-                        } else {
-                        heart.style.color = "grey";
-                        $.ajax({
-                            type: "POST",
-                            url: "addToFavorites.php",
-                            data: { action: "delete", choice_id: $("#choice_id").val() },
-                            success: function (response) {
-                            console.log("Favorite deleted successfully");
-                            }
-                        });
-                        }
-                    });
-                </script>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 
             <!-- This script is used to show/load more items in a webpage by clicking a button with the id "load-more". 
             The script initializes the variable currentItem to 3, meaning it displays the first three items. 
@@ -192,28 +224,20 @@ $user_id = $_SESSION['user_id'];
             <script>
                 const filterButtons = document.querySelectorAll('.filter-button');
                 filterButtons.forEach(button => {
-                    button.addEventListener('click', function() {
-                    const filterValue = this.getAttribute('data-filter');
-                    location.href = 'gallery.php?filter=' + filterValue;
-                    });
+                    if (button) {
+                        button.addEventListener('click', function() {
+                            const filterValue = this.getAttribute('data-filter');
+                            location.href = 'gallery.php?filter=' + filterValue;
+                        });
+                    }
                 });
             </script>
-      
-          
 
         
-        
-
   <!--  ************************* Footer Start Here ************************** -->
   <?php include('footer.php');?>     
 
 
-
-
-
-
-
-  
     <div class="copy">
             <div class="container">
                 <a href="https://www.smarteyeapps.com/">2019 &copy; All Rights Reserved | Designed and Developed by Smarteyeapps</a>

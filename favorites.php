@@ -16,7 +16,6 @@ $user_id = $_SESSION["user_id"];
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Travelet Free Website Tempalte | Smarteyeapps.com</title>
     <link rel="shortcut icon" href="assets/images/fav.png" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="assets/images/fav.jpg">
@@ -25,6 +24,22 @@ $user_id = $_SESSION["user_id"];
     <link rel="stylesheet" href="assets/css/animate.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+    <title>Travelet Free Website Tempalte | Smarteyeapps.com</title>
+
+    <style>
+    .heart{
+      padding-left: 30%;
+      cursor: pointer;
+    }
+
+    .not-in-favorites {
+      color: grey;
+    }
+
+    .in-favorites{
+      color: red;
+    }
+  </style>
 </head>
 
     <body>
@@ -59,41 +74,41 @@ $user_id = $_SESSION["user_id"];
                     echo'<div class="box-container">';
                         while ($data = mysqli_fetch_assoc($result)) {   
                             echo' <div class="box">';
-                            echo' <div class="image">';
-                            echo '</span>';
-                            echo "<img src='./pictures/" . $data['path'] . ".jpg' class='d-block w-100' />";
+                                echo' <div class="image">';
+                                    echo "<img src='./pictures/" . $data['path'] . ".jpg' class='d-block w-100' />";
+                                echo' </div>';
+                                echo' <div class="content">';
+                                    echo "<h3>". $data['name'] . " </h4> ";
+                                    echo"<br>";
+                                    echo "<h6><strong> Διεύθυνση: </strong>" .$data['address'] ."</h6>";
+                                    echo "<h6><strong> Τηλέφωνα: </strong>" .$data['phone_number'] ."</h6>";
+                                    echo "<h6> <a href = " .$data['link'] . "><strong>Link:</strong> Επισκευθείτε μας </a></h6>";
+                                    echo '<button class="btn"><a href= "about_us.php?name=' . urlencode($data['choice_id']) . '"> Read More </a></button>';
+                                    echo '<div class="icons">';
+                                    echo '<input type="hidden" class="choice_id" value="'. $data['choice_id'] . '">';
+                                        echo '<a href="#" class="favorites-btn">';
+                                        if($data['choice_id'] >= 1){
+                                            echo' <i class="fa fa-heart heart in-favorites"></i>';
+                                        }else{
+                                            echo' <i class="fa fa-heart heart not-in-favorites"></i>';
+                                        }
+                                        echo '</a>  ';
+
+                                        ?>
+                                        <?php if($_SESSION['logged_in_user']){?><button onclick="myFunction()"><span> <i class="fas fa-star"></i> Make Review </span></button><?php } ?>
+                                        <script>
+                                        function myFunction() {
+                                        var myWindow = window.open("ytcritics.php", "Κριτικές", "width=600,height=600");
+                                        }
+                                        </script>
+                                        <?php //echo'<a href="index.php"> <span> <i class="fas fa-star"></i> Make Review </span></a>';
+                                    echo' </div>';
+                                echo' </div>';
                             echo'</div>';
-                            echo' <div class="content">';
-                            // echo'<input type="hidden" id="choice_id" name="choice_id[]" value= ' . $data['choice_id'] . '';
-                            echo "<h3>". $data['name'] . " </h4> ";
-                            echo"<br>";
-                            echo "<h6><strong> Διεύθυνση: </strong>" .$data['address'] ."</h6>";
-                            echo "<h6><strong> Τηλέφωνα: </strong>" .$data['phone_number'] ."</h6>";
-                            echo "<h6> <a href = " .$data['link'] . "><strong>Link:</strong> Επισκευθείτε μας </a></h6>";
-                            echo '<button class="btn"><a href= "about_us.php?name=' . urlencode($data['choice_id']) . '"> Read More </a></button>';
-                            
-                            // echo  '<button class="btn"><a href= '. $data['map'] .'> google map </a></button>';
-                            echo '<div class="icons">';
-                            echo'<input type="hidden" id="choice_id" name="choice_id" value= ' . $data['choice_id'] . '';
-                            
-                                echo '<a href="#">';
-                                echo '<i id="heart" class="fa fa-heart heart" style="color: red;"></i>';
-                                echo '</a>  ';
-                            ?>
-                            <button onclick="myFunction()"><span> <i class="fas fa-star"></i> Make Review </span></button>
-                            <script>
-                            function myFunction() {
-                            var myWindow = window.open("ytcritics.php", "Κριτικές", "width=600,height=600");
-                            }
-                            </script>
-                            <?php //echo'<a href="index.php"> <span> <i class="fas fa-star"></i> Make Review </span></a>';
-                            echo' </div>';
-                            echo' </div>';
-                            echo'</div>';
-                        }
+                                }
                     echo'</div>';
                     if(mysqli_num_rows($result) >3){
-                    echo'<div id="load-more"> load more </div>';
+                        echo'<div id="load-more"> load more </div>';
                     };
                 echo'</div>';
                 ?>  
@@ -101,31 +116,38 @@ $user_id = $_SESSION["user_id"];
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
                 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+                
                 <script>
-                    const heart = document.getElementById("heart");
-                    heart.style.color = "red";
-                    heart.addEventListener("click", function () {
-                        if (heart.style.color === "grey") {
-                        heart.style.color = "red";
-                        $.ajax({
-                            type: "POST",
-                            url: "addToFavorites.php",
-                            data: { action: "add", choice_id: $("#choice_id").val() },
-                            success: function (response) {
-                            console.log("Favorite stored successfully");
-                            }
-                        });
+                    $(document).ready(function() {
+                    $(".favorites-btn").click(function() {
+                        
+                        var heart = $(this).find(".heart");
+                        var choice_id = $(this).closest('.icons').find('.choice_id').val();
+                        console.log("choice_id:", choice_id);
+                        if (heart.hasClass("not-in-favorites")) {
+                            heart.removeClass("not-in-mfavorites");
+                            heart.addClass("in-favorites");
+                            $.ajax({
+                                type: "POST",
+                                url: "addToFavorites.php",
+                                data: { action: "add", choice_id: choice_id},
+                                success: function(response) {
+                                console.log(response);
+                                }
+                            });
                         } else {
-                        heart.style.color = "grey";
-                        $.ajax({
-                            type: "POST",
-                            url: "addToFavorites.php",
-                            data: { action: "delete", choice_id: $("#choice_id").val() },
-                            success: function (response) {
-                            console.log("Favorite deleted successfully");
-                            }
-                        });
+                            heart.removeClass("in-favorites");
+                            heart.addClass("not-in-favorites");
+                            $.ajax({
+                                type: "POST",
+                                url: "addToFavorites.php",
+                                data: { action: "delete", choice_id: choice_id},
+                                success: function(response) {
+                                console.log(response);
+                                }
+                            });
                         }
+                    });
                     });
                 </script>
 
