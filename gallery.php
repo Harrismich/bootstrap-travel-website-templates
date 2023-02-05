@@ -110,7 +110,6 @@ $user_id = $_SESSION['user_id'];
                                     echo '<a href="#" class="favorites-btn">';
                                         echo' <i class="fa fa-heart heart not-in-favorites"></i>';                                      
                                     echo '</a>  ';
-
                                         ?>
                                         <?php if($_SESSION['logged_in_user']){?><button onclick="myFunction()"><span> <i class="fas fa-star"></i> Make Review </span></button><?php } ?>
                                         <script>
