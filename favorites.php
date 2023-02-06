@@ -66,7 +66,7 @@ $user_id = $_SESSION["user_id"];
      <!--*************** Blog Starts Here ***************-->
                      
      <?php
-                $city = $_SESSION['city_id'];
+                
                 $favorites = "SELECT * FROM user_choice uc right join choice c on uc.choice_id = c.choice_id inner join pictures p on c.choice_id = p.choice_id where user_id = '$user_id' ";
                 //$query = "SELECT * FROM pictures p inner join choice ch on p.choice_id=ch.choice_id where ch.city_id = '$city' ";
                 $result = mysqli_query($dbc, $favorites);
@@ -95,12 +95,12 @@ $user_id = $_SESSION["user_id"];
                                         echo '</a>  ';
 
                                         ?>
-                                        <?php if($_SESSION['logged_in_user']){?><button onclick="myFunction()"><span> <i class="fas fa-star"></i> Make Review </span></button><?php } ?>
+                                        <!-- <?php if($_SESSION['logged_in_user']){?><button onclick="myFunction()"><span> <i class="fas fa-star"></i> Make Review </span></button><?php } ?>
                                         <script>
                                         function myFunction() {
                                         var myWindow = window.open("ytcritics.php", "Κριτικές", "width=600,height=600");
                                         }
-                                        </script>
+                                        </script> -->
                                         <?php //echo'<a href="index.php"> <span> <i class="fas fa-star"></i> Make Review </span></a>';
                                     echo' </div>';
                                 echo' </div>';
