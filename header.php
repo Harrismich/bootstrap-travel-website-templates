@@ -46,24 +46,41 @@
              <div id="menu" class="col-lg-9 col-md-12 d-none d-lg-block nav-col">
                 
                          <ul class="navbad">
+                         <?php if (isset($_SESSION['logged_in_user'])){?>
                              <li class="nav-item active">
                              <a class="nav-link" href="index.php">Home</a>
                              </li>
+                             <?php } ?>
+                             <?php if (isset($_SESSION['logged_in_user'])){?>
                              <li class="nav-item">
                                  <a class="nav-link" href="packages.php">Cities</a>
                              </li>
+                             <?php } ?>
+                             <?php if (isset($_SESSION['logged_in_user'])){?>
                              <li class="nav-item">
                                  <a class="nav-link" href="favorites.php">Favorites</a>
                              </li>
-                             <li class="nav-item">
-                                 <a class="nav-link" href="about_us.php">About Us</a>
-                             </li>
+                             <?php } ?>
+                             <?php if (isset($_SESSION['logged_in_user'])){?>
                              <li class="nav-item">
                                  <a class="nav-link" href="blog.php">Blog</a>
                              </li>
+                             <?php } ?>
+                             <?php if (isset($_SESSION['logged_in_user'])){?>
                              <li class="nav-item">
                                  <a class="nav-link" href="contact_us.php">Contact US</a>
                              </li>
+                             <?php } ?>
+                             <?php if (!isset($_SESSION['logged_in_user'])){?>
+                             <li class="nav-item">
+                                 <a class="nav-link" href="login.php">login / Register</a>
+                             </li>
+                             <?php } ?>
+                             <?php if (isset($_SESSION['logged_in_user'])){?>
+                             <li class="nav-item">
+                                 <a class="nav-link" href="logout.php">Logout</a>
+                             </li>
+                             <?php } ?>
 
                          </ul>
                          
