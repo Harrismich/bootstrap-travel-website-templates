@@ -2,7 +2,7 @@
 session_start();
  // Connect to the database
  require_once('database.php');
- $_SESSION['user_id']=$userid;
+$userid= $_SESSION['user_id'];
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -13,6 +13,9 @@ session_start();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <!-- sweetalert cdn link  -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
   </head>
   <body>
 
@@ -37,7 +40,7 @@ if (isset($_POST['submit'])) {
 
   // Redirect to a thank you page or display a message to the user
   // ..
-
+  $userid= $_SESSION['user_id'];
  // Insert the data into the `criticals` table
  $stmt = mysqli_prepare($dbc, "INSERT INTO reviews (choice_id, user_id, rate, title, comment) VALUES (1, ?, ?, ?, ?)"); 
 	mysqli_stmt_bind_param($stmt, "iiss", $userid, $rate, $title, $description);
@@ -48,33 +51,7 @@ if (isset($_POST['submit'])) {
  $dbc->close();
 }
 ?>
-<div class="account-form">
 
-<form action="" method="post" id ="confirmationform" name ="cinfirmationform">
-  <h3>post your review</h3>
-  <p class="placeholder">review title <span>*</span></p>
-  <input type="text" name="title" required maxlength="50" placeholder="enter review title" class="box">
-  <p class="placeholder">review description</p>
-  <textarea name="description" class="box" placeholder="enter review description" maxlength="1000" cols="30" rows="10"></textarea>
-  <p class="placeholder">review rating <span>*</span></p>
-  <div class="star-widget">
-    <input type="hidden" name="rate" id="selected-rate" form="confirmationform">
-    <input type="radio" name="star" id="rate-5" value=5 onclick="document.getElementById('selected-rate').value = this.value hidden;">
-    <label for="rate-5" class="fas fa-star"></label>
-    <input type="radio" name="star" id="rate-4" value=4 onclick="document.getElementById('selected-rate').value = this.value;">
-    <label for="rate-4" class="fas fa-star"></label>
-    <input type="radio" name="star" id="rate-3" value=3 onclick="document.getElementById('selected-rate').value = this.value;">
-    <label for="rate-3" class="fas fa-star"></label>
-    <input type="radio" name="star" id="rate-2" value=2 onclick="document.getElementById('selected-rate').value = this.value;">
-    <label for="rate-2" class="fas fa-star"></label>
-    <input type="radio" name="star" id="rate-1" value=1 onclick="document.getElementById('selected-rate').value = this.value;">
-    <label for="rate-1" class="fas fa-star"></label>
-  </div>  
-   <input type="submit" value="submit review" name="submit" class="btn">
-   <a href="view_post.php?get_id=<?= $get_id; ?>" class="option-btn">go back</a>
-</form>
-
-</div>
 
     <!--This script helps to display different divs when button is clicked-->
     <script>/*

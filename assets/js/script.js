@@ -37,3 +37,20 @@ $( document ).ready(function() {
 
 
 });
+
+        // popup window
+$(document).ready(function() {
+    $(".makereview").click(function() {
+        var choice = $(this).closest('icons').find('.makereview').val();
+       document.querySelector(".account-form").style.visibility= "visible";
+    //   $.ajax({
+    //    method: "POST",
+    //    url: "ytcritics.php",
+    //     success: function(result) {
+    //       var classContent = $(result).find(".account-form");
+    //       $("#displayArea").html(classContent);
+    //     }
+    //   });
+    });
+  });
+  
