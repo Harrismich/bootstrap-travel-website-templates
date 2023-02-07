@@ -1,10 +1,20 @@
 <?php 
 require_once('database.php');
 session_start();
+
+// if (!isset($_SESSION['logged_in_user']) || !$_SESSION['logged_in_user']) {
+// 	header("Location: login.php");
+// }
+// if(!isset($_SESSION['city'])){
+//   header("Location: city.php");
+// }
+
+
 if (!isset($_SESSION['logged_in_user']) || !$_SESSION['logged_in_user']) {
 	header("Location: login.php");
 }
 $user_id = $_SESSION['user_id'];
+
 ?>
 
 
@@ -22,6 +32,9 @@ $user_id = $_SESSION['user_id'];
     <link rel="stylesheet" href="assets/css/animate.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <style>
@@ -34,6 +47,7 @@ $user_id = $_SESSION['user_id'];
     }
     
   </style>
+
 </head>
 
     <body>
@@ -69,6 +83,35 @@ $user_id = $_SESSION['user_id'];
             </div>
             <br/>
 
+ <!--  ************************* Review Submit ************************** -->
+ <div class="account-form">
+
+<form action="" method="post" id ="confirmationform" name ="confirmationform">
+  <h3>post your review</h3>
+  <p class="placeholder">review title <span>*</span></p>
+  <input type="text" name="title" required maxlength="50" placeholder="enter review title" class="box1">
+  <p class="placeholder">review description</p>
+  <textarea name="description" class="box1" placeholder="enter review description" maxlength="1000" cols="30" rows="10"></textarea>
+  <p class="placeholder">review rating <span>*</span></p>
+  <center>
+  <div class="star-widget">
+    <input type="hidden" name="rate" id="selected-rate" form="confirmationform">
+    <input type="radio" name="star" id="rate-5" value=5 onclick="document.getElementById('selected-rate').value = this.value;">
+    <label for="rate-5" class="fas fa-star"></label>
+    <input type="radio" name="star" id="rate-4" value=4 onclick="document.getElementById('selected-rate').value = this.value;">
+    <label for="rate-4" class="fas fa-star"></label>
+    <input type="radio" name="star" id="rate-3" value=3 onclick="document.getElementById('selected-rate').value = this.value;">
+    <label for="rate-3" class="fas fa-star"></label>
+    <input type="radio" name="star" id="rate-2" value=2 onclick="document.getElementById('selected-rate').value = this.value;">
+    <label for="rate-2" class="fas fa-star"></label>
+    <input type="radio" name="star" id="rate-1" value=1 onclick="document.getElementById('selected-rate').value = this.value;">
+    <label for="rate-1" class="fas fa-star"></label>
+  </div> 
+  </center> 
+   <input type="submit" value="submit review" name="submit" class="btn1">
+   <a href="view_post.php?get_id=<?= $get_id; ?>" class="option-btn1">go back</a>
+</form>
+</div>
             <?php
                 $city = $_SESSION['city_id'];
                 $filterValue = "all";
@@ -96,33 +139,27 @@ $user_id = $_SESSION['user_id'];
                         while ($data = mysqli_fetch_assoc($result)) {   
                             echo' <div class="box">';
                                 echo' <div class="image">';
-                                    echo "<img src='./pictures/" . $data['path'] . ".jpg' class='d-block w-100' />";
+                                echo "<img src='./pictures/" . $data['path'] . ".jpg' class='d-block w-100' />";
                                 echo' </div>';
                                 echo' <div class="content">';
                                     echo "<h3>". $data['name'] . " </h4> ";
-                                    echo"<br>";
+                                    echo "<br>";
                                     echo "<h6><strong> Διεύθυνση: </strong>" .$data['address'] ."</h6>";
                                     echo "<h6><strong> Τηλέφωνα: </strong>" .$data['phone_number'] ."</h6>";
                                     echo "<h6> <a href = " .$data['link'] . "><strong>Link:</strong> Επισκευθείτε μας </a></h6>";
+
                                     echo '<button class="btn"><a href= "about_us.php?name=' . urlencode($data['choice_id']) . '"> Read More </a></button>';
                                     echo '<div class="icons">';
-                                    echo '<input type="hidden" class="choice_id" value="'. $data['choice_id'] . '">';
+                                     echo '<input type="hidden" class="choice_id" value="'. $data['choice_id'] . '">';
                                     echo '<a href="#" class="favorites-btn">';
                                         echo' <i class="fa fa-heart heart not-in-favorites"></i>';                                      
                                     echo '</a>  ';
-
-                                        ?>
-                                        <?php if($_SESSION['logged_in_user']){?><button onclick="myFunction()"><span> <i class="fas fa-star"></i> Make Review </span></button><?php } ?>
-                                        <script>
-                                        function myFunction() {
-                                        var myWindow = window.open("ytcritics.php", "Κριτικές", "width=600,height=600");
-                                        }
-                                        </script>
-                                        <?php //echo'<a href="index.php"> <span> <i class="fas fa-star"></i> Make Review </span></a>';
-                                    echo' </div>';
+                                    echo '<button input type="hidden" class="makereview" value = "'.$data["choice_id"].'"><span> <i class="fas fa-star" "></i> Make Review 
+                                            </span></button>';
+                                    echo '</div>';
                                 echo' </div>';
                             echo'</div>';
-                                }
+                        }
                     echo'</div>';
                     if(mysqli_num_rows($result) >3){
                         echo'<div id="load-more"> load more </div>';
@@ -233,7 +270,13 @@ $user_id = $_SESSION['user_id'];
                 });
             </script>
 
-        
+           
+        </div>
+    </div>  
+</div>
+        <!-- ######## Gallery End ####### -->    
+
+      
   <!--  ************************* Footer Start Here ************************** -->
   <?php include('footer.php');?>     
 
@@ -253,13 +296,14 @@ $user_id = $_SESSION['user_id'];
 
         </div> 
     
-   
-    </body>
-
     <script src="assets/js/jquery-3.2.1.min.js"></script>
     <script src="assets/js/popper.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/plugins/scroll-fixed/jquery-scrolltofixed-min.js"></script>
     <script src="assets/plugins/slider/js/owl.carousel.min.js"></script>
     <script src="assets/js/script.js"></script>
+    
+    </body>
+
+    
 </html>
