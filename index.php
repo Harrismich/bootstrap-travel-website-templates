@@ -15,6 +15,7 @@ if (isset($_GET['city_id'])) {
 if(!isset($city_id)){
   header("Location: packages.php");
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -30,10 +31,6 @@ if(!isset($city_id)){
       rel="shortcut icon"
       href="assets/images/fav.png"
       type="image/x-icon"
-    />
-    <link
-      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&display=swap"
-      rel="stylesheet"
     />
     <link rel="shortcut icon" href="assets/images/fav.jpg" />
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />

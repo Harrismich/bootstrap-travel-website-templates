@@ -1,6 +1,7 @@
 <?php 
 require_once('database.php');
 session_start();
+
 // if (!isset($_SESSION['logged_in_user']) || !$_SESSION['logged_in_user']) {
 // 	header("Location: login.php");
 // }
@@ -8,6 +9,8 @@ session_start();
 //   header("Location: city.php");
 // }
 $user_id=$_SESSION['user_id'];
+
+
 ?>
 <!doctype html>
 <html lang="en">
