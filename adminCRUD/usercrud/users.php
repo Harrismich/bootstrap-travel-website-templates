@@ -148,7 +148,7 @@ include('../database.php');
                                                                 <label class="control-label" style="position:relative; top:7px;">User Name:</label>
                                                             </div>
                                                             <div class="col-lg-8">
-                                                                <input type="text" class="form-control" name="user_name" value="<?php echo $erow['user_name']; ?>">
+                                                                <input type="text" class="form-control" name="user_name" value="<?php echo $erow['username']; ?>">
                                                             </div>
                                                         </div>
                                                         <div style="height:10px;"></div>
