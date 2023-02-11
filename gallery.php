@@ -39,14 +39,14 @@ $user_id = $_SESSION['user_id'];
 
     <style>
     .not-in-favorites {
-      color: grey;
+    color: grey;
     }
 
     .in-favorites{
-      color: red;
+    color: red;
     }
     
-  </style>
+    </style>
 
 </head>
 
@@ -55,7 +55,7 @@ $user_id = $_SESSION['user_id'];
 <!-- ################# Header Starts Here#######################--->
 
 <?php include('header.php');?>
- 
+
     <!--  ************************* Page Title Starts Here ************************** -->
     <div class="page-nav no-margin row">
         <div class="container">
@@ -84,32 +84,32 @@ $user_id = $_SESSION['user_id'];
             <br/>
 
  <!--  ************************* Review Submit ************************** -->
- <div class="account-form">
+<div class="account-form">
 
 <form action="" method="post" id ="confirmationform" name ="confirmationform">
-  <h3>post your review</h3>
-  <p class="placeholder">review title <span>*</span></p>
-  <input type="text" name="title" required maxlength="50" placeholder="enter review title" class="box1">
-  <p class="placeholder">review description</p>
-  <textarea name="description" class="box1" placeholder="enter review description" maxlength="1000" cols="30" rows="10"></textarea>
-  <p class="placeholder">review rating <span>*</span></p>
-  <center>
-  <div class="star-widget">
-    <input type="hidden" name="rate" id="selected-rate" form="confirmationform">
-    <input type="radio" name="star" id="rate-5" value=5 onclick="document.getElementById('selected-rate').value = this.value;">
-    <label for="rate-5" class="fas fa-star"></label>
-    <input type="radio" name="star" id="rate-4" value=4 onclick="document.getElementById('selected-rate').value = this.value;">
-    <label for="rate-4" class="fas fa-star"></label>
-    <input type="radio" name="star" id="rate-3" value=3 onclick="document.getElementById('selected-rate').value = this.value;">
-    <label for="rate-3" class="fas fa-star"></label>
-    <input type="radio" name="star" id="rate-2" value=2 onclick="document.getElementById('selected-rate').value = this.value;">
-    <label for="rate-2" class="fas fa-star"></label>
-    <input type="radio" name="star" id="rate-1" value=1 onclick="document.getElementById('selected-rate').value = this.value;">
-    <label for="rate-1" class="fas fa-star"></label>
-  </div> 
-  </center> 
-   <input type="submit" value="submit review" name="submit" class="btn1">
-   <a href="view_post.php?get_id=<?= $get_id; ?>" class="option-btn1">go back</a>
+    <h3>post your review</h3>
+    <p class="placeholder">review title <span>*</span></p>
+    <input type="text" name="title" required maxlength="50" placeholder="enter review title" class="box1">
+    <p class="placeholder">review description</p>
+    <textarea name="description" class="box1" placeholder="enter review description" maxlength="1000" cols="30" rows="10"></textarea>
+    <p class="placeholder">review rating <span>*</span></p>
+    <center>
+    <div class="star-widget">
+        <input type="hidden" name="rate" id="selected-rate" form="confirmationform">
+        <input type="radio" name="star" id="rate-5" value=5 onclick="document.getElementById('selected-rate').value = this.value;">
+        <label for="rate-5" class="fas fa-star"></label>
+        <input type="radio" name="star" id="rate-4" value=4 onclick="document.getElementById('selected-rate').value = this.value;">
+        <label for="rate-4" class="fas fa-star"></label>
+        <input type="radio" name="star" id="rate-3" value=3 onclick="document.getElementById('selected-rate').value = this.value;">
+        <label for="rate-3" class="fas fa-star"></label>
+        <input type="radio" name="star" id="rate-2" value=2 onclick="document.getElementById('selected-rate').value = this.value;">
+        <label for="rate-2" class="fas fa-star"></label>
+        <input type="radio" name="star" id="rate-1" value=1 onclick="document.getElementById('selected-rate').value = this.value;">
+        <label for="rate-1" class="fas fa-star"></label>
+    </div> 
+    </center> 
+    <input type="submit" value="submit review" name="submit" class="btn1">
+    <a href="view_post.php?get_id=<?= $get_id; ?>" class="option-btn1">go back</a>
 </form>
 </div>
             <?php
@@ -121,7 +121,7 @@ $user_id = $_SESSION['user_id'];
                 }
                 $query = "SELECT * FROM pictures p inner join choice ch on p.choice_id=ch.choice_id  where ch.city_id = '$city' ";
                 if ($filterValue == "all") {
-                    $query = "SELECT * FROM pictures p inner join choice ch on p.choice_id=ch.choice_id left join user_choice uc on uc.choice_id = ch.choice_id where ch.city_id = '$city' ";
+                    $query = "SELECT * FROM pictures p inner join choice ch on p.choice_id=ch.choice_id where ch.city_id = '$city' ";
                 }else if($filterValue == "1"){
                     $query .= "AND category_id = '$filterValue' " ;
                 }else if($filterValue == "2"){
@@ -137,6 +137,8 @@ $user_id = $_SESSION['user_id'];
                 echo'<div class="container">';        
                     echo'<div class="box-container">';
                         while ($data = mysqli_fetch_assoc($result)) {   
+                            $favorite = "select * from user_choice where choice_id = {$data['choice_id']}" ;
+                            $fav_result = mysqli_query($dbc, $favorite);
                             echo' <div class="box">';
                                 echo' <div class="image">';
                                 echo "<img src='./pictures/" . $data['path'] . ".jpg' class='d-block w-100' />";
@@ -150,9 +152,13 @@ $user_id = $_SESSION['user_id'];
 
                                     echo '<button class="btn"><a href= "about_us.php?name=' . urlencode($data['choice_id']) . '"> Read More </a></button>';
                                     echo '<div class="icons">';
-                                     echo '<input type="hidden" class="choice_id" value="'. $data['choice_id'] . '">';
+                                    echo '<input type="hidden" class="choice_id" value="'. $data['choice_id'] . '">';
                                     echo '<a href="#" class="favorites-btn">';
-                                        echo' <i class="fa fa-heart heart not-in-favorites"></i>';                                      
+                                        if (mysqli_num_rows($fav_result) > 0 ){
+                                            echo' <i class="fa fa-heart heart in-favorites"></i>';   
+                                        }else{
+                                            echo' <i class="fa fa-heart heart not-in-favorites"></i>';       
+                                        }                                  
                                     echo '</a>  ';
                                     echo '<button input type="hidden" class="makereview" value = "'.$data["choice_id"].'"><span> <i class="fas fa-star" "></i> Make Review 
                                             </span></button>';
@@ -175,18 +181,18 @@ $user_id = $_SESSION['user_id'];
 
 
 
- <!-- echo  '<button class="btn"><a href= '. $data['map'] .'> google map </a></button>'; -->
-                                            <!-- ######## scripts ####### -->  
- <!-- // Select the ".heart" element within the DOM element the event handler is being triggered on
-  var heart = $(this).find(".heart");
+    <!-- echo  '<button class="btn"><a href= '. $data['map'] .'> google map </a></button>'; -->
+                                                <!-- ######## scripts ####### -->  
+    <!-- // Select the ".heart" element within the DOM element the event handler is being triggered on
+    var heart = $(this).find(".heart");
 
-  // Select the closest ".card" element to the DOM element the event handler is being triggered on, 
-  // and then select the ".card-title" element within that ".card" and retrieve its text content
-  var cardTitle = $(this).closest(".card").find(".card-title").text();
+    // Select the closest ".card" element to the DOM element the event handler is being triggered on, 
+    // and then select the ".card-title" element within that ".card" and retrieve its text content
+    var cardTitle = $(this).closest(".card").find(".card-title").text();
 
-  // Select the closest ".card" element to the DOM element the event handler is being triggered on,
-  // and then select the ".choiceId" element within that ".card" and retrieve its value attribute
-  var choiceId = $(this).closest(".card").find(".choiceId").val(); -->
+    // Select the closest ".card" element to the DOM element the event handler is being triggered on,
+    // and then select the ".choiceId" element within that ".card" and retrieve its value attribute
+    var choiceId = $(this).closest(".card").find(".choiceId").val(); -->
 
 
                 <!-- Με το κλικ η καρδιά ενεργοποιείται -->
@@ -270,15 +276,15 @@ $user_id = $_SESSION['user_id'];
                 });
             </script>
 
-           
+        
         </div>
     </div>  
 </div>
         <!-- ######## Gallery End ####### -->    
 
-      
+    
   <!--  ************************* Footer Start Here ************************** -->
-  <?php include('footer.php');?>     
+    <?php include('footer.php');?>     
 
 
     <div class="copy">
