@@ -1,5 +1,8 @@
 <?php
 include('../database.php');
+if (!isset($_SESSION['logged_in_admin']) || !$_SESSION['logged_in_admin']) {
+	header("Location: login.php");
+}
 $city_name=$_POST['city_name'];
 $description=$_POST['description'];
 $dbc->query("insert into city (city_name, description) 
