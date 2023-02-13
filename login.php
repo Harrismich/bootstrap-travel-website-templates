@@ -21,7 +21,7 @@ if (isset($_POST['signUp'])) {
 				$_SESSION['logged_in_admin'] = true;
 				$_SESSION['user_id']=$userid;
 				$_SESSION['username']=$username;
-    			header('Location: adminhome.php');
+    			header('Location: http://localhost/project%20php/bootstrap-travel-website-templates/adminCRUD/home.php');
     		}else{
 				$_SESSION['logged_in_user'] = true;
 				$_SESSION['user_id']=$userid;

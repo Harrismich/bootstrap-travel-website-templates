@@ -1,5 +1,8 @@
 <?php
 include('../database.php');
+if (!isset($_SESSION['logged_in_admin']) || !$_SESSION['logged_in_admin']) {
+	header("Location: login.php");
+}
  
 $name=$_POST['name'];
 $city= $_POST['city_id'];
