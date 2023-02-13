@@ -36,7 +36,7 @@
                     <label class="control-label" style="position:relative; top:7px;">City Image:</label>
                 </div>
                 <div class="col-lg-8">
-                    <input type="file" class="filestyle" name="pimage" />
+                    <input type="file" name="my_image" id="fileToUpload">
                 </div>
             </div>
         </div>
