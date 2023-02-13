@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600&display=swap");
 /* font awesome cdn link  */
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css');
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css");
 
 * {
   font-family: "Montserrat", sans-serif;
@@ -160,15 +160,6 @@ body {
   --box-shadow:0 .5rem 1rem rgba(0,0,0,.1);
 }
 
- /* *{
-  font-family: 'Comfortaa', cursive;
-  margin: 0; padding: 0;
-  box-sizing: border-box;
-  outline: none; border: none;
-  text-decoration: none;
-  scrollbar-color: var(--main-color) var(--black);
-  scrollbar-width: thin;
-}
 
 html{
   font-size: 62.5%;
@@ -180,11 +171,9 @@ body{
   padding-bottom: 8rem;
 }    */
 
-
-
-
 .btn1,
 .option-btn1{
+
   display: block;
   width: 100%;
 }
@@ -202,7 +191,7 @@ body{
   text-align: center;
   padding: 1rem 3rem;
   font-size: 1.8rem;
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   border: var(--border);
   color: var(--white);
   cursor: pointer;
@@ -260,26 +249,6 @@ body{
   display: block;
 }
 
-.account-form {
-    z-index: 5;
-    position: absolute;
-    top: 150px;
-    left:0;
-    width: 100%;
-    height: 70%;
-    /* transition: visibility 0.5s ease-in-out; */
-}
-.account-form form{
-  background: var(--white);
-  box-shadow: var(--box-shadow);
-  box-shadow: var(--box-shadow);
-  padding: 2rem;
-  border: var(--border);
-  border-radius: .5rem;
-  max-width: 50rem;
-  margin: 0 auto;
-}
-
 .modal form h3{
   padding-bottom: 1rem;
   font-size: 2.5rem;
@@ -333,9 +302,8 @@ body{
 
 .account-form form .link a:hover{
   text-decoration: underline;
+
 }
-
-
 
 /* star  */
     .star-widget{
@@ -421,29 +389,24 @@ body{
   flex-direction: row;
   float: right;
   margin-bottom: 70px;
+
 }
-
-
 
 
 /* media queries  */
 
-@media (max-width:991px){
-
-   html{
-      font-size: 55%;
-   }
-
+@media (max-width: 991px) {
+  html {
+    font-size: 55%;
+  }
 }
 
-@media (max-width:450px){
+@media (max-width: 450px) {
+  html {
+    font-size: 50%;
+  }
 
-   html{
-      font-size: 50%;
-   }
-
-   .view-post .row .col .image{
-      height: 20rem;
-   }
-
+  .view-post .row .col .image {
+    height: 20rem;
+  }
 }

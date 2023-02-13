@@ -15,6 +15,7 @@ if (isset($_GET['city_id'])) {
 if(!isset($city_id)){
   header("Location: packages.php");
 }
+$user_id = $_SESSION['user_id'];
 
 ?>
 

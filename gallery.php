@@ -46,6 +46,7 @@ $user_id = $_SESSION['user_id'];
     color: red;
     }
     
+
 </style>
 
 </head>
@@ -55,7 +56,7 @@ $user_id = $_SESSION['user_id'];
 <!-- ################# Header Starts Here#######################--->
 
 <?php include('header.php');?>
- 
+
     <!--  ************************* Page Title Starts Here ************************** -->
     <div class="page-nav no-margin row">
         <div class="container">
@@ -137,36 +138,45 @@ $user_id = $_SESSION['user_id'];
         $query .= " AND category_id = '$filterValue' ";
     }
     $result = mysqli_query($dbc, $query);
-    echo'<div class="container">';        
-        echo'<div class="box-container">';
-            while ($data = mysqli_fetch_assoc($result)) {   
-            echo' <div class="box">';
-                echo' <div class="image">';
-                    echo "<img src='./pictures/" . $data['path'] . ".jpg' class='d-block w-100' />";
-                echo' </div>';
-                echo' <div class="content">';
-                    echo "<h3>". $data['name'] . " </h4> ";
-                    echo "<br>";
-                    echo "<h6><strong> Διεύθυνση: </strong>" .$data['address'] ."</h6>";
-                    echo "<h6><strong> Τηλέφωνα: </strong>" .$data['phone_number'] ."</h6>";
-                    echo "<h6> <a href = " .$data['link'] . "><strong>Link:</strong> Επισκευθείτε μας </a></h6>";
-                    echo '<button class="btn"><a href= "about_us.php?name=' . urlencode($data['choice_id']) . '"> Read More </a></button>';
-                    echo '<div class="icons">';
-                        echo '<input type="hidden" class="choice_id" value="'. $data['choice_id'] . '">';
-                        echo '<a href="#" class="favorites-btn">';
-                        echo' <i class="fa fa-heart heart not-in-favorites"></i>';                                      
-                        echo '</a>  ';
-                        echo "<button data-target='simpleModal_2' data-toggle='modal' onclick = 'review(\"".$data['choice_id']."\")'> <i class='fas fa-star'></i> Make Review</button>";                     
-                    echo '</div>';
-                echo' </div>';
-            echo'</div>';
-            }//while
-        echo'</div>';
-            if(mysqli_num_rows($result) >3){
-                echo'<div id="load-more"> load more </div>';
-            };
-    echo'</div>';
-?>  
+
+                echo'<div class="container">';        
+                    echo'<div class="box-container">';
+                        while ($data = mysqli_fetch_assoc($result)) {   
+                            $favorite = "select * from user_choice where choice_id = {$data['choice_id']}" ;
+                            $fav_result = mysqli_query($dbc, $favorite);
+                            echo' <div class="box">';
+                                echo' <div class="image">';
+                                echo "<img src='./pictures/" . $data['path'] . ".jpg' class='d-block w-100' />";
+                                echo' </div>';
+                                echo' <div class="content">';
+                                    echo "<h3>". $data['name'] . " </h4> ";
+                                    echo "<br>";
+                                    echo "<h6><strong> Διεύθυνση: </strong>" .$data['address'] ."</h6>";
+                                    echo "<h6><strong> Τηλέφωνα: </strong>" .$data['phone_number'] ."</h6>";
+                                    echo "<h6> <a href = " .$data['link'] . "><strong>Link:</strong> Επισκευθείτε μας </a></h6>";
+
+                                    echo '<button class="btn"><a href= "about_us.php?name=' . urlencode($data['choice_id']) . '"> Read More </a></button>';
+                                    echo '<div class="icons">';
+                                    echo '<input type="hidden" class="choice_id" value="'. $data['choice_id'] . '">';
+                                    echo '<a href="#" class="favorites-btn">';
+                                        if (mysqli_num_rows($fav_result) > 0 ){
+                                            echo' <i class="fa fa-heart heart in-favorites"></i>';   
+                                        }else{
+                                            echo' <i class="fa fa-heart heart not-in-favorites"></i>';       
+                                        }                                  
+                                    echo '</a>  ';
+                                    echo "<button data-target='simpleModal_2' data-toggle='modal' onclick = 'review(\"".$data['choice_id']."\")'> <i class='fas fa-star'></i> Make Review</button>";
+                                    echo '</div>';
+                                echo' </div>';
+                            echo'</div>';
+                        }
+                    echo'</div>';
+                    if(mysqli_num_rows($result) >3){
+                        echo'<div id="load-more"> load more </div>';
+                    };
+                echo'</div>';
+                ?>  
+
         </div>
     </div>  
 </div> 
@@ -241,18 +251,19 @@ function review(rating) {
         });
 </script>                             
                                             <!-- ######## Gallery End ####### -->  
+
  <!-- echo  '<button class="btn"><a href= '. $data['map'] .'> google map </a></button>'; -->
                                             <!-- ######## scripts ####### -->  
  <!-- // Select the ".heart" element within the DOM element the event handler is being triggered on
   var heart = $(this).find(".heart");
 
-  // Select the closest ".card" element to the DOM element the event handler is being triggered on, 
-  // and then select the ".card-title" element within that ".card" and retrieve its text content
-  var cardTitle = $(this).closest(".card").find(".card-title").text();
+    // Select the closest ".card" element to the DOM element the event handler is being triggered on, 
+    // and then select the ".card-title" element within that ".card" and retrieve its text content
+    var cardTitle = $(this).closest(".card").find(".card-title").text();
 
-  // Select the closest ".card" element to the DOM element the event handler is being triggered on,
-  // and then select the ".choiceId" element within that ".card" and retrieve its value attribute
-  var choiceId = $(this).closest(".card").find(".choiceId").val(); -->
+    // Select the closest ".card" element to the DOM element the event handler is being triggered on,
+    // and then select the ".choiceId" element within that ".card" and retrieve its value attribute
+    var choiceId = $(this).closest(".card").find(".choiceId").val(); -->
 
 
                 <!-- Με το κλικ η καρδιά ενεργοποιείται -->
@@ -334,15 +345,15 @@ function review(rating) {
                 });
             </script>
 
-           
+        
         </div>
     </div>  
 </div>
         <!-- ######## Gallery End ####### -->    
 
-      
+    
   <!--  ************************* Footer Start Here ************************** -->
-  <?php include('footer.php');?>     
+    <?php include('footer.php');?>     
 
 
     <div class="copy">

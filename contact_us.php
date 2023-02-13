@@ -1,7 +1,7 @@
 <?php 
 require_once('database.php');
 session_start();
-if (!isset($_SESSION['logged_in_user']) || !$_SESSION['logged_in_user']) {
+if (!isset($_SESSION['logged_in_admin']) || !$_SESSION['logged_in_admin']) {
 	header("Location: login.php");
 }
 $user_id = $_SESSION['user_id'];
@@ -56,71 +56,82 @@ $user_id = $_SESSION['user_id'];
 
 
     </div>
-
+<form action="house.php" method="post">
     <div class="row contact-rooo no-margin">
         <div class="container">
             <div class="row">
 
-
-                <div style="padding:20px" class="col-sm-7">
-                    <h2 >Contact Form</h2> <br>
-                    <div class="row cont-row">
-                        <div  class="col-sm-3"><label>Enter Name </label><span>:</span></div>
-                        <div class="col-sm-8"><input type="text" placeholder="Enter Name" name="name" class="form-control input-sm"  ></div>
-                    </div>
-                    <div  class="row cont-row">
-                        <div  class="col-sm-3"><label>Email Address </label><span>:</span></div>
-                        <div class="col-sm-8"><input type="text" name="name" placeholder="Enter Email Address" class="form-control input-sm"  ></div>
-                    </div>
-                    <div  class="row cont-row">
-                        <div  class="col-sm-3"><label>Mobile Number</label><span>:</span></div>
-                        <div class="col-sm-8"><input type="text" name="name" placeholder="Enter Mobile Number" class="form-control input-sm"  ></div>
-                    </div>
-                    <div  class="row cont-row">
-                        <div  class="col-sm-3"><label>Enter Message</label><span>:</span></div>
+                    <div style="padding:20px" class="col-sm-7">
+                        <h2 >Διαθέσιμο Σπίτι</h2> <br>
+                        <div  class="row cont-row">
+                            <div  class="col-sm-3"><label>Όνομα Ιδιοκτήτη </label><span>:</span></div>
+                            <div class="col-sm-8"><input type="text" name="name" placeholder="Πληκτρολογίστε την Διεύθυνση" class="form-control input-sm" required ></div>
+                        </div>
+                        <div class="row cont-row">
+                            <div class="col-sm-3">
+                                <label>Πόλη</label><span>:</span>
+                            </div>
                         <div class="col-sm-8">
-                            <textarea rows="5" placeholder="Enter Your Message" class="form-control input-sm"></textarea>
+                            <select name="city" class="form-control input-sm">
+                            <option value="" disabled selected>Επιλέξτε Πόλη</option>
+                            <?php
+                                $sql= "select * from city group by city_id ";
+                                $city_res = mysqli_query($dbc, $sql);
+                                while($crow=$city_res->fetch_assoc()){
+                                echo "<option name='city' value='".$crow['city_id']."' >" . $crow['city_name'] ." </option>";
+                                }
+                            ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div  class="row cont-row">
+                        <div  class="col-sm-3"><label>Διεύθυνση </label><span>:</span></div>
+                        <div class="col-sm-8"><input type="text" name="address" placeholder="Πληκτρολογίστε την Διεύθυνση" class="form-control input-sm" required ></div>
+                    </div>
+                    <div  class="row cont-row">
+                        <div  class="col-sm-3"><label>Κινητό</label><span>:</span></div>
+                        <div class="col-sm-8"><input type="text" name="phone_number" placeholder="Πληκτρολογίστε το Κινητό" class="form-control input-sm"  required></div>
+                    </div>
+                    <div  class="row cont-row">
+                        <div  class="col-sm-3"><label>Διαθέσιμο από</label><span>:</span></div>
+                        <div class="col-sm-8"><input type="date" name="	availability" placeholder="Διαθέσιμο από" class="form-control input-sm"  required></div>
+                    </div>
+                    <div  class="row cont-row">
+                        <div  class="col-sm-3"><label>Τιμή</label><span>:</span></div>
+                        <div class="col-sm-8"><input type="text" name="price" placeholder="Πληκτρολογήστε την Τιμή" class="form-control input-sm" required ></div>
+                    </div>
+                    <div  class="row cont-row">
+                        <div  class="col-sm-3"><label>Περιγραφή</label><span>:</span></div>
+                        <div class="col-sm-8">
+                            <textarea rows="5" name ='description' placeholder="Enter Your Message" class="form-control input-sm"required></textarea>
                         </div>
                     </div>
                     <div style="margin-top:10px;" class="row">
                         <div style="padding-top:10px;" class="col-sm-3"><label></label></div>
                         <div class="col-sm-8">
-                            <button class="btn btn-success btn-sm">Send Message</button>
+                            <button class="btn btn-success btn-sm">Αποστολή</button>
                         </div>
                     </div>
+                
                 </div>
                 <div class="col-sm-5">
 
                     <div style="margin:50px" class="serv">
-
-
-
-
-
+<!-- 
                         <h2 style="margin-top:10px;">Address</h2>
-
                        Antonya Street, <br>
                         23/H-2, Building<br>
                         TA, AUS District<br>
                         Phone:+91 9159669599<br>
                         Email:support@smarteyeapps.com<br>
                         Website:www.smarteyeapps.com.com<br>
-
-
-
-
-
-
-
+ -->
                     </div>
-
-
                 </div>
-
             </div>
         </div>
-
     </div>
+</form>
 
        
 
