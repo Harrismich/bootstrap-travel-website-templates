@@ -18,7 +18,7 @@ $user_id = $_SESSION['user_id'];
 ?>
 
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -37,7 +37,7 @@ $user_id = $_SESSION['user_id'];
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <style>
+<style>
     .not-in-favorites {
     color: grey;
     }
@@ -46,7 +46,8 @@ $user_id = $_SESSION['user_id'];
     color: red;
     }
     
-    </style>
+
+</style>
 
 </head>
 
@@ -84,56 +85,60 @@ $user_id = $_SESSION['user_id'];
             <br/>
 
  <!--  ************************* Review Submit ************************** -->
-<div class="account-form">
-
-<form action="" method="post" id ="confirmationform" name ="confirmationform">
-    <h3>post your review</h3>
-    <p class="placeholder">review title <span>*</span></p>
-    <input type="text" name="title" required maxlength="50" placeholder="enter review title" class="box1">
-    <p class="placeholder">review description</p>
-    <textarea name="description" class="box1" placeholder="enter review description" maxlength="1000" cols="30" rows="10"></textarea>
-    <p class="placeholder">review rating <span>*</span></p>
-    <center>
-    <div class="star-widget">
-        <input type="hidden" name="rate" id="selected-rate" form="confirmationform">
-        <input type="radio" name="star" id="rate-5" value=5 onclick="document.getElementById('selected-rate').value = this.value;">
-        <label for="rate-5" class="fas fa-star"></label>
-        <input type="radio" name="star" id="rate-4" value=4 onclick="document.getElementById('selected-rate').value = this.value;">
-        <label for="rate-4" class="fas fa-star"></label>
-        <input type="radio" name="star" id="rate-3" value=3 onclick="document.getElementById('selected-rate').value = this.value;">
-        <label for="rate-3" class="fas fa-star"></label>
-        <input type="radio" name="star" id="rate-2" value=2 onclick="document.getElementById('selected-rate').value = this.value;">
-        <label for="rate-2" class="fas fa-star"></label>
-        <input type="radio" name="star" id="rate-1" value=1 onclick="document.getElementById('selected-rate').value = this.value;">
-        <label for="rate-1" class="fas fa-star"></label>
-    </div> 
-    </center> 
-    <input type="submit" value="submit review" name="submit" class="btn1">
-    <a href="view_post.php?get_id=<?= $get_id; ?>" class="option-btn1">go back</a>
-</form>
+<div id="simpleModal_2" class="modal">
+    <div class="modal-window">
+        <form action="" method="post" id ="confirmationform" name ="confirmationform">
+        <h3>post your review</h3>
+        <p class="placeholder">review title <span>*</span></p>
+        <input type="text" name="title" required maxlength="50" placeholder="enter review title" class="box1">
+        <p class="placeholder">review description</p>
+        <textarea name="description" class="box1" placeholder="enter review description" maxlength="1000" cols="30" rows="10"></textarea>
+        <p class="placeholder">review rating <span>*</span></p>
+        <center>
+        <div class="star-widget">
+            <input type="hidden" name="rate" id="selected-rate" form="confirmationform">
+            <input type="radio" name="star" id="rate-5" value=5 onclick="document.getElementById('selected-rate').value = this.value;">
+            <label for="rate-5" class="fas fa-star"></label>
+            <input type="radio" name="star" id="rate-4" value=4 onclick="document.getElementById('selected-rate').value = this.value;">
+            <label for="rate-4" class="fas fa-star"></label>
+            <input type="radio" name="star" id="rate-3" value=3 onclick="document.getElementById('selected-rate').value = this.value;">
+            <label for="rate-3" class="fas fa-star"></label>
+            <input type="radio" name="star" id="rate-2" value=2 onclick="document.getElementById('selected-rate').value = this.value;">
+            <label for="rate-2" class="fas fa-star"></label>
+            <input type="radio" name="star" id="rate-1" value=1 onclick="document.getElementById('selected-rate').value = this.value;">
+            <label for="rate-1" class="fas fa-star"></label>
+        </div> 
+        </center> 
+        <input type="hidden" id="choice_id" name="choice_id">
+        <input type="submit" value="submit review" name="submit" class="btn1">
+        <button class="option-btn1"> go back </button>
+        </form>
+    </div>
 </div>
-            <?php
-                $city = $_SESSION['city_id'];
-                $filterValue = "all";
-                // Ανάλογα την επιλογή του χρήστη αλλάζει το query στην βάση για να εμφανίσει μόνο τα αποτελέσματα που επέλεξε
-                if (isset($_GET["filter"])) {
-                    $filterValue = $_GET["filter"];
-                }
-                $query = "SELECT * FROM pictures p inner join choice ch on p.choice_id=ch.choice_id  where ch.city_id = '$city' ";
-                if ($filterValue == "all") {
-                    $query = "SELECT * FROM pictures p inner join choice ch on p.choice_id=ch.choice_id where ch.city_id = '$city' ";
-                }else if($filterValue == "1"){
-                    $query .= "AND category_id = '$filterValue' " ;
-                }else if($filterValue == "2"){
-                    $query .= " AND category_id = '$filterValue'  ";
-                }else if($filterValue == "3"){
-                    $query .= " AND category_id = '$filterValue' ";
-                }else if($filterValue == "4"){
-                    $query .= " AND category_id = '$filterValue' ";
-                }else if($filterValue == "5"){
-                    $query .= " AND category_id = '$filterValue' ";
-                }
-                $result = mysqli_query($dbc, $query);
+
+<?php
+    $city = $_SESSION['city_id'];
+    $filterValue = "all";
+    // Ανάλογα την επιλογή του χρήστη αλλάζει το query στην βάση για να εμφανίσει μόνο τα αποτελέσματα που επέλεξε
+    if (isset($_GET["filter"])) {
+    $filterValue = $_GET["filter"];
+    }
+    $query = "SELECT * FROM pictures p inner join choice ch on p.choice_id=ch.choice_id  where ch.city_id = '$city' ";
+    if ($filterValue == "all") {
+        $query = "SELECT * FROM pictures p inner join choice ch on p.choice_id=ch.choice_id  where ch.city_id = '$city' ";
+    }else if($filterValue == "1"){
+        $query .= "AND category_id = '$filterValue' " ;
+    }else if($filterValue == "2"){
+        $query .= " AND category_id = '$filterValue'  ";
+    }else if($filterValue == "3"){
+        $query .= " AND category_id = '$filterValue' ";
+    }else if($filterValue == "4"){
+        $query .= " AND category_id = '$filterValue' ";
+    }else if($filterValue == "5"){
+        $query .= " AND category_id = '$filterValue' ";
+    }
+    $result = mysqli_query($dbc, $query);
+
                 echo'<div class="container">';        
                     echo'<div class="box-container">';
                         while ($data = mysqli_fetch_assoc($result)) {   
@@ -160,8 +165,7 @@ $user_id = $_SESSION['user_id'];
                                             echo' <i class="fa fa-heart heart not-in-favorites"></i>';       
                                         }                                  
                                     echo '</a>  ';
-                                    echo '<button input type="hidden" class="makereview" value = "'.$data["choice_id"].'"><span> <i class="fas fa-star" "></i> Make Review 
-                                            </span></button>';
+                                    echo "<button data-target='simpleModal_2' data-toggle='modal' onclick = 'review(\"".$data['choice_id']."\")'> <i class='fas fa-star'></i> Make Review</button>";
                                     echo '</div>';
                                 echo' </div>';
                             echo'</div>';
@@ -172,19 +176,86 @@ $user_id = $_SESSION['user_id'];
                     };
                 echo'</div>';
                 ?>  
+
         </div>
     </div>  
-</div>                                    
-
-
+</div> 
+<script>
+function review(rating) {
+    var choice = document.querySelector('#choice_id');
+    choice.value = rating;
+}
+</script>
+<?php
+    if (isset($_POST['submit']) && (isset($_POST['rate'])) && (isset($_POST['title'])) && (isset($_POST['description']))) {
+    $choice_id = $_POST['choice_id'];
+    $rate = $_POST['rate'];
+    $title = $_POST['title'];
+    $description = $_POST['description'];
+    // Insert the data into the 'reviews' table
+    $stmt = mysqli_prepare($dbc, "INSERT INTO reviews (choice_id, user_id, rate, title, comment) VALUES (?, ?, ?, ?, ?)"); 
+    mysqli_stmt_bind_param($stmt, "iiiss", $choice_id, $user_id, $rate, $title, $description);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    }
+?>
+<script>
+        // Attach click event listener to the document
+        document.addEventListener('click', function (e) {
+            // Normalize event object
+            e = e || window.event;
+            // Get the target of the event (the element that was clicked)
+            var target = e.target || e.srcElement;
+    
+            // Check if the target has a "data-toggle" attribute and its value is "modal"
+            if (target.hasAttribute('data-toggle') && target.getAttribute('data-toggle') == 'modal') {
+                // If the target also has a "data-target" attribute
+                if (target.hasAttribute('data-target')) {
+                    // Get the value of the "data-target" attribute (the ID of the modal to open)
+                    var m_ID = target.getAttribute('data-target');
+                    // Add the "open" class to the modal to display it
+                    document.getElementById(m_ID).classList.add('open');
+                    // Prevent default event behavior
+                    e.preventDefault();
+                }
+            }
+    
+            // Close modal window with 'data-dismiss' attribute, when the backdrop is clicked or when the esc key is pressed
+            if ((target.hasAttribute('data-dismiss') && target.getAttribute('data-dismiss') == 'modal') || target.classList.contains('modal') || e.keyCode == 27) {
+                // Get the currently open modal
+                var modal = document.querySelector('[class="modal open"]');
+                // Remove the "open" class to hide the modal
+                modal.classList.remove('open');
+                // Prevent default event behavior
+                e.preventDefault();
+            }
+            // Use event bubbling, not capturing
+        }, false);
+    
+        // Attach keydown event listener to the document
+        document.addEventListener('keydown', function (e) {
+            // Normalize event object
+            e = e || window.event;
+            // Check if the esc key was pressed
+            if (e.keyCode == 27) {
+                // Get the currently open modal
+                var modal = document.querySelector('[class="modal open"]');
+                // If a modal is open
+                if (modal) {
+                    // Remove the "open" class to hide the modal
+                    modal.classList.remove('open');
+                    // Prevent default event behavior
+                    e.preventDefault();
+                }
+            }
+        });
+</script>                             
                                             <!-- ######## Gallery End ####### -->  
 
-
-
-    <!-- echo  '<button class="btn"><a href= '. $data['map'] .'> google map </a></button>'; -->
-                                                <!-- ######## scripts ####### -->  
-    <!-- // Select the ".heart" element within the DOM element the event handler is being triggered on
-    var heart = $(this).find(".heart");
+ <!-- echo  '<button class="btn"><a href= '. $data['map'] .'> google map </a></button>'; -->
+                                            <!-- ######## scripts ####### -->  
+ <!-- // Select the ".heart" element within the DOM element the event handler is being triggered on
+  var heart = $(this).find(".heart");
 
     // Select the closest ".card" element to the DOM element the event handler is being triggered on, 
     // and then select the ".card-title" element within that ".card" and retrieve its text content
@@ -196,8 +267,6 @@ $user_id = $_SESSION['user_id'];
 
 
                 <!-- Με το κλικ η καρδιά ενεργοποιείται -->
-
-
                 <script>
                     $(document).ready(function() {
                     $(".favorites-btn").click(function() {
@@ -307,7 +376,7 @@ $user_id = $_SESSION['user_id'];
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/plugins/scroll-fixed/jquery-scrolltofixed-min.js"></script>
     <script src="assets/plugins/slider/js/owl.carousel.min.js"></script>
-    <script src="assets/js/script.js"></script>
+    <!-- <script src="assets/js/script.js"></script> -->
     
     </body>
 

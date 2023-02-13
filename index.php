@@ -75,10 +75,10 @@ $user_id = $_SESSION['user_id'];
           <div class="col-lg-4 col-md-6">
             <div class="col-card">
               <div class="icon">
-              <a href="http://localhost/project%20php/bootstrap-travel-website-templates/gallery.php?filter=1"><i class="fas fa-hotel"></i></a>
+              <a href="gallery.php?filter=1"><i class="fas fa-hotel"></i></a>
               </div>
               <div class="detail">
-              <a href="http://localhost/project%20php/bootstrap-travel-website-templates/gallery.php?filter=1"><h4>Ξενοδοχεία</h4><a>
+              <a href="gallery.php?filter=1"><h4>Ξενοδοχεία</h4><a>
                 <p>
                   Turpis accumsan. Proin id ligula suspendisse. Aliquet
                   fringilla, aptent eu dignissim.
@@ -89,10 +89,10 @@ $user_id = $_SESSION['user_id'];
           <div class="col-lg-4 col-md-6">
             <div class="col-card">
               <div class="icon">
-              <a href="http://localhost/project%20php/bootstrap-travel-website-templates/gallery.php?filter=4"><i class="fas fa-utensils"></i></a>
+              <a href="gallery.php?filter=4"><i class="fas fa-utensils"></i></a>
               </div>
               <div class="detail">
-                <a href="http://localhost/project%20php/bootstrap-travel-website-templates/gallery.php?filter=4"><h4>Εστιατόρια</h4></a>
+                <a href="gallery.php?filter=4"><h4>Εστιατόρια</h4></a>
                 <p>
                   Turpis accumsan. Proin id ligula suspendisse. Aliquet
                   fringilla, aptent eu dignissim.
@@ -177,7 +177,7 @@ echo '  <div class="container">';
 echo '    <div class="session-title">';
 echo '      <h2>Προτάσεις Εστιατορίων</h2>';
 echo '      <p>';
-echo'         <a href="http://localhost/project%20php/bootstrap-travel-website-templates/gallery.php?filter=4">Περισσότερα</a>';
+echo'         <a href="gallery.php?filter=4">Περισσότερα</a>';
 echo '      </p>';
 echo '    </div>';
 echo '    <div class="row pack-row">';
@@ -225,7 +225,7 @@ echo'      <div class="container">';
 echo'        <div class="session-title">';
 echo'          <h2>Προτάσεις Ξενοδοχείων</h2>';
 echo'          <p>';
-echo'            <a href="http://localhost/project%20php/bootstrap-travel-website-templates/gallery.php?filter=1">Περισσότερα</a>';
+echo'            <a href="gallery.php?filter=1">Περισσότερα</a>';
 echo'           </p>';
 echo'         </div>';
 echo'         <div class="dest-row row">';
