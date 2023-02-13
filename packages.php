@@ -49,28 +49,12 @@ $user_id = $_SESSION['user_id'];
                 <div class="col-lg-4 col-md-6 col-sm-6">
                     <div class="pack-col">
                         <?php
-                            echo "<img src='./images/" . $data['path'] . ".jpg' class='d-block w-100' />";
-                            echo '<div class="detail row no-margin">';
+                                echo "<a href='index.php?city_id=" . $data['city_id'] . "'> <img src='./images/" . $data['path'] . ".jpg' class='d-block w-100' />";
+                                echo '<div class="detail row no-margin">';
                                 echo "<h4>". $data['city_name'] . " </h4> ";
-                                //  <p>Mattis interdum nunc massa. Velit. Nonummy penatibus</p>
-                                echo'</div>';
+                                echo'</div></a>';
                         ?>
-                        <!-- <div class="revire row no-margin">
-                            <ul class="rat">
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                            </ul>
-                            <span class="pric">
-                                $750
-                            </span>
-                        </div> -->
-                        <div class="detail row no-margin">
-                        <a href="index.php?city_id=<?php echo $data['city_id']; ?>">Take a Tour in the City</a>
-                            <!-- <p>Mattis interdum nunc massa. Velit. Nonummy penatibus</p> -->
-                        </div>
+                        
                         <div class="options row no-margin">
                         </div>
                     </div>
@@ -101,4 +85,4 @@ $user_id = $_SESSION['user_id'];
     <script src="assets/plugins/scroll-fixed/jquery-scrolltofixed-min.js"></script>
     <script src="assets/plugins/slider/js/owl.carousel.min.js"></script>
     <script src="assets/js/script.js"></script>
-</html>
+</html
