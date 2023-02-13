@@ -145,47 +145,39 @@ body {
   }
 }
 
-.col-md-6 {
-  background-color: #f1e5e5;
-  padding: 20px;
-  text-align: center;
-  border: 1px solid #ccc;
-  box-shadow: #8f8181;
-}
-
 
 /* reviews */
 
 :root{
-   --main-color:#16a085;
-   --red:#eb4d4b;
-   --orange:#f39c12;
-   --black:#130f40;
-   --light-color:#999;
-   --light-bg:#eee;
-   --white:#fff;
-   --border:.1rem solid rgba(0,0,0,.2);
-   --box-shadow:0 .5rem 1rem rgba(0,0,0,.1);
+  --main-color:#16a085;
+  --red:#eb4d4b;
+  --orange:#f39c12;
+  --black:#130f40;
+  --light-color:#999;
+  --light-bg:#eee;
+  --white:#fff;
+  --border:.1rem solid rgba(0,0,0,.2);
+  --box-shadow:0 .5rem 1rem rgba(0,0,0,.1);
 }
 
  /* *{
-   font-family: 'Comfortaa', cursive;
-   margin: 0; padding: 0;
-   box-sizing: border-box;
-   outline: none; border: none;
-   text-decoration: none;
-   scrollbar-color: var(--main-color) var(--black);
-   scrollbar-width: thin;
+  font-family: 'Comfortaa', cursive;
+  margin: 0; padding: 0;
+  box-sizing: border-box;
+  outline: none; border: none;
+  text-decoration: none;
+  scrollbar-color: var(--main-color) var(--black);
+  scrollbar-width: thin;
 }
 
- html{
-   font-size: 62.5%;
-   overflow-x: hidden;
+html{
+  font-size: 62.5%;
+  overflow-x: hidden;
 }
 
 body{
-   background-color: var(--light-bg);
-   padding-bottom: 8rem;
+  background-color: var(--light-bg);
+  padding-bottom: 8rem;
 }    */
 
 
@@ -193,124 +185,154 @@ body{
 
 .btn1,
 .option-btn1{
-   display: block;
-   width: 100%;
+  display: block;
+  width: 100%;
 }
 
 .inline-btn1,
 .inline-option-btn1{
-   display: inline-block;
+  display: inline-block;
 }
 
 .btn1,
 .option-btn1,
 .inline-btn1,
 .inline-option-btn1{
-   margin-top: 1rem;
-   text-align: center;
-   padding: 1rem 3rem;
-   font-size: 1.8rem;
-   border-radius: .5rem;
-   border: var(--border);
-   color: var(--white);
-   cursor: pointer;
-   text-transform: capitalize;
+  margin-top: 1rem;
+  text-align: center;
+  padding: 1rem 3rem;
+  font-size: 1.8rem;
+  border-radius: .5rem;
+  border: var(--border);
+  color: var(--white);
+  cursor: pointer;
+  text-transform: capitalize;
 }
 
 .btn1,
 .inline-btn1{
-   background-color: var(--main-color);
+  background-color: var(--main-color);
 }
 
 .option-btn1,
 .inline-option-btn1{
-   background-color: var(--orange);
+  background-color: var(--orange);
 }
 
 .btn1:hover,
 .option-btn1:hover,
 .inline-btn1:hover,
 .inline-option-btn1:hover{
-   background-color: var(--black);
+  background-color: var(--black);
 }
 
+.modal {
+  /* sets the modal to be fixed in position */
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: none;
+  overflow: auto;
+  background-color: #000000;
+  /* sets the modal's background to a semi-transparent black */
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 9999;
+}
+
+.modal-window {
+  position: relative;
+  background-color: #FFFFFF;
+  width: 65%;
+  /* sets the modal's width to 65% and centers it on the screen */
+  margin: 10% auto;
+  padding: 20px;
+  background: var(--white);
+  box-shadow: var(--box-shadow);
+  box-shadow: var(--box-shadow);
+  border: var(--border);
+  border-radius: .5rem;
+}
+
+/* Class used inside scirpt to show modal */
+.open {
+  display: block;
+}
 
 .account-form {
-    visibility: hidden;
     z-index: 5;
-    position: fixed;
-    top: 200px;
+    position: absolute;
+    top: 150px;
     left:0;
     width: 100%;
-    height: 100%;
-
+    height: 70%;
+    /* transition: visibility 0.5s ease-in-out; */
 }
 .account-form form{
-   background: var(--white);
-   box-shadow: var(--box-shadow);
-   box-shadow: var(--box-shadow);
-   padding: 2rem;
-   border: var(--border);
-   border-radius: .5rem;
-   max-width: 50rem;
-   margin: 0 auto;
-   
-   
+  background: var(--white);
+  box-shadow: var(--box-shadow);
+  box-shadow: var(--box-shadow);
+  padding: 2rem;
+  border: var(--border);
+  border-radius: .5rem;
+  max-width: 50rem;
+  margin: 0 auto;
 }
 
-.account-form form h3{
-   padding-bottom: 1rem;
-   font-size: 2.5rem;
-   color: var(--black);
-   text-transform: capitalize;
-   text-align: center;
+.modal form h3{
+  padding-bottom: 1rem;
+  font-size: 2.5rem;
+  color: var(--black);
+  text-transform: capitalize;
+  text-align: center;
 }
 
-.account-form form p{
-   padding-top: 1rem;
-   font-size: 1.6rem;
-   color: var(--light-color);
+.modal form p{
+  padding-top: 1rem;
+  font-size: 1.6rem;
+  color: var(--light-color);
 }
 
-.account-form form p span{
-   color: var(--red);
+.modal form p span{
+  color: var(--red);
 }
 
-.account-form form .box1{
-   width: 100%;
-   border-radius: .5rem;
-   padding: 1.4rem;
-   font-size: 1.8rem;
-   color: var(--black);
-   background-color: var(--light-bg);
-   margin: 1rem 0;
+.modal form .box1{
+  width: 100%;
+  border-radius: .5rem;
+  padding: 1.4rem;
+  font-size: 1.8rem;
+  color: var(--black);
+  background-color: var(--light-bg);
+  margin: 1rem 0;
 }
 
-.account-form form textarea{
-   height: 15rem;
-   resize: none;
+.modal form textarea{
+  height: 12rem;
+  resize: none;
 }
 
-.account-form form .image{
-   height: 20rem;
-   width: 100%;
-   object-fit: contain;
-   margin-top: .5rem;
+.modal form .image{
+  height: 20rem;
+  width: 100%;
+  object-fit: contain;
+  margin-top: .5rem;
 }
 
-.account-form form .link{
-   padding: 1rem 0;
-   text-align: center;
-   font-size: 1.8rem;
-   color: var(--light-color);
+.modal form .link{
+  padding: 1rem 0;
+  text-align: center;
+  font-size: 1.8rem;
+  color: var(--light-color);
 }
 
 .account-form form .link a{
-   color: var(--red);
+  color: var(--red);
 }
 
 .account-form form .link a:hover{
-   text-decoration: underline;
+  text-decoration: underline;
 }
 
 
@@ -362,10 +384,44 @@ body{
     content: "Φανταστικό";
   }
 
+.Filter {
+  float: right;
+  margin-right: 30px;
+  background-color: #faf8f8;
+  border-radius: 5px;
+  color: black;
+  display: flex;
+  flex-direction: row;
+  
+}
+.Filter select {
+  font-family: Verdana, sans-serif;
+  font-size: 0.8em;
+  color: #808080;
+  background-color: #f0f0f0;
+  border: 2px solid #cdcdcd;
+  width: auto;
+  font-size: 100%;
+}
+.Filter label {
+  text-align: center;
+  padding-top: 10px;
+}
 
+.user_date {
+  float: left;
+}
 
+#p_comment {
+  text-align: justify;
+}
 
-
+.reviews_filters {
+  display: flex;
+  flex-direction: row;
+  float: right;
+  margin-bottom: 70px;
+}
 
 
 

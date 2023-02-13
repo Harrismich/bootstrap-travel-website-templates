@@ -1,6 +1,4 @@
-
 <?php 
-
 require_once('database.php');
 session_start();
 // if (!isset($_SESSION['logged_in_user']) || !$_SESSION['logged_in_user']) {
@@ -26,6 +24,12 @@ $name = urldecode($_GET['name']); ?>
     <link rel="stylesheet" href="assets/css/all.min.css">
     <link rel="stylesheet" href="assets/css/animate.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 </head>
 
     <body>
@@ -67,43 +71,113 @@ $name = urldecode($_GET['name']); ?>
     </div>
    
     
-             <!--  *************************Our Team Start Here ************************** -->
+<!--*****************Our Reviews Start Here ****************** -->
         
-        <div class="our-team">
-           <div class="container">
-       
-                 <div class="row session-title">
-                    <h2>Οι Κριτικές μας</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sollicitudin nisi id consequat bibendum. Phasellus at convallis elit. In purus enim, scelerisque id arcu vitae</p>
-                 </div>  
-                    <?php $query= "SELECT * FROM criticals where choice_id= 1 ";
-                            $result = mysqli_query($dbc, $query);
+<div class="our-team">
+  <div class="container">
+      <h2>Οι Κριτικές μας</h2>
+      <div class="reviews_filters">
+        <label>Filter By Rate: </label>
+        <select name="f_rate" id="f_rate">
+          <option class="filter-button" data-filter=1>1</option>
+          <option class="filter-button" data-filter=2>2</option>
+          <option class="filter-button" data-filter=3>3</option>
+          <option class="filter-button" data-filter=4>4</option>
+          <option class="filter-button" data-filter=5>5</option>
+          <option class="filter-button" data-filter="all">All</option>
+        </select> 
+      </div>
+<!--*******************Reviews From Users**********************-->
+<?php
+    $filterValue = "all";
+    // Ανάλογα την επιλογή του χρήστη αλλάζει το query στην βάση για να εμφανίσει μόνο τα αποτελέσματα που επέλεξε
+    if (isset($_GET["filter"])) {
+    $filterValue = $_GET["filter"];
+    }
+    $query = "SELECT username, title, comment, rate , r_date
+    FROM choice ch INNER JOIN reviews r ON ch.choice_id=r.choice_id  INNER JOIN user u ON r.user_id=u.user_id 
+    where ch.choice_id = '$name' ";
+    if ($filterValue == "all") {
+        $query = "SELECT username, title, comment, rate , r_date FROM choice ch INNER JOIN reviews r ON ch.choice_id=r.choice_id INNER JOIN user u ON r.user_id=u.user_id where ch.choice_id = '$name' ORDER BY r_date DESC";
+    }else if($filterValue == 1){
+        $query .= "AND rate = '$filterValue' ORDER BY r_date DESC";
+    }else if($filterValue == 2){
+        $query .= " AND rate = '$filterValue' ORDER BY r_date DESC";
+    }else if($filterValue == 3){
+        $query .= " AND rate = '$filterValue' ORDER BY r_date DESC";
+    }else if($filterValue == 4){
+        $query .= " AND rate = '$filterValue' ORDER BY r_date DESC";
+    }else if($filterValue == 5){
+        $query .= " AND rate = '$filterValue' ORDER BY r_date DESC";
+    }
+    $result = mysqli_query($dbc, $query);
+    if ($result->num_rows > 0) {
+    echo'<div class="container">';        
+        while ($data = mysqli_fetch_assoc($result)) {   
+            echo' <div class="container p-3 my-3 border">';
+?>
+<span class="user_date"> <h6 style="text-decoration-line: underline;"> <?php $date = date_create($data['r_date']);
+echo sprintf("O/H %s έγραψε την %s.", $data['username'], date_format($date,'d-m-Y')); ?> </h6> </span>
+<br>
+<br>
+<?php
+                echo' <div class="content">';
+                    echo "<h3>". $data['title'] . " </h3> ";
+                    for($i = 0; $i < $data['rate']; $i++) {
+                        echo '<i class="fa fa-star" style="color: #f3da35"></i>';
+                    }
+?>
+<?php                    
+    echo "<br>";
+    echo "<p id='p_comment'>".$data['comment']."</p>";
+?>
+<ul class="rat" style="margin: bottom 20px";>
+</ul>
+<?php
+                echo' </div>';
+            echo'</div>';
+        }//end of while loop
+      } else {
+        echo' <div class="container p-3 my-3 border">';
+        echo '<h6>Δεν υπάρχουν κριτικές με αυτή τη βαθμολογία</h6>';
+        echo '</div>';
+        }
+    if(mysqli_num_rows($result) >3){
+        echo'<div id="load-more"> load more </div>';
+    };
+    echo'</div>';
+?>
+<script>
+    let loadMoreBtn = document.querySelector('#load-more');
+    let currentItem = 3;
+    loadMoreBtn.onclick = () =>{
+    let boxes = [...document.querySelectorAll('.container .container p-3 my-3')];
+    for (var i = currentItem; i < currentItem + 3; i++){
+        boxes[i].style.display = 'inline-block';
+    }
+    currentItem += 3;
 
-                            $counter = 0;
-                            while ($d = mysqli_fetch_assoc($result)) {
-                              if ($counter % 4 == 0) {
-                                echo '<div class="row">';
-                              }
-                            ?>
-                              <div class="col-md-3 col-sm-6">
-                                <div class="card-1 team-member">
-                                  <img src="assets/images/team/team-1.jpg" alt="Team Member 1">
-                                  <p> <?php echo $d['comment'];?> (CEO & Chairman)</p>
-                                </div>
-                              </div>  
-                            <?php 
-                              $counter++;
-                              if ($counter % 4 == 0) {
-                                echo '</div> <br>';
-                              }
-                            } 
-                            if ($counter % 4 != 0) {
-                              echo '</div>';
-                            }
-                          ?>
-                          
-                          
-                          
+    if(currentItem >= boxes.length){
+        loadMoreBtn.style.display = 'none';
+    }
+    }
+</script>
+
+<!--Περνάει μέσω url το filtervalue ωστε να περάσει από τα if $filtervalue -->
+<script>
+  const selectElement = document.querySelector('#f_rate');
+
+selectElement.addEventListener('change', function() {
+  var name = '<?php echo $name; ?>';
+  const selectedOption = this.options[this.selectedIndex];
+  const selectedValue = selectedOption.value;
+
+  if (selectedOption.selected) {
+    console.log(`Option with value "${selectedValue}" has been selected.`);
+    location.href = 'about_us.php?name=' + name + '&filter=' + selectedValue;
+  }
+});
+</script>              
             </div>
         </div>
         
