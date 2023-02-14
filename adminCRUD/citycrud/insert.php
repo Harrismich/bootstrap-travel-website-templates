@@ -1,111 +1,92 @@
 <?php
 include('../database.php');
-if (!isset($_SESSION['logged_in_admin']) || !$_SESSION['logged_in_admin']) {
-	header("Location: login.php");
-}
-$city_name=$_POST['city_name'];
-$description=$_POST['description'];
-$dbc->query("insert into city (city_name, description) 
-values ('$city_name', '$description')");
- 
-$res = $dbc->query("select city_id from city order by city_id desc");
-$row = $res->fetch_row();
-$city_id = $row[0];
 
+  $city_name=$_POST['city_name'];
+  $description=$_POST['description'];
+  
+  $dbc->autocommit(FALSE); // disable auto-commit
 
-if (isset($_POST['submit']) && isset($_FILES['my_image'])) {
-	include "db_conn.php";
+  $check_city_stmt = $dbc->prepare("SELECT * FROM city WHERE city_name = ?");
+  $check_city_stmt->bind_param("s", $city_name);
+  $check_city_stmt->execute();
+  $check_city_result = $check_city_stmt->get_result();
+  
+  if ($check_city_result->num_rows > 0) {
+    // If the city already exists, display an error message and go back to the previous page
+    echo "<script>alert('The city already exists in the database.'); history.go(-1);</script>";
+    exit();
+  }
 
-	echo "<pre>";
-	print_r($_FILES['my_image']);
-	echo "</pre>";
-
-	$img_name = $_FILES['my_image']['name'];
-	$img_size = $_FILES['my_image']['size'];
-	$tmp_name = $_FILES['my_image']['tmp_name'];
-	$error = $_FILES['my_image']['error'];
-
-	if ($error === 0) {
-		if ($img_size > 125000) {
-			$em = "Sorry, your file is too large.";
-		    header("Location: city.php?error=$em");
-		}else {
-			$img_ex = pathinfo($img_name, PATHINFO_EXTENSION);
-			$img_ex_lc = strtolower($img_ex);
-
-			$allowed_exs = array("jpg", "jpeg", "png"); 
-
-			if (in_array($img_ex_lc, $allowed_exs)) {
-				$new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
-				$img_upload_path = 'uploads/'.$new_img_name;
-				move_uploaded_file($tmp_name, $img_upload_path);
-
-				// Insert into Database
-				$sql = "INSERT INTO images(image_url) 
-				        VALUES('$new_img_name')";
-				mysqli_query($conn, $sql);
-				header("Location: view.php");
-			}else {
-				$em = "You can't upload files of this type";
-		        header("Location: index.php?error=$em");
-			}
-		}
-	}else {
-		$em = "unknown error occurred!";
-		header("Location: index.php?error=$em");
-	}
-
-}else {
-	header("Location: index.php");
-}
-// Make sure that the file was POSTed
-if (isset($_POST["submit"])) {
-  $target_dir = "C:\\xampp\\htdocs\\project php\\bootstrap-travel-website-templates\\images\\";
-  $target_file = $target_dir . $city_name . $city_id . ".jpg";
-  $photo_name = "" . $city_name . $city_id . "";
+  $city_insert_stmt = $dbc->prepare("INSERT INTO city (city_name, description) VALUES (?, ?)");
+  $city_insert_stmt->bind_param("ss", $city_name, $description);
+  $city_insert_stmt->execute();
+  
+  $city_id = $dbc->insert_id; // get the last inserted ID
+  
+  $target_dir = "../../images/";
+  $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
   $uploadOk = 1;
-  $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-
+  $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+  $filename = basename($target_file, "." . $imageFileType);
+  
   // Check if image file is a actual image or fake image
   $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-  echo'$check';
-  if ($check !== false) {
-    $uploadOk = 1;
+  if($check !== false) {
+      $uploadOk = 1;
   } else {
-    echo "File is not an image.";
-    $uploadOk = 0;
+      $uploadOk = 0;
+      echo"<script>alert('File is not an image.'); history.go(-1);</script>";
+      exit();
   }
-
+  
   // Check if file already exists
   if (file_exists($target_file)) {
-    echo "Sorry, file already exists.";
-    $uploadOk = 0;
+      $uploadOk = 0;
+      echo"<script>alert('Sorry, file already exists.'); history.go(-1);</script>";
+      exit();
   }
-
+  
   // Check file size
   if ($_FILES["fileToUpload"]["size"] > 500000) {
-    echo "Sorry, your file is too large.";
-    $uploadOk = 0;
+      $uploadOk = 0;
+      echo"<script>alert('Sorry, your file is too large.'); history.go(-1);</script>";
+      exit();
   }
-
-  // Allow only JPG format
-  if ($imageFileType != "jpg") {
-    echo "Sorry, only JPG files are allowed.";
-    $uploadOk = 0;
+  
+  // Allow certain file formats
+  if($imageFileType != "jpg" ) {
+      $uploadOk = 0;
+      echo"<script>alert('Sorry, only JPG files are allowed.'); history.go(-1);</script>";
+      exit();
   }
-
-  // Check if $uploadOk is set to 0 by an error
+  
   if ($uploadOk == 0) {
-    echo "Sorry, your file was not uploaded.";
-  // if everything is ok, try to upload file
+      echo"<script>alert('Sorry, your file was not uploaded.'); history.go(-1);</script>";
+      exit();
   } else {
-    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-      echo "The file " . htmlspecialchars(basename($_FILES["fileToUpload"]["name"])) . " has been uploaded.";
-      $dbc->query("insert into image (city_id, path) values ('$city_id', '$photo_name')");
-    } else {
-      echo "Sorry, there was an error uploading your file.";
-    }
+      if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+          $image_insert_stmt = $dbc->prepare("INSERT INTO image (city_id, path) VALUES (?, ?)");
+          $image_insert_stmt->bind_param("is", $city_id, $filename);
+          $image_insert_stmt->execute();
+      } else {
+          echo "<script>alert('Sorry, there was an error uploading your file.'); history.go(-1);</script>";
+          exit();
+      }
   }
-}
-header('location:city.php');
+  
+  if ($city_insert_stmt->affected_rows > 0 && $image_insert_stmt->affected_rows > 0) {
+      $dbc->commit(); // commit the transaction
+      echo "<script>alert('Successfully inserted data.'); location.href = 'city.php';</script>";
+      exit();
+  } else {
+      $dbc->rollback(); // rollback the transaction
+      echo "<script>alert('Failed to insert data.'); history.go(-1);</script>";
+      exit();
+  }
+  
+  $city_insert_stmt->close();
+  $image_insert_stmt->close();
+  $dbc->close();
+header("city.php");
+
 ?>

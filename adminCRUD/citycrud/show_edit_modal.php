@@ -38,7 +38,7 @@
                             </label>
                         </div>
                         <div class="col-lg-8">
-                            <input type="file" class="filestyle" name="pimage" />
+                            <input type="file"name="fileToUpload" id="fileToUpload" />
                         </div>
                     </div>
                 </div>

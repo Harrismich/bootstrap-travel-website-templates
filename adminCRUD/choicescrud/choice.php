@@ -268,7 +268,7 @@ if (!isset($_SESSION['logged_in_admin']) || !$_SESSION['logged_in_admin']) {
                                                                 <label class="control-label" style="position:relative; top:7px;">Profile Image:</label>
                                                             </div>
                                                             <div class="col-lg-8">
-                                                                <input type="file" class="filestyle" name="pimage" />
+                                                                <input type="file" name="fileToUpload" id="fileToUpload" required>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -412,7 +412,7 @@ if (!isset($_SESSION['logged_in_admin']) || !$_SESSION['logged_in_admin']) {
                                                     <label class="control-label" style="position:relative; top:7px;">Image:</label>
                                                 </div>
                                                 <div class="col-lg-8">
-                                                    <input type="file" class="filestyle" name="pimage" />
+                                                    <input type="file" name="fileToUpload" id="fileToUpload" required>
                                                 </div>
                                             </div>
                                         </div>

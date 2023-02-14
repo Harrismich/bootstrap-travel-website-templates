@@ -16,7 +16,7 @@
                 <label class="control-label" style="position:relative; top:7px;">City:</label>
             </div>
             <div class="col-lg-8">
-            <input type="text" class="form-control" name="city_name">
+            <input type="text" class="form-control" name="city_name" required>
         </div>
     </div>
 </div>
@@ -36,7 +36,7 @@
                     <label class="control-label" style="position:relative; top:7px;">City Image:</label>
                 </div>
                 <div class="col-lg-8">
-                    <input type="file" name="my_image" id="fileToUpload">
+                    <input type="file" name="fileToUpload" id="fileToUpload" required>
                 </div>
             </div>
         </div>
