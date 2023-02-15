@@ -246,7 +246,8 @@ echo'      </div>';
 echo'    </div>';
  ?>
 
-    <!--################### Tour Type Starts Here #######################--->
+    <!-- ################### Tour Type Starts Here ####################### -->
+
     <div id="why" class="our-capablit container-fluid">
       <div class="layy">
         <div class="container">
@@ -330,7 +331,7 @@ echo'    </div>';
 
     <!--################### Tour Review Starts Here #######################--->
 
-    <div class="review container-fluid">
+    <!-- <div class="review container-fluid">
       <div class="container">
         <div class="session-title">
           <h2>What people say about Us</h2>
@@ -442,49 +443,28 @@ echo'    </div>';
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!--*************** Blog Starts Here ***************-->
-
+    <?php
+    $query = "SELECT * FROM category c inner join choice ch on ch.category_id = c.category_id inner join pictures p on ch.choice_id = p.choice_id where city_id='$city_id' AND c.category_id = 6 ORDER BY RAND() LIMIT 3";
+    $result = mysqli_query($dbc, $query);
+    ?>
     <div class="container-fluid blog">
       <div class="container">
         <div class="blog-row row">
+        <?php while ($data = mysqli_fetch_assoc($result)) { ?>
           <div class="col-lg-4 col-md-6 col-sm-6">
             <div class="blog-col">
-              <img src="assets/images/destination/d1.jpg" alt="" />
-              <span>August 9, 2019</span>
-              <h4>Orci varius consectetur adipiscing natoque penatibus</h4>
+              <?php echo '<a href=' . $data['map']. '><img src="./pictures/' . $data['path'] . '.jpg" alt="" /></a>'; ?>
+              <?php echo' <span>'. $data["timestamp"] . '</span>'; ?>
+              <h4><?php echo $data['name']; ?></h4>
               <p>
-                Orci varius natoque penatibus et magnis dis parturient montes,
-                nascetur ridiculus mus. Praesent accumsan, leo in venenatis
-                dictum,
+                <?php echo $data['description']; ?>
               </p>
             </div>
           </div>
-          <div class="col-lg-4 col-md-6 col-sm-6">
-            <div class="blog-col">
-              <img src="assets/images/destination/d2.jpg" alt="" />
-              <span>August 9, 2019</span>
-              <h4>Orci varius consectetur adipiscing natoque penatibus</h4>
-              <p>
-                Orci varius natoque penatibus et magnis dis parturient montes,
-                nascetur ridiculus mus. Praesent accumsan, leo in venenatis
-                dictum,
-              </p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6 col-sm-6">
-            <div class="blog-col">
-              <img src="assets/images/destination/d3.jpg" alt="" />
-              <span>August 9, 2019</span>
-              <h4>Orci varius consectetur adipiscing natoque penatibus</h4>
-              <p>
-                Orci varius natoque penatibus et magnis dis parturient montes,
-                nascetur ridiculus mus. Praesent accumsan, leo in venenatis
-                dictum,
-              </p>
-            </div>
-          </div>
+          <?php } ?>
         </div>
       </div>
     </div>
