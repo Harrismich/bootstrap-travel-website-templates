@@ -135,7 +135,7 @@ $user_id = $_SESSION['user_id'];
 
        
 
-  <!--  ************************* Footer Start Here ************************** -->
+  <!--  ********************** Footer Start Here ********************** -->
        
   <?php include('footer.php');?>  
   
