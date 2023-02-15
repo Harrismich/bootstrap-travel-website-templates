@@ -54,7 +54,7 @@ $filename = basename($target_file, "." . $imageFileType);
   }
   
   // Check file size
-  if ($_FILES["fileToUpload"]["size"] > 500000) {
+  if ($_FILES["fileToUpload"]["size"] > 1400000) {
       $uploadOk = 0;
       echo"<script>alert('Sorry, your file is too large.'); history.go(-1);</script>";
       exit();
@@ -83,7 +83,7 @@ $filename = basename($target_file, "." . $imageFileType);
   
   if ($choice_insert_stmt->affected_rows > 0 && $picture_insert_stmt->affected_rows > 0) {
       $dbc->commit(); // commit the transaction
-      echo "<script>alert('Successfully inserted data.'); location.href = 'city.php';</script>";
+      echo "<script>alert('Successfully inserted data.'); location.href = 'choice.php';</script>";
       exit();
   } else {
       $dbc->rollback(); // rollback the transaction
@@ -94,6 +94,7 @@ $filename = basename($target_file, "." . $imageFileType);
   $choice_insert_stmt->close();
   $picture_insert_stmt->close();
   $dbc->close();
+
 header("choice.php");
 
 
