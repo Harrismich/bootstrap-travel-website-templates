@@ -1,8 +1,6 @@
 <?php
 include('../database.php');
-if (!isset($_SESSION['logged_in_admin']) || !$_SESSION['logged_in_admin']) {
-	header("Location: login.php");
-}
+
 $id=$_GET['id'];
 $name=$_POST['name'];
 $city=$_POST['city'];
@@ -13,8 +11,19 @@ $link=$_POST['link'];
 $map=$_POST['map'];
 $description = $_POST['description'];
 
+$name = mysqli_real_escape_string($dbc, $name);
+$address = mysqli_real_escape_string($dbc, $address);
+$phone = mysqli_real_escape_string($dbc, $phone);
+$link = mysqli_real_escape_string($dbc, $link);
+$map = mysqli_real_escape_string($dbc, $map);
+$category = mysqli_real_escape_string($dbc, $category);
+$city = mysqli_real_escape_string($dbc, $city);
+$description = mysqli_real_escape_string($dbc, $description);
 
-$dbc->query("update choice set name='$name', address='$address', phone_number='$phone', link='$link', map='$map', category_id='$category', city_id ='$city', description = '$description' where choice_id=$id");
+$sql = "UPDATE choice SET name='$name', address='$address', phone_number='$phone', link='$link', map='$map', category_id='$category', city_id ='$city', description = '$description' WHERE choice_id=$id";
+
+$result = $dbc->query($sql);
+
 
 $target_dir = "../../pictures/"; // specify the directory where you want to store the uploaded files
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]); // get the path of the uploaded file
