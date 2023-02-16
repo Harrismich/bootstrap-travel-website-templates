@@ -24,12 +24,41 @@ $name = urldecode($_GET['name']); ?>
     <link rel="stylesheet" href="assets/css/all.min.css">
     <link rel="stylesheet" href="assets/css/animate.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
-    <link rel="stylesheet" href="style.css">
+    <!-- <link rel="stylesheet" href="style.css"> -->
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<style>
+#load-more {
+  margin-top: 20px;
+  margin-left: 550px;
+  display: inline-block;
+  padding: 13px 30px;
+  border: 1px solid #334;
+  color: #334;
+  font-size: 16px;
+  background-color: #fff;
+  cursor: pointer;
+}
 
+#load-more:hover {
+  background-color: crimson;
+  border-color: crimson;
+  color: #fff;
+}
+
+.review-row .col-md-6 {
+    display: none;
+}
+
+.row.review-row .col-md-6:nth-child(1),
+.row.review-row .col-md-6:nth-child(2),
+.row.review-row .col-md-6:nth-child(3),
+.row.review-row .col-md-6:nth-child(4)    {
+  display: inline-block;
+}
+</style>
 </head>
 
     <body>
@@ -55,39 +84,38 @@ $name = urldecode($_GET['name']); ?>
             </div>
         </div>
     </div>
-        <div class="about-us container-fluid">
-    <div class="container">
-
-        <div class="row natur-row no-margin w-100">
-            <div class="text-part col-md-6">
-                <h2><?php echo $data['name']  ?></h2>
-                <p><?php echo $data['description']  ?></p>
-            </div>
+    <div class="about-us container-fluid">
+        <div class="container">
+            <div class="row natur-row no-margin w-100">
+                <div class="text-part col-md-6">
+                    <h2><?php echo $data['name']  ?></h2>
+                    <p><?php echo $data['description']  ?></p>
+                </div>
             <div class="image-part col-md-6">
-            <?php echo "<img src='./pictures/" . $data['path'] . ".jpg' class='d-block w-100' />";?>
+                <?php echo "<img src='./pictures/" . $data['path'] . ".jpg' class='d-block w-100' />";?>
+            </div>
             </div>
         </div>
     </div>
-    </div>
-   
     
 <!--*****************Our Reviews Start Here ****************** -->
         
-<div class="our-team">
-  <div class="container">
-      <h2>Οι Κριτικές μας</h2>
-      <div class="reviews_filters">
-        <label>Filter By Rate: </label>
-        <select name="f_rate" id="f_rate">
-          <option class="filter-button" data-filter=1>1</option>
-          <option class="filter-button" data-filter=2>2</option>
-          <option class="filter-button" data-filter=3>3</option>
-          <option class="filter-button" data-filter=4>4</option>
-          <option class="filter-button" data-filter=5>5</option>
-          <option class="filter-button" data-filter="all">All</option>
-        </select> 
-      </div>
-<!--*******************Reviews From Users**********************-->
+<div class="review container-fluid" style="background-color: #fcfcfc;">
+    <div class="container">
+        <div class="session-title">
+            <h2>Reviews</h2>
+            <div class="reviews_filters">
+                <label>Filter By Rate: </label>
+                <select name="f_rate" id="f_rate">
+                    <option class="filter-button" data-filter=1>1</option>
+                    <option class="filter-button" data-filter=2>2</option>
+                    <option class="filter-button" data-filter=3>3</option>
+                    <option class="filter-button" data-filter=4>4</option>
+                    <option class="filter-button" data-filter=5>5</option>
+                    <option class="filter-button" data-filter="all">All</option>
+                </select> 
+            </div>
+        </div>
 <?php
     $filterValue = "all";
     // Ανάλογα την επιλογή του χρήστη αλλάζει το query στην βάση για να εμφανίσει μόνο τα αποτελέσματα που επέλεξε
@@ -112,50 +140,55 @@ $name = urldecode($_GET['name']); ?>
     }
     $result = mysqli_query($dbc, $query);
     if ($result->num_rows > 0) {
-    echo'<div class="container">';        
+    echo'<div class="row review-row">';        
         while ($data = mysqli_fetch_assoc($result)) {   
-            echo' <div class="container p-3 my-3 border">';
+            echo'<div class="col-md-6">';
+                echo'<div class="review-col">';
 ?>
-<span class="user_date"> <h6 style="text-decoration-line: underline;"> <?php $date = date_create($data['r_date']);
-echo sprintf("O/H %s έγραψε την %s.", $data['username'], date_format($date,'d-m-Y')); ?> </h6> </span>
-<br>
-<br>
+                    <div class="profil">
+                        <!-- <img src="assets/images/testimonial/member-01.jpg" alt="" /> -->
+                    </div>
+                    <div class="review-detail">
 <?php
-                echo' <div class="content">';
-                    echo "<h3>". $data['title'] . " </h3> ";
-                    for($i = 0; $i < $data['rate']; $i++) {
-                        echo '<i class="fa fa-star" style="color: #f3da35"></i>';
-                    }
+                        echo "<h4>". $data['title'] . " </h4> ";
+                        echo "<p id='p_comment'>".$data['comment']."</p>";
+                        $date = date_create($data['r_date']);
+                        echo "<h6>". $data['username'] . " at ". date_format($date,'d-m-Y')  ."</h6>";
+                        echo "<ul class='rat'>";
+                        for($i = 0; $i < $data['rate']; $i++) {
+                            echo '<li><i class="fa fa-star" style="color: #f3da35"></i></li>';
+                        }
+                        echo "</ul>";
 ?>
+                    </div>
+                </div>
+            </div>
+        <?php
+    }//end of while loop
+    ?>
+        </div>
+    </div>   
 <?php                    
-    echo "<br>";
-    echo "<p id='p_comment'>".$data['comment']."</p>";
-?>
-<ul class="rat" style="margin: bottom 20px";>
-</ul>
-<?php
-                echo' </div>';
-            echo'</div>';
-        }//end of while loop
-      } else {
+    } else {
         echo' <div class="container p-3 my-3 border">';
         echo '<h6>Δεν υπάρχουν κριτικές με αυτή τη βαθμολογία</h6>';
         echo '</div>';
-        }
-    if(mysqli_num_rows($result) >3){
-        echo'<div id="load-more"> load more </div>';
+    }
+    if(mysqli_num_rows($result) > 4){
+        echo'<div id="load-more"> Load more </div>';
     };
-    echo'</div>';
-?>
+    ?> 
+</div>   
+
 <script>
-    let loadMoreBtn = document.querySelector('#load-more');
-    let currentItem = 3;
+    let loadMoreBtn = document.querySelector('#Load-more');
+    let currentItem = 4;
     loadMoreBtn.onclick = () =>{
-    let boxes = [...document.querySelectorAll('.container .container p-3 my-3')];
-    for (var i = currentItem; i < currentItem + 3; i++){
+    let boxes = [...document.querySelectorAll('.row.review-row .col-md-6')];
+    for (var i = currentItem; i < currentItem + 4; i++){
         boxes[i].style.display = 'inline-block';
     }
-    currentItem += 3;
+    currentItem += 4;
 
     if(currentItem >= boxes.length){
         loadMoreBtn.style.display = 'none';
@@ -165,45 +198,39 @@ echo sprintf("O/H %s έγραψε την %s.", $data['username'], date_format($d
 
 <!--Περνάει μέσω url το filtervalue ωστε να περάσει από τα if $filtervalue -->
 <script>
-  const selectElement = document.querySelector('#f_rate');
+    const selectElement = document.querySelector('#f_rate');
 
-selectElement.addEventListener('change', function() {
-  var name = '<?php echo $name; ?>';
-  const selectedOption = this.options[this.selectedIndex];
-  const selectedValue = selectedOption.value;
+    selectElement.addEventListener('change', function() {
+    var name = '<?php echo $name; ?>';
+    const selectedOption = this.options[this.selectedIndex];
+    const selectedValue = selectedOption.value;
 
-  if (selectedOption.selected) {
-    console.log(`Option with value "${selectedValue}" has been selected.`);
-    location.href = 'about_us.php?name=' + name + '&filter=' + selectedValue;
-  }
-});
+    if (selectedOption.selected) {
+        console.log(`Option with value "${selectedValue}" has been selected.`);
+        location.href = 'about_us copy.php?name=' + name + '&filter=' + selectedValue;
+    }
+    });
 </script>              
-            </div>
-        </div>
-        
-  <!-- ######## Our Team End ####### -->  
+
+    <!-- ######## Our Team End ####### -->  
 
   <!--  ************************* Footer Start Here ************************** -->
-       
-  <?php include('footer.php');?>  
-  
+    <?php include('footer.php');?>  
+
     <div class="copy">
-            <div class="container">
-                <a href="https://www.smarteyeapps.com/">2019 &copy; All Rights Reserved | Designed and Developed by Smarteyeapps</a>
-                
-                <span>
+        <div class="container">
+            <a href="https://www.smarteyeapps.com/">2019 &copy; All Rights Reserved | Designed and Developed by Smarteyeapps</a>
+            <span>
                 <a><i class="fab fa-github"></i></a>
                 <a><i class="fab fa-google-plus-g"></i></a>
                 <a><i class="fab fa-pinterest-p"></i></a>
                 <a><i class="fab fa-twitter"></i></a>
                 <a><i class="fab fa-facebook-f"></i></a>
-        </span>
-            </div>
+            </span>
+        </div>
+    </div> 
 
-        </div> 
-    
-   
-    </body>
+</body>
 
     <script src="assets/js/jquery-3.2.1.min.js"></script>
     <script src="assets/js/popper.min.js"></script>

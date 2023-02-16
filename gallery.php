@@ -112,7 +112,7 @@ $user_id = $_SESSION['user_id'];
         </center> 
         <input type="hidden" id="choice_id" name="choice_id">
         <input type="submit" value="submit review" name="submit" class="btn1">
-        <button class="option-btn1"> go back </button>
+        <!-- <button class="option-btn1"> go back </button> -->
         </form>
     </div>
 </div>
@@ -156,7 +156,7 @@ $user_id = $_SESSION['user_id'];
                                     echo "<h6><strong> Τηλέφωνα: </strong>" .$data['phone_number'] ."</h6>";
                                     echo "<h6> <a href = " .$data['link'] . "><strong>Link:</strong> Επισκευθείτε μας </a></h6>";
 
-                                    echo '<button class="btn"><a href= "about_us.php?name=' . urlencode($data['choice_id']) . '"> Read More </a></button>';
+                                    echo '<button class="btn"><a href= "about_us copy.php?name=' . urlencode($data['choice_id']) . '"> Read More </a></button>';
                                     echo '<div class="icons">';
                                     echo '<input type="hidden" class="choice_id" value="'. $data['choice_id'] . '">';
                                     echo '<a href="#" class="favorites-btn">';
@@ -201,55 +201,45 @@ function review(rating) {
     }
 ?>
 <script>
-        // Attach click event listener to the document
-        document.addEventListener('click', function (e) {
-            // Normalize event object
-            e = e || window.event;
-            // Get the target of the event (the element that was clicked)
-            var target = e.target || e.srcElement;
+    // Attach click event listener to the document
+    document.addEventListener('click', function (e) {
+        e = e || window.event;
+        // Get the target of the event (the element that was clicked)
+        var target = e.target || e.srcElement;
     
-            // Check if the target has a "data-toggle" attribute and its value is "modal"
-            if (target.hasAttribute('data-toggle') && target.getAttribute('data-toggle') == 'modal') {
-                // If the target also has a "data-target" attribute
-                if (target.hasAttribute('data-target')) {
-                    // Get the value of the "data-target" attribute (the ID of the modal to open)
-                    var m_ID = target.getAttribute('data-target');
-                    // Add the "open" class to the modal to display it
-                    document.getElementById(m_ID).classList.add('open');
-                    // Prevent default event behavior
-                    e.preventDefault();
-                }
-            }
-    
-            // Close modal window with 'data-dismiss' attribute, when the backdrop is clicked or when the esc key is pressed
-            if ((target.hasAttribute('data-dismiss') && target.getAttribute('data-dismiss') == 'modal') || target.classList.contains('modal') || e.keyCode == 27) {
-                // Get the currently open modal
-                var modal = document.querySelector('[class="modal open"]');
-                // Remove the "open" class to hide the modal
-                modal.classList.remove('open');
-                // Prevent default event behavior
+        // Check if the target has a "data-toggle" attribute and its value is "modal"
+        if (target.hasAttribute('data-toggle') && target.getAttribute('data-toggle') == 'modal') {
+            if (target.hasAttribute('data-target')) {
+                var m_ID = target.getAttribute('data-target');
+                document.getElementById(m_ID).classList.add('open');
                 e.preventDefault();
             }
-            // Use event bubbling, not capturing
-        }, false);
+        }
     
-        // Attach keydown event listener to the document
-        document.addEventListener('keydown', function (e) {
-            // Normalize event object
-            e = e || window.event;
-            // Check if the esc key was pressed
-            if (e.keyCode == 27) {
-                // Get the currently open modal
-                var modal = document.querySelector('[class="modal open"]');
-                // If a modal is open
-                if (modal) {
-                    // Remove the "open" class to hide the modal
-                    modal.classList.remove('open');
-                    // Prevent default event behavior
-                    e.preventDefault();
-                }
+        // Close modal window with 'data-dismiss' attribute, when the backdrop is clicked or when the esc key is pressed
+        if ((target.hasAttribute('data-dismiss') && target.getAttribute('data-dismiss') == 'modal') || target.classList.contains('modal') || e.keyCode == 27) {
+            // Get the currently open modal
+            var modal = document.querySelector('[class="modal open"]');
+            // Remove the "open" class to hide the modal
+            modal.classList.remove('open');
+            // Prevent default event behavior
+            e.preventDefault();
+        }
+    }, false);
+    
+    // Attach keydown event listener to the document
+    document.addEventListener('keydown', function (e) {
+        e = e || window.event;
+        // Check if the esc key was pressed
+        if (e.keyCode == 27) {
+            var modal = document.querySelector('[class="modal open"]');
+            if (modal) {
+                // Remove the "open" class to hide the modal
+                modal.classList.remove('open');
+                e.preventDefault();
             }
-        });
+        }
+    });
 </script>                             
                                             <!-- ######## Gallery End ####### -->  
 

@@ -43,33 +43,31 @@ $user_id = $_SESSION['user_id'];
         </div>
     </div>
     
-    
-    
+
       <!--  ************************* Contact Us Starts Here ************************** -->
+
     <div style="margin-top:0px;" class="row no-margin">
-    <iframe src="https://maps.google.com/maps?q=37.9838,23.7275&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
-
-
+        <iframe src="https://maps.google.com/maps?q=37.9838,23.7275&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
 
     </div>
+
 <form action="house.php" method="post">
     <div class="row contact-rooo no-margin">
         <div class="container">
             <div class="row">
-
-                    <div style="padding:20px" class="col-sm-7">
-                        <h2 >Διαθέσιμο Σπίτι</h2> <br>
-                        <div  class="row cont-row">
-                            <div  class="col-sm-3"><label>Όνομα Ιδιοκτήτη </label><span>:</span></div>
-                            <div class="col-sm-8"><input type="text" name="name" placeholder="Πληκτρολογίστε την Διεύθυνση" class="form-control input-sm" required ></div>
+                <div style="padding:20px" class="col-sm-7">
+                    <h2 >Διαθέσιμο Σπίτι</h2> <br>
+                    <div  class="row cont-row">
+                        <div  class="col-sm-3"><label>Όνομα Ιδιοκτήτη </label><span>:</span></div>
+                        <div class="col-sm-8"><input type="text" name="name" placeholder="Enter owner's name" class="form-control input-sm" required ></div>
+                    </div>
+                    <div class="row cont-row">
+                        <div class="col-sm-3">
+                            <label>Πόλη</label><span>:</span>
                         </div>
-                        <div class="row cont-row">
-                            <div class="col-sm-3">
-                                <label>Πόλη</label><span>:</span>
-                            </div>
                         <div class="col-sm-8">
                             <select name="city" class="form-control input-sm">
-                            <option value="" disabled selected>Επιλέξτε Πόλη</option>
+                            <option value="" disabled selected>Choose city</option>
                             <?php
                                 $sql= "select * from city group by city_id ";
                                 $city_res = mysqli_query($dbc, $sql);
@@ -82,46 +80,40 @@ $user_id = $_SESSION['user_id'];
                     </div>
                     <div  class="row cont-row">
                         <div  class="col-sm-3"><label>Διεύθυνση </label><span>:</span></div>
-                        <div class="col-sm-8"><input type="text" name="address" placeholder="Πληκτρολογίστε την Διεύθυνση" class="form-control input-sm" required ></div>
+                        <div class="col-sm-8"><input type="text" name="address" placeholder="Enter the address" class="form-control input-sm" required ></div>
                     </div>
                     <div  class="row cont-row">
                         <div  class="col-sm-3"><label>Κινητό</label><span>:</span></div>
-                        <div class="col-sm-8"><input type="text" name="phone_number" placeholder="Πληκτρολογίστε το Κινητό" class="form-control input-sm"  required></div>
+                        <div class="col-sm-8"><input type="text" name="phone_number" placeholder="Enter owner's phone phone numer" class="form-control input-sm"  required></div>
                     </div>
                     <div  class="row cont-row">
                         <div  class="col-sm-3"><label>Διαθέσιμο από</label><span>:</span></div>
-                        <div class="col-sm-8"><input type="date" name="	availability" placeholder="Διαθέσιμο από" class="form-control input-sm"  required></div>
-                    </div>
-                    <div  class="row cont-row">
-                        <div  class="col-sm-3"><label>Τιμή</label><span>:</span></div>
-                        <div class="col-sm-8"><input type="text" name="price" placeholder="Πληκτρολογήστε την Τιμή" class="form-control input-sm" required ></div>
+                        <div class="col-sm-8"><input type="date" name="availability" placeholder="Διαθέσιμο από" class="form-control input-sm"  required></div>
                     </div>
                     <div  class="row cont-row">
                         <div  class="col-sm-3"><label>Περιγραφή</label><span>:</span></div>
                         <div class="col-sm-8">
-                            <textarea rows="5" name ='description' placeholder="Enter Your Message" class="form-control input-sm"required></textarea>
+                            <textarea rows="5" name ='description' placeholder="Enter some information fo the house e.g (price, floor, parking area)" class="form-control input-sm"required></textarea>
                         </div>
                     </div>
                     <div style="margin-top:10px;" class="row">
                         <div style="padding-top:10px;" class="col-sm-3"><label></label></div>
                         <div class="col-sm-8">
-                            <button class="btn btn-success btn-sm">Αποστολή</button>
+                            <button class="btn btn-success btn-sm" type="submit" name="submit">Αποστολή</button>
                         </div>
                     </div>
-                
                 </div>
                 <div class="col-sm-5">
-
                     <div style="margin:50px" class="serv">
-<!-- 
+                    <!-- 
                         <h2 style="margin-top:10px;">Address</h2>
-                       Antonya Street, <br>
+                        Antonya Street, <br>
                         23/H-2, Building<br>
                         TA, AUS District<br>
                         Phone:+91 9159669599<br>
                         Email:support@smarteyeapps.com<br>
                         Website:www.smarteyeapps.com.com<br>
- -->
+                                                                            -->
                     </div>
                 </div>
             </div>
