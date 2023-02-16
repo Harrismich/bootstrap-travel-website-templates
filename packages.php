@@ -25,10 +25,10 @@ $user_id = $_SESSION['user_id'];
 
     <body>
     
-<!-- ################# Header Starts Here#######################--->
+                                            <!-- ################# Header Starts Here#######################--->
 <?php include('header.php');?>
     
-    <!--  ************************* Page Title Starts Here ************************** -->
+                                <!--  ************************* Page Title Starts Here ************************** -->
     <div class="page-nav no-margin row">
         <div class="container">
             <div class="row">
@@ -36,10 +36,8 @@ $user_id = $_SESSION['user_id'];
             </div>
         </div>
     </div>
-
-        <!-- ################# Chooce city #######################--->   
-    <?php $query = " SELECT c.city_id, city_name , path, description FROM image i inner join city c ON c.city_id = i.city_id GROUP BY c.city_id
-                    ORDER BY city_name ";
+                                            <!-- ################# Chooce city #######################--->   
+    <?php $query = " SELECT c.city_id, city_name , path, description FROM image i inner join city c ON c.city_id = i.city_id GROUP BY c.city_id ORDER BY city_name ";
         $result = mysqli_query($dbc, $query);
         while ($data = mysqli_fetch_assoc($result)){ 
     ?>  
@@ -49,12 +47,11 @@ $user_id = $_SESSION['user_id'];
                 <div class="col-lg-4 col-md-6 col-sm-6">
                     <div class="pack-col">
                         <?php
-                                echo "<a href='index.php?city_id=" . $data['city_id'] . "'> <img src='./images/" . $data['path'] . ".jpg' class='d-block w-100' />";
-                                echo '<div class="detail row no-margin">';
-                                echo "<h4>". $data['city_name'] . " </h4> ";
-                                echo'</div></a>';
+                            echo "<a href='index.php?city_id=" . $data['city_id'] . "'> <img src='./images/" . $data['path'] . ".jpg' class='d-block w-100' />";
+                            echo '<div class="detail row no-margin">';
+                            echo "<h4>". $data['city_name'] . " </h4> ";
+                            echo'</div></a>';
                         ?>
-                        
                         <div class="options row no-margin">
                         </div>
                     </div>
@@ -66,17 +63,12 @@ $user_id = $_SESSION['user_id'];
     <?php }?> 
 
   <!--  ************************* Footer Start Here ************************** -->
-       
-  <?php include('footer.php');?>  
-  
+<?php include('footer.php');?>  
     <div class="copy">
             <div class="container">
                 <a href="https://www.smarteyeapps.com/">2019 &copy; All Rights Reserved | Designed and Developed by Smarteyeapps</a>
             </div>
-
         </div> 
-    
-   
     </body>
 
     <script src="assets/js/jquery-3.2.1.min.js"></script>

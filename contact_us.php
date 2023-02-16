@@ -4,6 +4,7 @@ session_start();
 if (!isset($_SESSION['logged_in_user']) || !$_SESSION['logged_in_user']) {
 	header("Location: login.php");
 }
+$city_id = $_SESSION['city_id'];
 $user_id = $_SESSION['user_id'];
 ?>
 <!doctype html>
