@@ -66,10 +66,6 @@ $user_id = $_SESSION['user_id'];
       <div class="container">
         <div class="session-title">
           <h2><?php echo $city ;?></h2>
-          <!-- <p>
-            Sagittis vulputate magna sagittis sagittis erat feugiat nullam
-            cubilia amet dignissim Euismod.
-          </p> -->
         </div>
         <div class="why-ro row">
           <div class="col-lg-4 col-md-6">
@@ -120,19 +116,12 @@ $user_id = $_SESSION['user_id'];
               <i class="fas fa-hospital"></i>
               </div>
               <div class="detail">
-                <h4>Νοσοκομεία</h4>
+              <a href="gallery.php?filter=5"><h4>Νοσοκομεία</h4></a>
                 <p>
                   Turpis accumsan. Proin id ligula suspendisse. Aliquet
                   fringilla, aptent eu dignissim.
                 </p>
               </div>
-              <!-- <script>
-                document.querySelector('.col-card').addEventListener('click', function() {
-                  var latitude = <?php echo $location['latitude']; ?>;
-                  var longitude = <?php echo $location['longitude']; ?>;
-                  window.location.href = 'https://maps.google.com/?q=' + latitude + ',' + longitude;
-                });
-              </script> -->
             </div>
           </div>
           <div class="col-lg-4 col-md-6">
@@ -152,10 +141,10 @@ $user_id = $_SESSION['user_id'];
           <div class="col-lg-4 col-md-6">
             <div class="col-card">
               <div class="icon">
-                <i class="far fa-comments"></i>
+              <i class="fas fa-home"></i>
               </div>
               <div class="detail">
-                <h4>24 x 7 Support</h4>
+              <a href="gallery.php?filter=4"><h4>Available Houses </h4></a>
                 <p>
                   Turpis accumsan. Proin id ligula suspendisse. Aliquet
                   fringilla, aptent eu dignissim.

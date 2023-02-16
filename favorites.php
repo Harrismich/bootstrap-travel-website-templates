@@ -29,18 +29,18 @@ $user_id = $_SESSION["user_id"];
 
     <style>
     .heart{
-      padding-left: 30%;
-      cursor: pointer;
-    }
+    padding-left: 30%;
+    cursor: pointer;
+}
 
-    .not-in-favorites {
-      color: grey;
-    }
+.not-in-favorites {
+    color: grey;
+}
 
-    .in-favorites{
-      color: red;
-    }
-  </style>
+.in-favorites{
+    color: red;
+}
+</style>
 </head>
 
     <body>
@@ -56,8 +56,8 @@ $user_id = $_SESSION["user_id"];
             <div class="row">
                 <h2></h2>
                 <ul>
-                    <li> <a href="#"><i class="fas fa-home"></i> Home</a></li>
-                    <li><i class="fas fa-angle-double-right"></i> <span id="heart-' . $data['choice_id'] . '" class="fas fa-heart" style="color:red;"></span>Favorites </li>
+                    <li> <a href="index.php?city_id=<?php echo $_SESSION['city_id'];?>"><i class="fas fa-home"></i> Home</a></li>
+                    <li><i class="fas fa-angle-double-right"></i> <span id="heart-' . $data['choice_id'] . '" class="fas fa-heart" style="color:red;"></span> Favorites </li>
                 </ul>
             </div>
         </div>
@@ -65,8 +65,8 @@ $user_id = $_SESSION["user_id"];
     
     
      <!--*************** Blog Starts Here ***************-->
-                     
-     <?php
+
+    <?php
                 
                 $favorites = "SELECT * FROM user_choice uc right join choice c on uc.choice_id = c.choice_id inner join pictures p on c.choice_id = p.choice_id where user_id = '$user_id' ";
                 //$query = "SELECT * FROM pictures p inner join choice ch on p.choice_id=ch.choice_id where ch.city_id = '$city' ";
