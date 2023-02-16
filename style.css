@@ -123,29 +123,6 @@ body {
   color: #fff;
 }
 
-@media (max-width: 450px) {
-  .container .heading {
-    font-size: 25px;
-  }
-
-  .container .box-container {
-    grid-template-columns: 1fr;
-  }
-
-  .container .box-container .box .image {
-    height: 200px;
-  }
-
-  .container .box-container .box .content p {
-    font-size: 12px;
-  }
-
-  .container .box-container .box .content .icons span {
-    font-size: 12px;
-  }
-}
-
-
 /* reviews */
 
 :root{
@@ -160,20 +137,8 @@ body {
   --box-shadow:0 .5rem 1rem rgba(0,0,0,.1);
 }
 
-
-html{
-  font-size: 62.5%;
-  overflow-x: hidden;
-}
-
-body{
-  background-color: var(--light-bg);
-  padding-bottom: 8rem;
-}    */
-
 .btn1,
 .option-btn1{
-
   display: block;
   width: 100%;
 }
@@ -232,8 +197,8 @@ body{
 
 .modal-window {
   position: relative;
-  background-color: #FFFFFF;
-  width: 65%;
+  background-color: #fcf0f0;
+  width: 50%;
   /* sets the modal's width to 65% and centers it on the screen */
   margin: 10% auto;
   padding: 20px;
@@ -296,15 +261,6 @@ body{
   color: var(--light-color);
 }
 
-.account-form form .link a{
-  color: var(--red);
-}
-
-.account-form form .link a:hover{
-  text-decoration: underline;
-
-}
-
 /* star  */
     .star-widget{
     position: relative;
@@ -320,7 +276,7 @@ body{
 
   .star-widget label{
     font-size: 40px;
-    color: #444;
+    color: #dddddd;
     padding: 10px;
     float: right;
     transition: all 0.2s ease;
@@ -336,21 +292,6 @@ body{
     color: #fe7;
     text-shadow: 0 0 20px #952;
   }
-  #rate-1:checked ~ form header:before{
-    content: "Δεν μου άρεσε καθόλου";
-  }
-  #rate-2:checked ~ form header:before{
-    content: "Δεν μου πολυ άρεσε";
-  }
-  #rate-3:checked ~ form header:before{
-    content: "Μου άρεσε";
-  }
-  #rate-4:checked ~ form header:before{
-    content: "Μου άρεσε πάρα πολύ";
-  }
-  #rate-5:checked ~ form header:before{
-    content: "Φανταστικό";
-  }
 
 .Filter {
   float: right;
@@ -365,7 +306,7 @@ body{
 .Filter select {
   font-family: Verdana, sans-serif;
   font-size: 0.8em;
-  color: #808080;
+  color: #f5f5f5;
   background-color: #f0f0f0;
   border: 2px solid #cdcdcd;
   width: auto;
@@ -395,7 +336,7 @@ body{
 
 /* media queries  */
 
-@media (max-width: 991px) {
+@media (max-width: 992px) {
   html {
     font-size: 55%;
   }
@@ -408,5 +349,25 @@ body{
 
   .view-post .row .col .image {
     height: 20rem;
+  }
+
+  .container .heading {
+    font-size: 25px;
+  }
+
+  .container .box-container {
+    grid-template-columns: 1fr;
+  }
+
+  .container .box-container .box .image {
+    height: 200px;
+  }
+
+  .container .box-container .box .content p {
+    font-size: 12px;
+  }
+
+  .container .box-container .box .content .icons span {
+    font-size: 12px;
   }
 }
