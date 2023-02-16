@@ -2,56 +2,43 @@
 require_once('database.php');
 session_start();
 
-// if (!isset($_SESSION['logged_in_user']) || !$_SESSION['logged_in_user']) {
-// 	header("Location: login.php");
-// }
-// if(!isset($_SESSION['city'])){
-//   header("Location: city.php");
-// }
-
-
 if (!isset($_SESSION['logged_in_user']) || !$_SESSION['logged_in_user']) {
 	header("Location: login.php");
 }
+if(!isset($_SESSION['city_id'])){
+    header("Location: packages.php");
+}
 $city_id = $_SESSION['city_id'];
 $user_id = $_SESSION['user_id'];
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Travelet Free Website Tempalte | Smarteyeapps.com</title>
-    <link rel="shortcut icon" href="assets/images/fav.png" type="image/x-icon">
-    <link rel="shortcut icon" href="assets/images/fav.jpg">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/animate.css">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-<style>
-    .not-in-favorites {
-    color: grey;
-    }
-
-    .in-favorites{
-    color: red;
-    }
-    
-
-</style>
-
-</head>
-
+        <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+            <title>Travelet Free Website Tempalte | Smarteyeapps.com</title>
+            <link rel="shortcut icon" href="assets/images/fav.png" type="image/x-icon">
+            <link rel="shortcut icon" href="assets/images/fav.jpg">
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+            <link rel="stylesheet" href="assets/css/all.min.css">
+            <link rel="stylesheet" href="assets/css/animate.css">
+            <link rel="stylesheet" href="style.css">
+            <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+            <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+            <style>
+                .not-in-favorites {
+                    color: grey;
+                }
+                .in-favorites{
+                    color: red;
+                }
+                
+            </style>
+        </head>
     <body>
     
 <!-- ################# Header Starts Here#######################--->
@@ -139,6 +126,7 @@ $user_id = $_SESSION['user_id'];
     }else if($filterValue == "5"){
         $query .= " AND category_id = '$filterValue' ";
     }
+    $_SESSION['category'] = $filterValue;
     $result = mysqli_query($dbc, $query);
 
                 echo'<div class="container">';        
@@ -155,9 +143,8 @@ $user_id = $_SESSION['user_id'];
                                     echo "<br>";
                                     echo "<h6><strong> Διεύθυνση: </strong>" .$data['address'] ."</h6>";
                                     echo "<h6><strong> Τηλέφωνα: </strong>" .$data['phone_number'] ."</h6>";
-                                    echo "<h6> <a href = " .$data['link'] . "><strong>Link:</strong> Επισκευθείτε μας </a></h6>";
-
-                                    echo '<button class="btn"><a href= "about_us copy.php?name=' . urlencode($data['choice_id']) . '"> Read More </a></button>';
+                                    echo "<h6> <a href = " .$data['link'] . "><strong>Link:</strong> Επισκεφθείτε μας </a></h6>";
+                                    echo '<button class="btn" onclick="window.location.href=\'about_us.php?name=' . urlencode($data['choice_id']) . '\'">Read More</button>';
                                     echo '<div class="icons">';
                                     echo '<input type="hidden" class="choice_id" value="'. $data['choice_id'] . '">';
                                     echo '<a href="#" class="favorites-btn">';
@@ -178,7 +165,6 @@ $user_id = $_SESSION['user_id'];
                     };
                 echo'</div>';
                 ?>  
-
         </div>
     </div>  
 </div> 
@@ -207,7 +193,7 @@ function review(rating) {
         e = e || window.event;
         // Get the target of the event (the element that was clicked)
         var target = e.target || e.srcElement;
-    
+        
         // Check if the target has a "data-toggle" attribute and its value is "modal"
         if (target.hasAttribute('data-toggle') && target.getAttribute('data-toggle') == 'modal') {
             if (target.hasAttribute('data-target')) {
@@ -216,7 +202,7 @@ function review(rating) {
                 e.preventDefault();
             }
         }
-    
+        
         // Close modal window with 'data-dismiss' attribute, when the backdrop is clicked or when the esc key is pressed
         if ((target.hasAttribute('data-dismiss') && target.getAttribute('data-dismiss') == 'modal') || target.classList.contains('modal') || e.keyCode == 27) {
             // Get the currently open modal
@@ -244,20 +230,20 @@ function review(rating) {
 </script>                             
                                             <!-- ######## Gallery End ####### -->  
 
- <!-- echo  '<button class="btn"><a href= '. $data['map'] .'> google map </a></button>'; -->
-                                            <!-- ######## scripts ####### -->  
- <!-- // Select the ".heart" element within the DOM element the event handler is being triggered on
-  var heart = $(this).find(".heart");
-
-    // Select the closest ".card" element to the DOM element the event handler is being triggered on, 
-    // and then select the ".card-title" element within that ".card" and retrieve its text content
-    var cardTitle = $(this).closest(".card").find(".card-title").text();
-
-    // Select the closest ".card" element to the DOM element the event handler is being triggered on,
-    // and then select the ".choiceId" element within that ".card" and retrieve its value attribute
-    var choiceId = $(this).closest(".card").find(".choiceId").val(); -->
-
-
+                    <!-- echo  '<button class="btn"><a href= '. $data['map'] .'> google map </a></button>'; -->
+                                                                <!-- ######## scripts ####### -->  
+                    <!-- // Select the ".heart" element within the DOM element the event handler is being triggered on
+                    var heart = $(this).find(".heart");
+                    
+                    // Select the closest ".card" element to the DOM element the event handler is being triggered on, 
+                    // and then select the ".card-title" element within that ".card" and retrieve its text content
+                    var cardTitle = $(this).closest(".card").find(".card-title").text();
+                    
+                    // Select the closest ".card" element to the DOM element the event handler is being triggered on,
+                    // and then select the ".choiceId" element within that ".card" and retrieve its value attribute
+                    var choiceId = $(this).closest(".card").find(".choiceId").val(); -->
+                    
+                    
                 <!-- Με το κλικ η καρδιά ενεργοποιείται -->
                 <script>
                     $(document).ready(function() {
@@ -292,13 +278,12 @@ function review(rating) {
                     });
                     });
                 </script>
-
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
                 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-
+                
+                
             <!-- This script is used to show/load more items in a webpage by clicking a button with the id "load-more". 
             The script initializes the variable currentItem to 3, meaning it displays the first three items. 
             When the load more button is clicked, the script retrieves all elements with the class .box and adds them to the array boxes. 
@@ -315,15 +300,15 @@ function review(rating) {
                 boxes[i].style.display = 'inline-block';
                 }
                 currentItem += 3;
-
+                
                 if(currentItem >= boxes.length){
                 loadMoreBtn.style.display = 'none';
                 }
                 }
             </script>
 
-
-
+            
+                
             <!--Περνάει μέσω url το filtervalue ωστε να περάσει από τα if $filtervalue για να του εμφανίσει π.χ ξενοδοχεια, εστιατόρια -->
             <script>
                 const filterButtons = document.querySelectorAll('.filter-button');
@@ -336,32 +321,28 @@ function review(rating) {
                     }
                 });
             </script>
-
-        
         </div>
     </div>  
 </div>
         <!-- ######## Gallery End ####### -->    
-
+        
     
   <!--  ************************* Footer Start Here ************************** -->
     <?php include('footer.php');?>     
-
-
+        
+        
     <div class="copy">
-            <div class="container">
-                <a href="https://www.smarteyeapps.com/">2019 &copy; All Rights Reserved | Designed and Developed by Smarteyeapps</a>
-                
-                <span>
+        <div class="container">
+            <a href="https://www.smarteyeapps.com/">2019 &copy; All Rights Reserved | Designed and Developed by Smarteyeapps</a>
+            <span>
                 <a><i class="fab fa-github"></i></a>
                 <a><i class="fab fa-google-plus-g"></i></a>
                 <a><i class="fab fa-pinterest-p"></i></a>
                 <a><i class="fab fa-twitter"></i></a>
                 <a><i class="fab fa-facebook-f"></i></a>
-        </span>
-            </div>
-
-        </div> 
+            </span>
+        </div>
+    </div> 
     
     <script src="assets/js/jquery-3.2.1.min.js"></script>
     <script src="assets/js/popper.min.js"></script>
@@ -371,6 +352,5 @@ function review(rating) {
     <!-- <script src="assets/js/script.js"></script> -->
     
     </body>
-
     
 </html>
