@@ -4,15 +4,15 @@ session_start();
 if (!isset($_SESSION['logged_in_user']) || !$_SESSION['logged_in_user']) {
 	header("Location: login.php");
 }
-if (isset($_GET['city_id'])) {
-  $city_id = $_GET['city_id'];
-  $_SESSION['city_id'] = $city_id;
-  $query = "SELECT city_name, description FROM city WHERE city_id = '$city_id'";
+if (isset($_GET['city_id']) || isset( $_SESSION['city_id'])) {
+    $city_id = $_GET['city_id'];
+    $query = "SELECT city_name, description FROM city WHERE city_id = '$city_id'";
     $result = mysqli_query($dbc, $query);
     $data = mysqli_fetch_assoc($result);
     $city= $data['city_name'];
 }
-if(!isset($city_id)){
+$_SESSION['city_id'] = $city_id;
+if(!isset( $_SESSION['city_id'])){
   header("Location: packages.php");
 }
 $user_id = $_SESSION['user_id'];
