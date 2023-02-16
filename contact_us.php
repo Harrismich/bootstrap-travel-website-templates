@@ -4,6 +4,7 @@ session_start();
 if (!isset($_SESSION['logged_in_user']) || !$_SESSION['logged_in_user']) {
 	header("Location: login.php");
 }
+$city_id = $_SESSION['city_id'];
 $user_id = $_SESSION['user_id'];
 ?>
 <!doctype html>
@@ -42,10 +43,12 @@ $user_id = $_SESSION['user_id'];
         </div>
     </div>
     
+
       <!--  ************************* Contact Us Starts Here ************************** -->
 
     <div style="margin-top:0px;" class="row no-margin">
         <iframe src="https://maps.google.com/maps?q=37.9838,23.7275&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+
     </div>
 
 <form action="house.php" method="post">
@@ -120,7 +123,7 @@ $user_id = $_SESSION['user_id'];
 
        
 
-  <!--  ************************* Footer Start Here ************************** -->
+  <!--  ********************** Footer Start Here ********************** -->
        
   <?php include('footer.php');?>  
   

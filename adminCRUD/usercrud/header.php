@@ -9,5 +9,8 @@
       <li><a href="../choicescrud/choice.php">Choices</a></li>
       <li class="active"><a href="users.php">users</a></li>
     </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="../logout.php">Logout</a></li>
+    </ul>
   </div>
 </nav>

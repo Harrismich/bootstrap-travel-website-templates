@@ -1,5 +1,6 @@
 <?php
 include('../database.php');
+session_start();
 if (!isset($_SESSION['logged_in_admin']) || !$_SESSION['logged_in_admin']) {
 	header("Location: login.php");
 }
@@ -34,25 +35,21 @@ if (!isset($_SESSION['logged_in_admin']) || !$_SESSION['logged_in_admin']) {
                     <thead>
                         <th><center>Picture</center></th>
                         <th><center>Name</center></th>
+                        <th><center>City</center></th>
                         <th><center>Address</center></th>
-                        <th><center>Phone_number</center></th>
-                        <th><center>link</center></th>
-                        <th><center>map</center></th>
                         <th><center>action</center></th>
                     </thead>
                     <tbody>
                             <?php
-                                $choice= "select * from choice ch inner join pictures p on ch.choice_id = p.choice_id ";
+                                $choice= "select * from choice ch inner join pictures p on ch.choice_id = p.choice_id inner join city c where c.city_id = ch.city_id";
                                 $ch_result = mysqli_query($dbc, $choice);
                                 while($row=$ch_result->fetch_assoc()){
                             ?>
                         <tr>
                             <td><?php echo '<img src="../../pictures/' . $row['path'] . '.jpg" height="50px" width="70px"/>'; ?></td>
                             <td><?php echo $row['name']; ?></td>
+                            <td><?php echo $row['city_name']; ?></td>
                             <td><?php echo $row['address']; ?></td>
-                            <td><?php echo $row['phone_number']; ?></td>
-                            <td><?php echo $row['link']; ?></td>
-                            <td><?php echo $row['map']; ?></td>
                             <td>
                                 <a href="#detail<?php echo $row['choice_id']; ?>" data-toggle="modal" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-floppy-open"></span>Detail</a><br><br>
                                 <a href="#edit<?php echo $row['choice_id']; ?>" data-toggle="modal" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-edit"></span> Edit</a><br><br>
@@ -267,7 +264,7 @@ if (!isset($_SESSION['logged_in_admin']) || !$_SESSION['logged_in_admin']) {
                                                                 <label class="control-label" style="position:relative; top:7px;">Profile Image:</label>
                                                             </div>
                                                             <div class="col-lg-8">
-                                                                <input type="file" class="filestyle" name="pimage" />
+                                                                <input type="file" name="fileToUpload" id="fileToUpload" >
                                                             </div>
                                                         </div>
                                                     </div>
@@ -411,7 +408,7 @@ if (!isset($_SESSION['logged_in_admin']) || !$_SESSION['logged_in_admin']) {
                                                     <label class="control-label" style="position:relative; top:7px;">Image:</label>
                                                 </div>
                                                 <div class="col-lg-8">
-                                                    <input type="file" class="filestyle" name="pimage" />
+                                                    <input type="file" name="fileToUpload" id="fileToUpload" required>
                                                 </div>
                                             </div>
                                         </div>

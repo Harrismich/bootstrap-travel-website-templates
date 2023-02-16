@@ -6,7 +6,7 @@ if (!isset($_SESSION['logged_in_admin']) || !$_SESSION['logged_in_admin']) {
 }
 $user_id = $_SESSION['user_id'];
 ?>
-?>
+
 <!DOCTYPE html>
 <html>
     <head>
