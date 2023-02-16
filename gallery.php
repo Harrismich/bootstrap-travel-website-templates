@@ -64,7 +64,7 @@ $user_id = $_SESSION['user_id'];
             <div class="row">
                 <h2>Our Gallery</h2>
                 <ul>
-                    <li> <a href="home.php"><i class="fas fa-home"></i> Home</a></li>
+                    <li> <a href="index.php?city_id=<?php echo $_SESSION['city_id'];?>"><i class="fas fa-home"></i> Home</a></li>
                     <li><i class="fas fa-angle-double-right"></i> Gallery</li>
                 </ul>
             </div>
@@ -77,11 +77,12 @@ $user_id = $_SESSION['user_id'];
         <div class="row">
             <div class="gallery-filter d-none d-sm-block">
                 <button class="btn btn-default filter-button" data-filter="all"> All </button>
-                <button class="btn btn-default filter-button" data-filter="1"> Ξενοδοχεία </button>
-                <button class="btn btn-default filter-button" data-filter="2"> Ξενώνες </button>
+                <button class="btn btn-default filter-button" data-filter="1"> Hotels </button>
+                <button class="btn btn-default filter-button" data-filter="2"> Army Hotels </button>
                 <button class="btn btn-default filter-button" data-filter="3"> Λέσχες </button>
-                <button class="btn btn-default filter-button" data-filter="4"> Εστιατόρια </button>
-                <button class="btn btn-default filter-button" data-filter="5"> Νοσοκομεία </button>
+                <button class="btn btn-default filter-button" data-filter="4"> Restaurant </button>
+                <button class="btn btn-default filter-button" data-filter="5"> Hospitals </button>
+                <button class="btn btn-default filter-button" data-filter="7"> Available House </button>
             </div>
             <br/>
 
