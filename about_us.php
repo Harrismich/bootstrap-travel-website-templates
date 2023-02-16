@@ -1,13 +1,14 @@
 <?php 
 require_once('database.php');
 session_start();
-// if (!isset($_SESSION['logged_in_user']) || !$_SESSION['logged_in_user']) {
-// 	header("Location: login.php");
-// }
-
+if (!isset($_SESSION['logged_in_user']) || !$_SESSION['logged_in_user']) {
+	header("Location: login.php");
+}
+if(!isset(($_GET['name']))){
+    header("Location: gallery.php");
+}
 $user_id = $_SESSION['user_id'];
 $name = urldecode($_GET['name']); ?>
-
 
 
 <!doctype html>
@@ -31,33 +32,33 @@ $name = urldecode($_GET['name']); ?>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <style>
 #load-more {
-  margin-top: 20px;
-  margin-left: 550px;
-  display: inline-block;
-  padding: 13px 30px;
-  border: 1px solid #334;
-  color: #334;
-  font-size: 16px;
-  background-color: #fff;
-  cursor: pointer;
-}
+    margin-top: 20px;
+    margin-left: 550px;
+    display: inline-block;
+    padding: 13px 30px;
+    border: 1px solid #334;
+    color: #334;
+    font-size: 16px;
+    background-color: #fff;
+    cursor: pointer;
+    }
 
-#load-more:hover {
-  background-color: crimson;
-  border-color: crimson;
-  color: #fff;
-}
+    #load-more:hover {
+    background-color: crimson;
+    border-color: crimson;
+    color: #fff;
+    }
 
-.review-row .col-md-6 {
+    .review-row .col-md-6 {
     display: none;
-}
+    }
 
-.row.review-row .col-md-6:nth-child(1),
-.row.review-row .col-md-6:nth-child(2),
-.row.review-row .col-md-6:nth-child(3),
-.row.review-row .col-md-6:nth-child(4)    {
-  display: inline-block;
-}
+    .row.review-row .col-md-6:nth-child(1),
+    .row.review-row .col-md-6:nth-child(2),
+    .row.review-row .col-md-6:nth-child(3),
+    .row.review-row .col-md-6:nth-child(4)    {
+    display: inline-block;
+    }
 </style>
 </head>
 
@@ -78,7 +79,11 @@ $name = urldecode($_GET['name']); ?>
                 ?>
                 <h2><?php echo $data['name']  ?></h2>
                 <ul>
-                    <li> <a href="#"><i class="fas fa-home"></i> Home</a></li>
+                    <?php if(isset($_SESSION['category'])){ ?>
+                        <li> <a href="gallery.php?filter=<?php echo $_SESSION['category']; ?>"><i class="fas fa-home"></i> Home</a></li>
+                    <?php }else{ ?>
+                        <li><a href="gallery.php"><i class= "fas fa-home"></i> Home </a></li>
+                    <?php } ?>
                     <li><i class="fas fa-angle-double-right"></i> About Us</li>
                 </ul>
             </div>
@@ -148,10 +153,10 @@ $name = urldecode($_GET['name']); ?>
                     <div class="profil">
                         <!-- <img src="assets/images/testimonial/member-01.jpg" alt="" /> -->
                     </div>
-                    <div class="review-detail">
+                    <div class="review-detail ">
 <?php
                         echo "<h4>". $data['title'] . " </h4> ";
-                        echo "<p id='p_comment'>".$data['comment']."</p>";
+                        echo "<p id='p_comment' style='word-break: break-all;'>".$data['comment']."</p>";
                         $date = date_create($data['r_date']);
                         echo "<h6>". $data['username'] . " at ". date_format($date,'d-m-Y')  ."</h6>";
                         echo "<ul class='rat'>";
@@ -162,9 +167,13 @@ $name = urldecode($_GET['name']); ?>
 ?>
                     </div>
                 </div>
+
             </div>
         <?php
     }//end of while loop
+        if(mysqli_num_rows($result) > 4){
+        echo'<div id="load-more"> Load more </div>';
+        };
     ?>
         </div>
     </div>   
@@ -174,9 +183,6 @@ $name = urldecode($_GET['name']); ?>
         echo '<h6>Δεν υπάρχουν κριτικές με αυτή τη βαθμολογία</h6>';
         echo '</div>';
     }
-    if(mysqli_num_rows($result) > 4){
-        echo'<div id="load-more"> Load more </div>';
-    };
     ?> 
 </div>   
 

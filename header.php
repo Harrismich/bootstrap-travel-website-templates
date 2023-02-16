@@ -52,7 +52,11 @@
                     <?php } ?>
                     <?php if (isset($_SESSION['logged_in_user'])){?>
                     <li class="nav-item">
-                    <a class="nav-link" href="index.php?city_id=<?php echo $_SESSION['city_id']; ?>">City</a>
+                    <?php if (isset($_SESSION['city_id'])){?>
+                        <a class="nav-link" href="index.php?city_id=<?php echo $_SESSION['city_id']; ?>">City</a>
+                    <?php }else{ ?>
+                        <a class="nav-link" href="index.php">City</a>
+                    <?php } ?>
                     </li>
                     <?php } ?>
                     <?php if (isset($_SESSION['logged_in_user'])){?>
