@@ -1,13 +1,14 @@
 <?php 
 require_once('database.php');
 session_start();
-// if (!isset($_SESSION['logged_in_user']) || !$_SESSION['logged_in_user']) {
-// 	header("Location: login.php");
-// }
-
+if (!isset($_SESSION['logged_in_user']) || !$_SESSION['logged_in_user']) {
+	header("Location: login.php");
+}
+if(!isset(($_GET['name']))){
+    header("Location: gallery.php");
+}
 $user_id = $_SESSION['user_id'];
 $name = urldecode($_GET['name']); ?>
-
 
 
 <!doctype html>
@@ -28,39 +29,66 @@ $name = urldecode($_GET['name']); ?>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
 <style>
-    #load-more {
-        margin-top: 20px;
-        margin-left: 550px;
-        display: inline-block;
-        padding: 13px 30px;
-        border: 1px solid #334;
-        color: #334;
-        font-size: 16px;
-        background-color: #fff;
-        cursor: pointer;
+#load-more {
+    margin-top: 20px;
+    margin-left: 550px;
+    display: inline-block;
+    padding: 13px 30px;
+    border: 1px solid #334;
+    color: #334;
+    font-size: 16px;
+    background-color: #fff;
+    cursor: pointer;
     }
 
     #load-more:hover {
-        background-color: crimson;
-        border-color: crimson;
-        color: #fff;
+    background-color: crimson;
+    border-color: crimson;
+    color: #fff;
     }
 
     .review-row .col-md-6 {
-            display: none;
+    display: none;
     }
 
     .row.review-row .col-md-6:nth-child(1),
     .row.review-row .col-md-6:nth-child(2),
     .row.review-row .col-md-6:nth-child(3),
-    .row.review-row .col-md-6:nth-child(4) {
-        display: inline-block;
+    .row.review-row .col-md-6:nth-child(4)    {
+    display: inline-block;
     }
-
+    
     .reviews_filters {
-        margin-left:930px;
+        margin-left:930px;}
+        
+    .main-image-container {
+    width: 100%;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.main-image {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.thumbnail-row {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.thumbnail {
+    width: 100px;
+    height: 100px;
+    margin: 0 5px;
+    object-fit: cover;
+    cursor: pointer; 
 }
     #f_rate {
         border-radius: .5rem;
@@ -80,13 +108,17 @@ $name = urldecode($_GET['name']); ?>
     <div class="page-nav no-margin row">
         <div class="container">
             <div class="row">
-                <?php $query ="SELECT * FROM choice ch inner join pictures p on p.choice_id = ch.choice_id where ch.choice_id = '$name'" ;
+                <?php $query ="SELECT * FROM choice ch inner join pic p on choice_id = id where choice_id = '$name'" ;
                         $result = mysqli_query($dbc, $query);
                         $data = mysqli_fetch_assoc($result)
                 ?>
                 <h2><?php if ($data['category_id']!=8) { echo $data['name']; } else {echo 'Details';}  ?></h2>
                 <ul>
-                    <li> <a href="#"><i class="fas fa-home"></i> Home</a></li>
+                    <?php if(isset($_SESSION['category'])){ ?> 
+                        <li> <a href="gallery.php?filter=<?php echo $_SESSION['category']; ?>"><i class="fas fa-home"></i> Home</a></li>
+                    <?php }else{ ?>
+                        <li><a href="gallery.php"><i class= "fas fa-home"></i> Home </a></li>
+                    <?php } ?>
                     <li><i class="fas fa-angle-double-right"></i> About Us</li>
                 </ul>
             </div>
@@ -102,10 +134,62 @@ $name = urldecode($_GET['name']); ?>
             <div class="image-part col-md-6">
                 <?php echo "<img src='./pictures/" . $data['path'] . ".jpg' class='d-block w-100' />";?>
             </div>
+            <div class="image-part col-md-6">
+                <?php
+                // Get all pictures for this choice
+                $query = "SELECT * FROM pic WHERE id = '$name' AND type_id = 'choice'";
+                $result = mysqli_query($dbc, $query);
+                $pictures = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+                // If there is more than one picture, show thumbnail carousel
+                if (count($pictures) > 1) {
+                    $current_index = 0;
+                    foreach ($pictures as $index => $picture) {
+                        if ($picture['path'] == $data['path']) {
+                            $current_index = $index;
+                            break;
+                        }
+                    }
+                    ?>
+            
+                <?php
+                }
+                ?>
+                <div class="main-carousel">
+                    <div id="picture-carousel" class="carousel slide" data-ride="carousel" data-interval="false">
+                        <div class="carousel-inner">
+                            <?php foreach ($pictures as $index => $picture) : ?>
+                                <div class="carousel-item <?php if ($picture['path'] == $data['path']) echo 'active'; ?>">
+                                    <img src="./pictures/<?php echo $picture['path']; ?>.jpg" class="d-block w-100" alt="Main Image">
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                        <?php if (count($pictures) > 1) { ?>
+                            <a class="carousel-control-prev" href="#picture-carousel" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#picture-carousel" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        <?php } ?>
+                    </div>
+                </div>
+                <div class="thumbnail-carousel">
+                        <div class="row">
+                            <?php foreach ($pictures as $index => $picture) : ?>
+                                <div class="col-3 thumbnail-item <?php if ($picture['path'] == $data['path']) echo 'active'; ?>" data-index="<?php echo $index; ?>">
+                                    <img src="./pictures/<?php echo $picture['path']; ?>.jpg" class="img-fluid" alt="Thumbnail Image">
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                <?php echo '<br><center><a href="' . $data['map'] . '"><button type="button" class="btn btn-danger">Google Map</button></a></center>'; ?>
             </div>
         </div>
     </div>
-    
+</div>
 <!--*****************Our Reviews Start Here ****************** -->
    <?php
     if ($data['category_id']!=8) {  // dont show reviews for houses
@@ -158,10 +242,10 @@ $name = urldecode($_GET['name']); ?>
                     <div class="profil">
                         <!-- <img src="assets/images/testimonial/member-01.jpg" alt="" /> -->
                     </div>
-                    <div class="review-detail">
+                    <div class="review-detail ">
 <?php
                         echo "<h4>". $data['title'] . " </h4> ";
-                        echo "<p id='p_comment'>".$data['comment']."</p>";
+                        echo "<p id='p_comment' style='word-break: break-all;'>".$data['comment']."</p>";
                         $date = date_create($data['r_date']);
                         echo "<h6>". $data['username'] . " at ". date_format($date,'d-m-Y')  ."</h6>";
                         echo "<ul class='rat'>";
@@ -175,6 +259,9 @@ $name = urldecode($_GET['name']); ?>
             </div>
         <?php
     }//end of while loop
+        if(mysqli_num_rows($result) > 4){
+        echo'<div id="load-more"> Load more </div>';
+        };
     ?>
         </div>
     </div>   
@@ -184,9 +271,6 @@ $name = urldecode($_GET['name']); ?>
         echo '<h6>Δεν υπάρχουν κριτικές ακόμη</h6>';
         echo '</div>';
     }
-    if(mysqli_num_rows($result) > 4){
-        echo'<div id="load-more"> Load more </div>';
-    };
     ?> 
 </div> 
 <?php 

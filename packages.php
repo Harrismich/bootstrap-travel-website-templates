@@ -37,7 +37,9 @@ $user_id = $_SESSION['user_id'];
         </div>
     </div>
                                             <!-- ################# Chooce city #######################--->   
-    <?php $query = " SELECT c.city_id, city_name , path, description FROM image i inner join city c ON c.city_id = i.city_id GROUP BY c.city_id ORDER BY city_name ";
+    <?php 
+        // $query = " SELECT c.city_id, city_name , path, description FROM image i inner join city c ON c.city_id = i.city_id GROUP BY c.city_id ORDER BY city_name "; -->
+        $query = "SELECT * FROM pic inner join city on id = city_id where type_id ='city' group by city_id";
         $result = mysqli_query($dbc, $query);
         while ($data = mysqli_fetch_assoc($result)){ 
     ?>  

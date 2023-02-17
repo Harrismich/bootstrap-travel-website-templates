@@ -4,7 +4,9 @@ session_start();
 if (!isset($_SESSION['logged_in_user']) || !$_SESSION['logged_in_user']) {
 	header("Location: login.php");
 }
+if(isset($_SESSION['city_id'])){
 $city_id = $_SESSION['city_id'];
+}
 $user_id = $_SESSION["user_id"];
 ?>
 
@@ -56,7 +58,11 @@ $user_id = $_SESSION["user_id"];
             <div class="row">
                 <h2></h2>
                 <ul>
+                    <?php if(isset($_SESSION['city_id'])){ ?>
                     <li> <a href="index.php?city_id=<?php echo $_SESSION['city_id'];?>"><i class="fas fa-home"></i> Home</a></li>
+                    <?php }else{ ?>
+                        <li> <a href="index.php"><i class="fas fa-home"></i> Home</a></li>
+                        <?php } ?>
                     <li><i class="fas fa-angle-double-right"></i> <span id="heart-' . $data['choice_id'] . '" class="fas fa-heart" style="color:red;"></span> Favorites </li>
                 </ul>
             </div>
@@ -68,7 +74,7 @@ $user_id = $_SESSION["user_id"];
 
     <?php
                 
-                $favorites = "SELECT * FROM user_choice uc right join choice c on uc.choice_id = c.choice_id inner join pictures p on c.choice_id = p.choice_id where user_id = '$user_id' ";
+                $favorites = "SELECT * FROM user_choice uc right join choice c on uc.choice_id = c.choice_id inner join pic on c.choice_id = id where user_id = '$user_id' ";
                 //$query = "SELECT * FROM pictures p inner join choice ch on p.choice_id=ch.choice_id where ch.city_id = '$city' ";
                 $result = mysqli_query($dbc, $favorites);
                 echo'<div class="container">';        
@@ -84,7 +90,7 @@ $user_id = $_SESSION["user_id"];
                                     echo "<h6><strong> Διεύθυνση: </strong>" .$data['address'] ."</h6>";
                                     echo "<h6><strong> Τηλέφωνα: </strong>" .$data['phone_number'] ."</h6>";
                                     echo "<h6> <a href = " .$data['link'] . "><strong>Link:</strong> Επισκευθείτε μας </a></h6>";
-                                    echo '<button class="btn"><a href= "about_us.php?name=' . urlencode($data['choice_id']) . '"> Read More </a></button>';
+                                    echo '<button class="btn" onclick="window.location.href=\'about_us.php?name=' . urlencode($data['choice_id']) . '\'">Read More</button>';
                                     echo '<div class="icons">';
                                     echo '<input type="hidden" class="choice_id" value="'. $data['choice_id'] . '">';
                                         echo '<a href="#" class="favorites-btn">';
@@ -94,7 +100,6 @@ $user_id = $_SESSION["user_id"];
                                             echo' <i class="fa fa-heart heart not-in-favorites"></i>';
                                         }
                                         echo '</a>  ';
-
                                         ?>
                                         <!-- <?php if($_SESSION['logged_in_user']){?><button onclick="myFunction()"><span> <i class="fas fa-star"></i> Make Review </span></button><?php } ?>
                                         <script>
