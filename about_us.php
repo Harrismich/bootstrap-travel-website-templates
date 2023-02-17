@@ -59,6 +59,10 @@ $name = urldecode($_GET['name']); ?>
     .row.review-row .col-md-6:nth-child(4)    {
     display: inline-block;
     }
+    
+    .reviews_filters {
+        margin-left:930px;}
+        
     .main-image-container {
     width: 100%;
     height: 400px;
@@ -84,8 +88,12 @@ $name = urldecode($_GET['name']); ?>
     height: 100px;
     margin: 0 5px;
     object-fit: cover;
-    cursor: pointer;
+    cursor: pointer; 
 }
+    #f_rate {
+        border-radius: .5rem;
+        box-shadow: 0 0 5px #ccc;
+    }
 </style>
 </head>
 
@@ -104,7 +112,7 @@ $name = urldecode($_GET['name']); ?>
                         $result = mysqli_query($dbc, $query);
                         $data = mysqli_fetch_assoc($result)
                 ?>
-                <h2><?php echo $data['name']  ?></h2>
+                <h2><?php if ($data['category_id']!=8) { echo $data['name']; } else {echo 'Details';}  ?></h2>
                 <ul>
                     <?php if(isset($_SESSION['category'])){ ?> 
                         <li> <a href="gallery.php?filter=<?php echo $_SESSION['category']; ?>"><i class="fas fa-home"></i> Home</a></li>
@@ -117,11 +125,14 @@ $name = urldecode($_GET['name']); ?>
         </div>
     </div>
     <div class="about-us container-fluid">
-    <div class="container">
-        <div class="row natur-row no-margin w-100">
-            <div class="text-part col-md-6">
-                <h2><?php echo $data['name'] ?></h2>
-                <p><?php echo $data['description'] ?></p>
+        <div class="container">
+            <div class="row natur-row no-margin w-100">
+                <div class="text-part col-md-6">
+                    <h2><?php if ($data['category_id']!=8) { echo $data['name']; } else {echo 'Details';}  ?></h2>
+                    <p><?php echo $data['description']  ?></p>
+                </div>
+            <div class="image-part col-md-6">
+                <?php echo "<img src='./pictures/" . $data['path'] . ".jpg' class='d-block w-100' />";?>
             </div>
             <div class="image-part col-md-6">
                 <?php
@@ -180,7 +191,9 @@ $name = urldecode($_GET['name']); ?>
     </div>
 </div>
 <!--*****************Our Reviews Start Here ****************** -->
-        
+   <?php
+    if ($data['category_id']!=8) {  // dont show reviews for houses
+   ?>     
 <div class="review container-fluid" style="background-color: #fcfcfc;">
     <div class="container">
         <div class="session-title">
@@ -188,12 +201,12 @@ $name = urldecode($_GET['name']); ?>
             <div class="reviews_filters">
                 <label>Filter By Rate: </label>
                 <select name="f_rate" id="f_rate">
+                    <option class="filter-button" data-filter="all">All</option>
                     <option class="filter-button" data-filter=1>1</option>
                     <option class="filter-button" data-filter=2>2</option>
                     <option class="filter-button" data-filter=3>3</option>
                     <option class="filter-button" data-filter=4>4</option>
                     <option class="filter-button" data-filter=5>5</option>
-                    <option class="filter-button" data-filter="all">All</option>
                 </select> 
             </div>
         </div>
@@ -254,12 +267,15 @@ $name = urldecode($_GET['name']); ?>
     </div>   
 <?php                    
     } else {
-        echo' <div class="container p-3 my-3 border">';
-        echo '<h6>Δεν υπάρχουν κριτικές με αυτή τη βαθμολογία</h6>';
+        echo' <div class="container p-3 my-3 border text-center">';
+        echo '<h6>Δεν υπάρχουν κριτικές ακόμη</h6>';
         echo '</div>';
     }
     ?> 
-</div>   
+</div> 
+<?php 
+    }//if category !=8
+?>  
 
 <script>
     let loadMoreBtn = document.querySelector('#Load-more');
@@ -288,7 +304,7 @@ $name = urldecode($_GET['name']); ?>
 
     if (selectedOption.selected) {
         console.log(`Option with value "${selectedValue}" has been selected.`);
-        location.href = 'about_us copy.php?name=' + name + '&filter=' + selectedValue;
+        location.href = 'about_us.php?name=' + name + '&filter=' + selectedValue;
     }
     });
 </script>              

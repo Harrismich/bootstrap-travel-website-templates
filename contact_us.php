@@ -46,12 +46,12 @@ $user_id = $_SESSION['user_id'];
 
       <!--  ************************* Contact Us Starts Here ************************** -->
 
-    <div style="margin-top:0px;" class="row no-margin">
+    <!-- <div style="margin-top:0px;" class="row no-margin">
         <iframe src="https://maps.google.com/maps?q=37.9838,23.7275&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
 
-    </div>
+    </div> -->
 
-<form action="house.php" method="post">
+<form action="house.php" method="post" enctype="multipart/form-data" >
     <div class="row contact-rooo no-margin">
         <div class="container">
             <div class="row">
@@ -84,7 +84,7 @@ $user_id = $_SESSION['user_id'];
                     </div>
                     <div  class="row cont-row">
                         <div  class="col-sm-3"><label>Κινητό</label><span>:</span></div>
-                        <div class="col-sm-8"><input type="text" name="phone_number" placeholder="Enter owner's phone phone numer" class="form-control input-sm"  required></div>
+                        <div class="col-sm-8"><input type="text" name="phone_number" placeholder="Enter owner's phone phone numer" class="form-control input-sm"  required maxlength="10"></div>
                     </div>
                     <div  class="row cont-row">
                         <div  class="col-sm-3"><label>Διαθέσιμο από</label><span>:</span></div>
@@ -92,12 +92,15 @@ $user_id = $_SESSION['user_id'];
                     </div>
                     <div  class="row cont-row">
                         <div  class="col-sm-3"><label>Περιγραφή</label><span>:</span></div>
-                        <div class="col-sm-8">
-                            <textarea rows="5" name ='description' placeholder="Enter some information fo the house e.g (price, floor, parking area)" class="form-control input-sm"required></textarea>
+                        <div class="col-sm-8"><textarea rows="5" name ='description' placeholder="Enter some information fo the house e.g (price, floor, parking area)" class="form-control input-sm"required></textarea>
                         </div>
                     </div>
+                    <div  class="row cont-row">
+                        <div  class="col-sm-3"><label>House Image</label><span>:</span></div>
+                        <div class="col-sm-8"><input type="file" name="fileToUpload" id="fileToUpload" ></div>
+                    </div>
                     <div style="margin-top:10px;" class="row">
-                        <div style="padding-top:10px;" class="col-sm-3"><label></label></div>
+                        <div class="col-sm-3"><label></label></div>
                         <div class="col-sm-8">
                             <button class="btn btn-success btn-sm" type="submit" name="submit">Αποστολή</button>
                         </div>
