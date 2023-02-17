@@ -29,6 +29,8 @@ $user_id = $_SESSION['user_id'];
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
             <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+            <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&display=swap" rel="stylesheet">
+
             <style>
                 .not-in-favorites {
                     color: grey;
@@ -63,7 +65,6 @@ $user_id = $_SESSION['user_id'];
     <div class="container">              
         <div class="row">
             <div class="gallery-filter d-none d-sm-block">
-                <button class="btn btn-default filter-button" data-filter="all"> All </button>
                 <button class="btn btn-default filter-button" data-filter="1"> Hotels </button>
                 <button class="btn btn-default filter-button" data-filter="2"> Army Hotels </button>
                 <button class="btn btn-default filter-button" data-filter="3"> Λέσχες </button>
@@ -112,9 +113,7 @@ $user_id = $_SESSION['user_id'];
     $filterValue = $_GET["filter"];
     }
     $query = "SELECT * FROM pic p inner join choice ch on choice_id=id  where city_id = '$city' ";
-    if ($filterValue == "all") {
-        $query = "SELECT * FROM pic p inner join choice ch on choice_id=id  where city_id = '$city' ";
-    }else if($filterValue == "1"){
+    if($filterValue == "1"){
         $query .= "AND category_id = '$filterValue' " ;
     }else if($filterValue == "2"){
         $query .= " AND category_id = '$filterValue'  ";
@@ -125,62 +124,66 @@ $user_id = $_SESSION['user_id'];
     }else if($filterValue == "5"){
         $query .= " AND category_id = '$filterValue' ";
     }else if($filterValue == "8"){
-        $query = "SELECT * FROM pictures p inner join choice ch on p.choice_id=ch.choice_id inner join house h on ch.choice_id=h.choice_id
-        where ch.city_id = '$city' AND category_id = '$filterValue'";
+        $query = "SELECT * FROM pic inner join choice ch  on id=choice_id inner join house h on ch.choice_id=h.choice_id where ch.city_id = '$city' AND ch.category_id = '$filterValue'";
         // $query .= " AND category_id = '$filterValue' ";
+    }else{
+        $query .= "AND category_id = '$filterValue' " ;
     }
     $query.= "GROUP BY ch.choice_id";
     $_SESSION['category'] = $filterValue;
     $result = mysqli_query($dbc, $query);
                 echo'<div class="container">';        
                     echo'<div class="box-container">';
-                        while ($data = mysqli_fetch_assoc($result)) {   
-                            $favorite = "select * from user_choice where choice_id = {$data['choice_id']}" ;
-                            $fav_result = mysqli_query($dbc, $favorite);
-                            echo' <div class="box">';
-                                echo' <div class="image">';
-                                echo "<img src='./pictures/" . $data['path'] . ".jpg' class='d-block w-100' />";
-                                echo' </div>';
-                                echo' <div class="content">';
-                                if($filterValue==8) {        //only when user click available houses
-                                    echo "<h6><strong> Διεύθυνση: </strong>" .$data['address'] ."</h6>";
-                                    echo "<h6><strong> Owner: </strong>" .$data['name'] ."</h6>";
-                                    echo "<h6><strong> Τηλέφωνα: </strong>" .$data['phone_number'] ."</h6>";
-                                    $date = $data['ch_date'];
-                                    $formatted_date = date("d/m/y", strtotime($date));
-                                    echo "<h6><strong> Available from: </strong>" .$formatted_date."</h6>";
-                                    echo '<button class="btn"><a href= "about_us.php?name=' . urlencode($data['choice_id']) . '"> Read More </a></button>';
-                                    echo '<div class="icons">';
-                                    echo '<input type="hidden" class="choice_id" value="'. $data['choice_id'] . '">';
-                                    echo '<a href="#" class="favorites-btn">';
-                                        if (mysqli_num_rows($fav_result) > 0 ){
-                                            echo' <i class="fa fa-heart heart in-favorites"></i>';   
-                                        }else{
-                                            echo' <i class="fa fa-heart heart not-in-favorites"></i>';       
-                                        }                                  
-                                    echo '</a>  ';
-                                    echo '</div>';
-                                }else {
-                                    echo "<h3>". $data['name'] . " </h4> ";
-                                    echo "<br>";
-                                    echo "<h6><strong> Διεύθυνση: </strong>" .$data['address'] ."</h6>";
-                                    echo "<h6><strong> Τηλέφωνα: </strong>" .$data['phone_number'] ."</h6>";
-                                    echo "<h6> <a href = " .$data['link'] . "><strong>Link:</strong> Επισκεφθείτε μας </a></h6>";
-                                    echo '<button class="btn" onclick="window.location.href=\'about_us.php?name=' . urlencode($data['choice_id']) . '\'">Read More</button>';
-                                    echo '<div class="icons">';
-                                    echo '<input type="hidden" class="choice_id" value="'. $data['choice_id'] . '">';
-                                    echo '<a href="#" class="favorites-btn">';
-                                        if (mysqli_num_rows($fav_result) > 0 ){
-                                            echo' <i class="fa fa-heart heart in-favorites"></i>';   
-                                        }else{
-                                            echo' <i class="fa fa-heart heart not-in-favorites"></i>';       
-                                        }                                  
-                                    echo '</a>  ';
-                                    echo "<button data-target='simpleModal_2' data-toggle='modal' onclick = 'review(\"".$data['choice_id']."\")'> <i class='fas fa-star'></i> Make Review</button>";
-                                    echo '</div>';
-                                }
-                                echo' </div>';
-                            echo'</div>';
+                        while ($data = mysqli_fetch_assoc($result)) { 
+                            if( ($filterValue!=8 ) || ($data['activation']=='active')){  
+                                $favorite = "select * from user_choice where choice_id = {$data['choice_id']}" ;
+                                $fav_result = mysqli_query($dbc, $favorite);
+                                echo' <div class="box">';
+                                    echo' <div class="image">';
+                                    echo "<img src='./pictures/" . $data['path'] . ".jpg' class='d-block w-100' />";
+                                    echo' </div>';
+                                    echo' <div class="content">';
+                                    if(($filterValue==8) && ($data['activation']=='active')) { //only when user click available houses
+                                        
+                                        echo "<h6><strong> Διεύθυνση: </strong>" .$data['address'] ."</h6>";
+                                        echo "<h6><strong> Owner: </strong>" .$data['name'] ."</h6>";
+                                        echo "<h6><strong> Τηλέφωνα: </strong>" .$data['phone_number'] ."</h6>";
+                                        $date = $data['ch_date'];
+                                        $formatted_date = date("d/m/y", strtotime($date));
+                                        echo "<h6><strong> Available from: </strong>" .$formatted_date."</h6>";
+                                        echo '<button class="btn"><a href= "about_us.php?name=' . urlencode($data['choice_id']) . '"> Read More </a></button>';
+                                        echo '<div class="icons">';
+                                        echo '<input type="hidden" class="choice_id" value="'. $data['choice_id'] . '">';
+                                        echo '<a href="#" class="favorites-btn">';
+                                            if (mysqli_num_rows($fav_result) > 0 ){
+                                                echo' <i class="fa fa-heart heart in-favorites"></i>';   
+                                            }else{
+                                                echo' <i class="fa fa-heart heart not-in-favorites"></i>';       
+                                            }                                  
+                                        echo '</a>  ';
+                                        echo '</div>';
+                                    }else {
+                                        echo "<h3>". $data['name'] . " </h4> ";
+                                        echo "<br>";
+                                        echo "<h6><strong> Διεύθυνση: </strong>" .$data['address'] ."</h6>";
+                                        echo "<h6><strong> Τηλέφωνα: </strong>" .$data['phone_number'] ."</h6>";
+                                        echo "<h6> <a href = " .$data['link'] . "><strong>Link:</strong> Επισκεφθείτε μας </a></h6>";
+                                        echo '<button class="btn" onclick="window.location.href=\'about_us.php?name=' . urlencode($data['choice_id']) . '\'">Read More</button>';
+                                        echo '<div class="icons">';
+                                        echo '<input type="hidden" class="choice_id" value="'. $data['choice_id'] . '">';
+                                        echo '<a href="#" class="favorites-btn">';
+                                            if (mysqli_num_rows($fav_result) > 0 ){
+                                                echo' <i class="fa fa-heart heart in-favorites"></i>';   
+                                            }else{
+                                                echo' <i class="fa fa-heart heart not-in-favorites"></i>';       
+                                            }                                  
+                                        echo '</a>  ';
+                                        echo "<button data-target='simpleModal_2' data-toggle='modal' onclick = 'review(\"".$data['choice_id']."\")'> <i class='fas fa-star'></i> Make Review</button>";
+                                        echo '</div>';
+                                    }
+                                    echo' </div>';
+                                echo'</div>';
+                            }// activation
                         }//while loop
                     echo'</div>';
                     if(mysqli_num_rows($result) >3){

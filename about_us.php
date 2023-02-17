@@ -29,7 +29,6 @@ $name = urldecode($_GET['name']); ?>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
 <style>
 #load-more {
     margin-top: 20px;
@@ -132,9 +131,6 @@ $name = urldecode($_GET['name']); ?>
                     <p><?php echo $data['description']  ?></p>
                 </div>
             <div class="image-part col-md-6">
-                <?php echo "<img src='./pictures/" . $data['path'] . ".jpg' class='d-block w-100' />";?>
-            </div>
-            <div class="image-part col-md-6">
                 <?php
                 // Get all pictures for this choice
                 $query = "SELECT * FROM pic WHERE id = '$name' AND type_id = 'choice'";
@@ -177,14 +173,14 @@ $name = urldecode($_GET['name']); ?>
                     </div>
                 </div>
                 <div class="thumbnail-carousel">
-                        <div class="row">
-                            <?php foreach ($pictures as $index => $picture) : ?>
-                                <div class="col-3 thumbnail-item <?php if ($picture['path'] == $data['path']) echo 'active'; ?>" data-index="<?php echo $index; ?>">
-                                    <img src="./pictures/<?php echo $picture['path']; ?>.jpg" class="img-fluid" alt="Thumbnail Image">
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
+                    <div class="row">
+                        <?php foreach ($pictures as $index => $picture) : ?>
+                            <div class="col-3 thumbnail-item <?php if ($picture['path'] == $data['path']) echo 'active'; ?>" data-index="<?php echo $index; ?>">
+                                <img src="./pictures/<?php echo $picture['path']; ?>.jpg" class="img-fluid" alt="Thumbnail Image">
+                            </div>
+                        <?php endforeach; ?>
                     </div>
+                </div>
                 <?php echo '<br><center><a href="' . $data['map'] . '"><button type="button" class="btn btn-danger">Google Map</button></a></center>'; ?>
             </div>
         </div>
@@ -276,6 +272,11 @@ $name = urldecode($_GET['name']); ?>
 <?php 
     }//if category !=8
 ?>  
+<div id="map"></div>
+
+    
+
+
 
 <script>
     let loadMoreBtn = document.querySelector('#Load-more');
