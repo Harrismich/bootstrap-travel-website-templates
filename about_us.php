@@ -30,34 +30,42 @@ $name = urldecode($_GET['name']); ?>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <style>
-#load-more {
-  margin-top: 20px;
-  margin-left: 550px;
-  display: inline-block;
-  padding: 13px 30px;
-  border: 1px solid #334;
-  color: #334;
-  font-size: 16px;
-  background-color: #fff;
-  cursor: pointer;
-}
+    #load-more {
+        margin-top: 20px;
+        margin-left: 550px;
+        display: inline-block;
+        padding: 13px 30px;
+        border: 1px solid #334;
+        color: #334;
+        font-size: 16px;
+        background-color: #fff;
+        cursor: pointer;
+    }
 
-#load-more:hover {
-  background-color: crimson;
-  border-color: crimson;
-  color: #fff;
-}
+    #load-more:hover {
+        background-color: crimson;
+        border-color: crimson;
+        color: #fff;
+    }
 
-.review-row .col-md-6 {
-    display: none;
-}
+    .review-row .col-md-6 {
+            display: none;
+    }
 
-.row.review-row .col-md-6:nth-child(1),
-.row.review-row .col-md-6:nth-child(2),
-.row.review-row .col-md-6:nth-child(3),
-.row.review-row .col-md-6:nth-child(4)    {
-  display: inline-block;
+    .row.review-row .col-md-6:nth-child(1),
+    .row.review-row .col-md-6:nth-child(2),
+    .row.review-row .col-md-6:nth-child(3),
+    .row.review-row .col-md-6:nth-child(4) {
+        display: inline-block;
+    }
+
+    .reviews_filters {
+        margin-left:930px;
 }
+    #f_rate {
+        border-radius: .5rem;
+        box-shadow: 0 0 5px #ccc;
+    }
 </style>
 </head>
 
@@ -76,7 +84,7 @@ $name = urldecode($_GET['name']); ?>
                         $result = mysqli_query($dbc, $query);
                         $data = mysqli_fetch_assoc($result)
                 ?>
-                <h2><?php echo $data['name']  ?></h2>
+                <h2><?php if ($data['category_id']!=8) { echo $data['name']; } else {echo 'Details';}  ?></h2>
                 <ul>
                     <li> <a href="#"><i class="fas fa-home"></i> Home</a></li>
                     <li><i class="fas fa-angle-double-right"></i> About Us</li>
@@ -88,7 +96,7 @@ $name = urldecode($_GET['name']); ?>
         <div class="container">
             <div class="row natur-row no-margin w-100">
                 <div class="text-part col-md-6">
-                    <h2><?php echo $data['name']  ?></h2>
+                    <h2><?php if ($data['category_id']!=8) { echo $data['name']; } else {echo 'Details';}  ?></h2>
                     <p><?php echo $data['description']  ?></p>
                 </div>
             <div class="image-part col-md-6">
@@ -99,7 +107,9 @@ $name = urldecode($_GET['name']); ?>
     </div>
     
 <!--*****************Our Reviews Start Here ****************** -->
-        
+   <?php
+    if ($data['category_id']!=8) {  // dont show reviews for houses
+   ?>     
 <div class="review container-fluid" style="background-color: #fcfcfc;">
     <div class="container">
         <div class="session-title">
@@ -107,12 +117,12 @@ $name = urldecode($_GET['name']); ?>
             <div class="reviews_filters">
                 <label>Filter By Rate: </label>
                 <select name="f_rate" id="f_rate">
+                    <option class="filter-button" data-filter="all">All</option>
                     <option class="filter-button" data-filter=1>1</option>
                     <option class="filter-button" data-filter=2>2</option>
                     <option class="filter-button" data-filter=3>3</option>
                     <option class="filter-button" data-filter=4>4</option>
                     <option class="filter-button" data-filter=5>5</option>
-                    <option class="filter-button" data-filter="all">All</option>
                 </select> 
             </div>
         </div>
@@ -170,15 +180,18 @@ $name = urldecode($_GET['name']); ?>
     </div>   
 <?php                    
     } else {
-        echo' <div class="container p-3 my-3 border">';
-        echo '<h6>Δεν υπάρχουν κριτικές με αυτή τη βαθμολογία</h6>';
+        echo' <div class="container p-3 my-3 border text-center">';
+        echo '<h6>Δεν υπάρχουν κριτικές ακόμη</h6>';
         echo '</div>';
     }
     if(mysqli_num_rows($result) > 4){
         echo'<div id="load-more"> Load more </div>';
     };
     ?> 
-</div>   
+</div> 
+<?php 
+    }//if category !=8
+?>  
 
 <script>
     let loadMoreBtn = document.querySelector('#Load-more');
@@ -207,7 +220,7 @@ $name = urldecode($_GET['name']); ?>
 
     if (selectedOption.selected) {
         console.log(`Option with value "${selectedValue}" has been selected.`);
-        location.href = 'about_us copy.php?name=' + name + '&filter=' + selectedValue;
+        location.href = 'about_us.php?name=' + name + '&filter=' + selectedValue;
     }
     });
 </script>              

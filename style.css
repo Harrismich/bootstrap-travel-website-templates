@@ -325,15 +325,6 @@ body {
   text-align: justify;
 }
 
-.reviews_filters {
-  display: flex;
-  flex-direction: row;
-  float: right;
-  margin-bottom: 70px;
-
-}
-
-
 /* media queries  */
 
 @media (max-width: 992px) {

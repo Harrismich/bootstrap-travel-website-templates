@@ -82,7 +82,7 @@ $user_id = $_SESSION['user_id'];
                 <button class="btn btn-default filter-button" data-filter="3"> Λέσχες </button>
                 <button class="btn btn-default filter-button" data-filter="4"> Restaurant </button>
                 <button class="btn btn-default filter-button" data-filter="5"> Hospitals </button>
-                <button class="btn btn-default filter-button" data-filter="7"> Available House </button>
+                <button class="btn btn-default filter-button" data-filter="8"> Available House </button>
             </div>
             <br/>
 
@@ -93,8 +93,8 @@ $user_id = $_SESSION['user_id'];
         <h3>post your review</h3>
         <p class="placeholder">review title <span>*</span></p>
         <input type="text" name="title" required maxlength="50" placeholder="enter review title" class="box1">
-        <p class="placeholder">review description</p>
-        <textarea name="description" class="box1" placeholder="enter review description" maxlength="1000" cols="30" rows="10"></textarea>
+        <p class="placeholder">review description <span>*</span></p>
+        <textarea name="description" class="box1" placeholder="enter review description" required maxlength="1000" cols="30" rows="10"></textarea>
         <p class="placeholder">review rating <span>*</span></p>
         <center>
         <div class="star-widget">
@@ -113,7 +113,6 @@ $user_id = $_SESSION['user_id'];
         </center> 
         <input type="hidden" id="choice_id" name="choice_id">
         <input type="submit" value="submit review" name="submit" class="btn1">
-        <!-- <button class="option-btn1"> go back </button> -->
         </form>
     </div>
 </div>
@@ -138,6 +137,10 @@ $user_id = $_SESSION['user_id'];
         $query .= " AND category_id = '$filterValue' ";
     }else if($filterValue == "5"){
         $query .= " AND category_id = '$filterValue' ";
+    }else if($filterValue == "8"){
+        $query = "SELECT * FROM pictures p inner join choice ch on p.choice_id=ch.choice_id inner join house h on ch.choice_id=h.choice_id
+        where ch.city_id = '$city' AND category_id = '$filterValue'";
+        // $query .= " AND category_id = '$filterValue' ";
     }
     $result = mysqli_query($dbc, $query);
 
@@ -151,13 +154,31 @@ $user_id = $_SESSION['user_id'];
                                 echo "<img src='./pictures/" . $data['path'] . ".jpg' class='d-block w-100' />";
                                 echo' </div>';
                                 echo' <div class="content">';
+                                if($filterValue==8) {        //only when user click available houses
+                                    echo "<h6><strong> Διεύθυνση: </strong>" .$data['address'] ."</h6>";
+                                    echo "<h6><strong> Owner: </strong>" .$data['name'] ."</h6>";
+                                    echo "<h6><strong> Τηλέφωνα: </strong>" .$data['phone_number'] ."</h6>";
+                                    $date = $data['ch_date'];
+                                    $formatted_date = date("d/m/y", strtotime($date));
+                                    echo "<h6><strong> Available from: </strong>" .$formatted_date."</h6>";
+                                    echo '<button class="btn"><a href= "about_us.php?name=' . urlencode($data['choice_id']) . '"> Read More </a></button>';
+                                    echo '<div class="icons">';
+                                    echo '<input type="hidden" class="choice_id" value="'. $data['choice_id'] . '">';
+                                    echo '<a href="#" class="favorites-btn">';
+                                        if (mysqli_num_rows($fav_result) > 0 ){
+                                            echo' <i class="fa fa-heart heart in-favorites"></i>';   
+                                        }else{
+                                            echo' <i class="fa fa-heart heart not-in-favorites"></i>';       
+                                        }                                  
+                                    echo '</a>  ';
+                                    echo '</div>';
+                                }else {
                                     echo "<h3>". $data['name'] . " </h4> ";
                                     echo "<br>";
                                     echo "<h6><strong> Διεύθυνση: </strong>" .$data['address'] ."</h6>";
                                     echo "<h6><strong> Τηλέφωνα: </strong>" .$data['phone_number'] ."</h6>";
                                     echo "<h6> <a href = " .$data['link'] . "><strong>Link:</strong> Επισκευθείτε μας </a></h6>";
-
-                                    echo '<button class="btn"><a href= "about_us copy.php?name=' . urlencode($data['choice_id']) . '"> Read More </a></button>';
+                                    echo '<button class="btn"><a href= "about_us.php?name=' . urlencode($data['choice_id']) . '"> Read More </a></button>';
                                     echo '<div class="icons">';
                                     echo '<input type="hidden" class="choice_id" value="'. $data['choice_id'] . '">';
                                     echo '<a href="#" class="favorites-btn">';
@@ -169,9 +190,10 @@ $user_id = $_SESSION['user_id'];
                                     echo '</a>  ';
                                     echo "<button data-target='simpleModal_2' data-toggle='modal' onclick = 'review(\"".$data['choice_id']."\")'> <i class='fas fa-star'></i> Make Review</button>";
                                     echo '</div>';
+                                }
                                 echo' </div>';
                             echo'</div>';
-                        }
+                        }//while loop
                     echo'</div>';
                     if(mysqli_num_rows($result) >3){
                         echo'<div id="load-more"> load more </div>';

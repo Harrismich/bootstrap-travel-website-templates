@@ -144,7 +144,7 @@ $user_id = $_SESSION['user_id'];
               <i class="fas fa-home"></i>
               </div>
               <div class="detail">
-              <a href="gallery.php?filter=4"><h4>Available Houses </h4></a>
+              <a href="gallery.php?filter=8"><h4>Available Houses </h4></a>
                 <p>
                   Turpis accumsan. Proin id ligula suspendisse. Aliquet
                   fringilla, aptent eu dignissim.
