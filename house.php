@@ -45,13 +45,13 @@ if (isset($_POST['submit'])) {
         exit();
     }
 
-    // // Check if file already exists
-    // if (file_exists($target_file)) {
-    //     $uploadOk = 0;
-    //     $dir = getcwd();
-    //     echo"<script>alert('Sorry, file already exists.'); </script>";
-    //     exit();
-    // }
+    // Check if file already exists
+    if (file_exists($target_file)) {
+        $uploadOk = 0;
+        $dir = getcwd();
+        echo"<script>alert('Sorry, file already exists.');history.go(-1); </script>";
+        exit();
+    }
 
     // Check file size
     if ($_FILES["fileToUpload"]["size"] > 500000) {
@@ -72,8 +72,9 @@ if (isset($_POST['submit'])) {
         exit();
     } else {
         if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-            $image_insert_stmt = $dbc->prepare("INSERT INTO pictures (choice_id, path) VALUES (?, ?)");
-            $image_insert_stmt->bind_param("is", $choice_id, $filename);
+            $image_insert_stmt = $dbc->prepare("INSERT INTO pic (id, type_id, path) VALUES (?, ?, ?)");
+            $type_id = "choice";
+            $image_insert_stmt->bind_param("iss", $choice_id, $type_id, $filename);
             $image_insert_stmt->execute();
         } else {
             echo "<script>alert('Sorry, there was an error uploading your file.'); </script>";

@@ -100,14 +100,14 @@ if (isset($_POST['Register'])) {
 	}
 	body {
   		background-size: cover;
-  		transition: background-image 1.5s ease-in;
+  		transition: background-image 1.3s ease-in;
 	}
 </style>
 	</style>
 
 </head>
 <?php
-  $result = mysqli_query($dbc, "SELECT * FROM image ORDER BY RAND()");
+  $result = mysqli_query($dbc, "SELECT * FROM pic ORDER BY RAND()");
   $images = [];
   while ($row = mysqli_fetch_array($result)) {
     $images[] = 'images/' . $row['path'] . '.jpg';
