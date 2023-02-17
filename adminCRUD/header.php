@@ -7,7 +7,8 @@
       <li class="active"><a href="../home.php">Home</a></li>
       <li><a href="citycrud/city.php">City</a></li>
       <li><a href="choicescrud/choice.php">Choices</a></li>
-      <li><a href="usercrud/users.php">users</a></li>
+      <li><a href="usercrud/users.php">Users</a></li>
+      <li><a href="housecrud/house.php">Houses</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li><a href="logout.php">Logout</a></li>
