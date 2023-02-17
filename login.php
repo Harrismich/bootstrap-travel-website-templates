@@ -20,7 +20,7 @@ if (isset($_POST['signUp'])) {
     		if($role == 1){
 				$_SESSION['logged_in_admin'] = true;
 				$_SESSION['user_id']=$userid;
-				$_SESSION['username']=$username;
+				$_SESSION['username'] = $username;
     			header('Location: http://localhost/project%20php/bootstrap-travel-website-templates/adminCRUD/home.php');
     		}else{
 				$_SESSION['logged_in_user'] = true;

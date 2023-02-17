@@ -29,7 +29,7 @@ $name = urldecode($_GET['name']); ?>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
 <style>
 #load-more {
     margin-top: 20px;
@@ -59,6 +59,33 @@ $name = urldecode($_GET['name']); ?>
     .row.review-row .col-md-6:nth-child(4)    {
     display: inline-block;
     }
+    .main-image-container {
+    width: 100%;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.main-image {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.thumbnail-row {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.thumbnail {
+    width: 100px;
+    height: 100px;
+    margin: 0 5px;
+    object-fit: cover;
+    cursor: pointer;
+}
 </style>
 </head>
 
@@ -73,13 +100,13 @@ $name = urldecode($_GET['name']); ?>
     <div class="page-nav no-margin row">
         <div class="container">
             <div class="row">
-                <?php $query ="SELECT * FROM choice ch inner join pictures p on p.choice_id = ch.choice_id where ch.choice_id = '$name'" ;
+                <?php $query ="SELECT * FROM choice ch inner join pic p on choice_id = id where choice_id = '$name'" ;
                         $result = mysqli_query($dbc, $query);
                         $data = mysqli_fetch_assoc($result)
                 ?>
                 <h2><?php echo $data['name']  ?></h2>
                 <ul>
-                    <?php if(isset($_SESSION['category'])){ ?>
+                    <?php if(isset($_SESSION['category'])){ ?> 
                         <li> <a href="gallery.php?filter=<?php echo $_SESSION['category']; ?>"><i class="fas fa-home"></i> Home</a></li>
                     <?php }else{ ?>
                         <li><a href="gallery.php"><i class= "fas fa-home"></i> Home </a></li>
@@ -90,19 +117,68 @@ $name = urldecode($_GET['name']); ?>
         </div>
     </div>
     <div class="about-us container-fluid">
-        <div class="container">
-            <div class="row natur-row no-margin w-100">
-                <div class="text-part col-md-6">
-                    <h2><?php echo $data['name']  ?></h2>
-                    <p><?php echo $data['description']  ?></p>
-                </div>
-            <div class="image-part col-md-6">
-                <?php echo "<img src='./pictures/" . $data['path'] . ".jpg' class='d-block w-100' />";?>
+    <div class="container">
+        <div class="row natur-row no-margin w-100">
+            <div class="text-part col-md-6">
+                <h2><?php echo $data['name'] ?></h2>
+                <p><?php echo $data['description'] ?></p>
             </div>
+            <div class="image-part col-md-6">
+                <?php
+                // Get all pictures for this choice
+                $query = "SELECT * FROM pic WHERE id = '$name' AND type_id = 'choice'";
+                $result = mysqli_query($dbc, $query);
+                $pictures = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+                // If there is more than one picture, show thumbnail carousel
+                if (count($pictures) > 1) {
+                    $current_index = 0;
+                    foreach ($pictures as $index => $picture) {
+                        if ($picture['path'] == $data['path']) {
+                            $current_index = $index;
+                            break;
+                        }
+                    }
+                    ?>
+            
+                <?php
+                }
+                ?>
+                <div class="main-carousel">
+                    <div id="picture-carousel" class="carousel slide" data-ride="carousel" data-interval="false">
+                        <div class="carousel-inner">
+                            <?php foreach ($pictures as $index => $picture) : ?>
+                                <div class="carousel-item <?php if ($picture['path'] == $data['path']) echo 'active'; ?>">
+                                    <img src="./pictures/<?php echo $picture['path']; ?>.jpg" class="d-block w-100" alt="Main Image">
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                        <?php if (count($pictures) > 1) { ?>
+                            <a class="carousel-control-prev" href="#picture-carousel" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#picture-carousel" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        <?php } ?>
+                    </div>
+                </div>
+                <div class="thumbnail-carousel">
+                        <div class="row">
+                            <?php foreach ($pictures as $index => $picture) : ?>
+                                <div class="col-3 thumbnail-item <?php if ($picture['path'] == $data['path']) echo 'active'; ?>" data-index="<?php echo $index; ?>">
+                                    <img src="./pictures/<?php echo $picture['path']; ?>.jpg" class="img-fluid" alt="Thumbnail Image">
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                <?php echo '<br><center><a href="' . $data['map'] . '"><button type="button" class="btn btn-danger">Google Map</button></a></center>'; ?>
             </div>
         </div>
     </div>
-    
+</div>
 <!--*****************Our Reviews Start Here ****************** -->
         
 <div class="review container-fluid" style="background-color: #fcfcfc;">
@@ -167,7 +243,6 @@ $name = urldecode($_GET['name']); ?>
 ?>
                     </div>
                 </div>
-
             </div>
         <?php
     }//end of while loop
