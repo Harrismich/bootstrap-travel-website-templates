@@ -50,7 +50,7 @@ $user_id = $_SESSION['user_id'];
         <div class="carousel-inner">
           <div class="carousel-item active">
               <?php 
-                  $query = " select * from image i inner join city c on c.city_id = i.city_id where $city_id = i.city_id ORDER BY RAND() limit 1 ";
+                  $query = " select * from pic i inner join city on city_id = id where $city_id = city_id ORDER BY RAND() limit 1 ";
                   $result = mysqli_query($dbc, $query);
                   while ($data = mysqli_fetch_assoc($result)){
                     echo"<img src='./images/" . $data['path'] . ".jpg' class='d-block w-100' />";
@@ -156,9 +156,9 @@ $user_id = $_SESSION['user_id'];
       </div>
     </div>
 
-    <!-- ################# Popular Packages Starts Here #######################--->
+    <!-- ################# Προτάσεις Εστιατορίων #######################--->
 <?php
-    $query = "SELECT * FROM category c inner join choice ch on ch.category_id = c.category_id inner join pictures p on ch.choice_id = p.choice_id where city_id='$city_id' AND c.category_id = 4 ORDER BY RAND() LIMIT 3";
+    $query = "SELECT * FROM category c inner join choice ch on ch.category_id = c.category_id inner join pic on ch.choice_id = id where city_id='$city_id' AND c.category_id = 4 ORDER BY RAND() LIMIT 3";
 $result = mysqli_query($dbc, $query);
 
 echo '<div class="popular-pack no-bgpack container-fluid">';
@@ -204,10 +204,10 @@ echo '    </div>';
 echo '  </div>';
 echo '</div>';
 ?>
-    <!--################### Destinations Starts Here #######################--->
+    <!--################### Προτάσεις Ξενοδοχείων #######################--->
 
     <?php
-    $query = "SELECT * FROM category c inner join choice ch on ch.category_id = c.category_id inner join pictures p on ch.choice_id = p.choice_id where city_id='$city_id' AND c.category_id = 1 ORDER BY RAND() LIMIT 3";
+    $query = "SELECT * FROM category c inner join choice ch on ch.category_id = c.category_id inner join pic on ch.choice_id = id where city_id='$city_id' AND ch.category_id = 1 ORDER BY RAND() LIMIT 3";
     $result = mysqli_query($dbc, $query);
 echo'    <div class="destinations container-fluid">';
 echo'      <div class="container">';
@@ -316,127 +316,11 @@ echo'    </div>';
           </div>
         </div>
       </div>
-    </div>
-
-    <!--################### Tour Review Starts Here #######################--->
-
-    <!-- <div class="review container-fluid">
-      <div class="container">
-        <div class="session-title">
-          <h2>What people say about Us</h2>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-            sollicitudin nisi id consequat bibendum. Phasellus at convallis
-            elit. In purus enim, scelerisque id arcu vitae
-          </p>
         </div>
-        <div class="row review-row">
-          <div class="col-md-6">
-            <div class="review-col">
-              <div class="profil">
-                <img src="assets/images/testimonial/member-01.jpg" alt="" />
-              </div>
-              <div class="review-detail">
-                <h4>Canadian Rockies</h4>
-                <p>
-                  The sightseeing and activities were better than we even
-                  thought! I still can’t believe we did so much in such a short
-                  time, but we did not feel stressed. We really loved the tour
-                  and would do it all over again in a minute! Thanks.
-                </p>
-                <h6>John Smith</h6>
-                <ul class="rat">
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6">
-            <div class="review-col">
-              <div class="profil">
-                <img src="assets/images/testimonial/member-01.jpg" alt="" />
-              </div>
-              <div class="review-detail">
-                <h4>Lake Tahoe Adventure</h4>
-                <p>
-                  The sightseeing and activities were better than we even
-                  thought! I still can’t believe we did so much in such a short
-                  time, but we did not feel stressed. We really loved the tour
-                  and would do it all over again in a minute! Thanks.
-                </p>
-                <h6>John Smith</h6>
-                <ul class="rat">
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6">
-            <div class="review-col">
-              <div class="profil">
-                <img src="assets/images/testimonial/member-01.jpg" alt="" />
-              </div>
-              <div class="review-detail">
-                <h4>Discover Costa Rica</h4>
-                <p>
-                  The sightseeing and activities were better than we even
-                  thought! I still can’t believe we did so much in such a short
-                  time, but we did not feel stressed. We really loved the tour
-                  and would do it all over again in a minute! Thanks.
-                </p>
-                <h6>John Smith</h6>
-                <ul class="rat">
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6">
-            <div class="review-col">
-              <div class="profil">
-                <img src="assets/images/testimonial/member-01.jpg" alt="" />
-              </div>
-              <div class="review-detail">
-                <h4>Canadian Rockies</h4>
-                <p>
-                  The sightseeing and activities were better than we even
-                  thought! I still can’t believe we did so much in such a short
-                  time, but we did not feel stressed. We really loved the tour
-                  and would do it all over again in a minute! Thanks.
-                </p>
-                <h6>John Smith</h6>
-                <ul class="rat">
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
 
     <!--*************** Blog Starts Here ***************-->
     <?php
-    $query = "SELECT * FROM category c inner join choice ch on ch.category_id = c.category_id inner join pictures p on ch.choice_id = p.choice_id where city_id='$city_id' AND c.category_id = 6 ORDER BY RAND() LIMIT 3";
+    $query = "SELECT * FROM category c inner join choice ch on ch.category_id = c.category_id inner join pic on ch.choice_id =id where city_id='$city_id' AND c.category_id = 6 ORDER BY RAND() LIMIT 3";
     $result = mysqli_query($dbc, $query);
     ?>
     <div class="container-fluid blog">
@@ -446,7 +330,6 @@ echo'    </div>';
           <div class="col-lg-4 col-md-6 col-sm-6">
             <div class="blog-col">
               <?php echo '<a href=' . $data['map']. '><img src="./pictures/' . $data['path'] . '.jpg" alt="" /></a>'; ?>
-              <?php echo' <span>'. $data["timestamp"] . '</span>'; ?>
               <h4><?php echo $data['name']; ?></h4>
               <p>
                 <?php echo $data['description']; ?>

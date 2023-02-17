@@ -112,9 +112,9 @@ $user_id = $_SESSION['user_id'];
     if (isset($_GET["filter"])) {
     $filterValue = $_GET["filter"];
     }
-    $query = "SELECT * FROM pictures p inner join choice ch on p.choice_id=ch.choice_id  where ch.city_id = '$city' ";
+    $query = "SELECT * FROM pic p inner join choice ch on choice_id=id  where city_id = '$city' ";
     if ($filterValue == "all") {
-        $query = "SELECT * FROM pictures p inner join choice ch on p.choice_id=ch.choice_id  where ch.city_id = '$city' ";
+        $query = "SELECT * FROM pic p inner join choice ch on choice_id=id  where city_id = '$city' ";
     }else if($filterValue == "1"){
         $query .= "AND category_id = '$filterValue' " ;
     }else if($filterValue == "2"){
@@ -126,9 +126,9 @@ $user_id = $_SESSION['user_id'];
     }else if($filterValue == "5"){
         $query .= " AND category_id = '$filterValue' ";
     }
+    $query.= "GROUP BY ch.choice_id";
     $_SESSION['category'] = $filterValue;
     $result = mysqli_query($dbc, $query);
-
                 echo'<div class="container">';        
                     echo'<div class="box-container">';
                         while ($data = mysqli_fetch_assoc($result)) {   

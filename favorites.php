@@ -74,7 +74,7 @@ $user_id = $_SESSION["user_id"];
 
     <?php
                 
-                $favorites = "SELECT * FROM user_choice uc right join choice c on uc.choice_id = c.choice_id inner join pictures p on c.choice_id = p.choice_id where user_id = '$user_id' ";
+                $favorites = "SELECT * FROM user_choice uc right join choice c on uc.choice_id = c.choice_id inner join pic on c.choice_id = id where user_id = '$user_id' ";
                 //$query = "SELECT * FROM pictures p inner join choice ch on p.choice_id=ch.choice_id where ch.city_id = '$city' ";
                 $result = mysqli_query($dbc, $favorites);
                 echo'<div class="container">';        
