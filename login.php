@@ -107,7 +107,7 @@ if (isset($_POST['Register'])) {
 
 </head>
 <?php
-  $result = mysqli_query($dbc, "SELECT * FROM pic ORDER BY RAND()");
+  $result = mysqli_query($dbc, "SELECT * FROM pic where type_id = 'city' ORDER BY RAND()");
   $images = [];
   while ($row = mysqli_fetch_array($result)) {
     $images[] = 'images/' . $row['path'] . '.jpg';
