@@ -1,9 +1,9 @@
 <?php
 include('../database.php');
 session_start();
-// if (!isset($_SESSION['logged_in_admin']) || !$_SESSION['logged_in_admin']) {
-// 	header("Location: login.php");
-// }
+if (!isset($_SESSION['logged_in_admin']) || !$_SESSION['logged_in_admin']) {
+	header("Location: ../../login.php");
+}
 $_SESSION['user_id'];
 ?>
 <!DOCTYPE html>
@@ -43,7 +43,7 @@ $_SESSION['user_id'];
                     </thead>
                     <tbody>
                             <?php
-                                $choice= "select distinct * from house h inner join choice ch on h.choice_id = ch.choice_id inner join pictures p on p.choice_id = ch.choice_id";
+                                $choice= "select distinct * from choice ch inner join  house h on h.choice_id = ch.choice_id inner join pic on id = ch.choice_id group by id";
                                 $ch_result = mysqli_query($dbc, $choice);
                                 while($row=$ch_result->fetch_assoc()){
                                 $city=$dbc->query("select city_name from city where city_id = {$row['city_id']}");
@@ -172,6 +172,7 @@ $_SESSION['user_id'];
                                                             </div>
                                                             <div class="col-lg-8" align="left">
                                                                 <?php
+                                                                //Σε ποια πόλη Ανήκει η επιλογή που επέλεξε ο admin
                                                                     $city_query = "SELECT * FROM choice ch inner JOIN city c ON ch.city_id = c.city_id WHERE ch.choice_id = " .$erow['choice_id'];
                                                                     $city_result = mysqli_query($dbc, $city_query);
                                                                     $city_row = mysqli_fetch_assoc($city_result);
@@ -192,6 +193,7 @@ $_SESSION['user_id'];
                                                                 </select>
                                                             </div>
                                                         </div>
+                                                        <div style="height:10px;"></div>
                                                         <div class="row">
                                                             <div class="col-lg-4" align="left">
                                                                 <label style="position:relative; top:7px;">Category: </label>
@@ -212,6 +214,7 @@ $_SESSION['user_id'];
                                                                             if ($crow['category_id'] == $category_from_database) {
                                                                                 $selected = 'selected';
                                                                             }
+                                                                        
                                                                             echo" <option name='category' value='".$crow['category_id']."' ".$selected.">" . $crow['category_name'] ." </option>";
                                                                         }
                                                                     ?>
@@ -234,6 +237,15 @@ $_SESSION['user_id'];
                                                             </div>
                                                             <div class="col-lg-8">
                                                                 <input type="text" class="form-control" name="phone" value="<?php echo $erow['phone_number']; ?>">
+                                                            </div>
+                                                        </div>
+                                                        <div style="height:10px;"></div>
+                                                        <div class="row">
+                                                            <div class="col-lg-4">
+                                                                <label class="control-label" style="position:relative; top:7px;">Avalaible From:</label>
+                                                                </div>
+                                                            <div class="col-lg-8">
+                                                                <input type="date" class="form-control" name="availability">
                                                             </div>
                                                         </div>
                                                         <div style="height:10px;"></div>
@@ -267,15 +279,19 @@ $_SESSION['user_id'];
                                                                 ?>
                                                                 <select name="activation">
                                                                     <?php   
-                                                                        $sql= "select activation from house ";
+                                                                        $sql= "select activation from house group by activation";
                                                                         $status_res = mysqli_query($dbc, $sql);
                                                                         while($crow=$status_res->fetch_assoc()){
                                                                             $selected = '';
                                                                             if ($crow['activation'] == $category_from_database) {
                                                                                 $selected = 'selected';
                                                                             }
-                                                                            echo "<option name='category' value='active' " . ($crow['activation'] == 'active' ? 'selected' : '') . ">Active</option>";
-                                                                            echo "<option name='category' value='not_active' " . ($crow['activation'] == 'not_active' ? 'selected' : '') . ">Inactive</option>";                                                                        }
+                                                                            if(($crow['activation'] == 'active')){
+                                                                                echo "<option name='status' value= '" .$crow['activation']."' ".$selected.">" . $crow['activation']."</option>";
+                                                                            }else{
+                                                                                echo "<option name='status' value= '" .$crow['activation']."' ".$selected.">" . $crow['activation']."</option>";
+                                                                            }
+                                                                        }
                                                                     ?>
                                                                 </select>
                                                             </div>
@@ -429,8 +445,9 @@ $_SESSION['user_id'];
                                                                     $selected = 'selected';
                                                                 }
                                                                 echo "<option name='category' value='active' " . ($crow['activation'] == 'active' ? 'selected' : '') . ">Active</option>";
-                                                                echo "<option name='category' value='not_active' " . ($crow['activation'] == 'not_active' ? 'selected' : '') . ">Inactive</option>";                                                                        }
-                                                        ?>
+                                                                echo "<option name='category' value='not_active' " . ($crow['activation'] == 'not_active' ? 'selected' : '') . ">Inactive</option>";                                                                        
+                                                            }
+                                                            ?>
                                                     </select>
                                                 </div>
                                             </div>

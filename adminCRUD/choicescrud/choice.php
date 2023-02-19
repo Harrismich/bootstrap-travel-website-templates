@@ -2,7 +2,7 @@
 include('../database.php');
 session_start();
 if (!isset($_SESSION['logged_in_admin']) || !$_SESSION['logged_in_admin']) {
-	header("Location: login.php");
+	header("Location: ../../login.php");
 }
 ?>
 <!DOCTYPE html>
@@ -41,7 +41,7 @@ if (!isset($_SESSION['logged_in_admin']) || !$_SESSION['logged_in_admin']) {
                     </thead>
                     <tbody>
                             <?php
-                                $choice= "select * from choice ch inner join pictures p on ch.choice_id = p.choice_id inner join city c where c.city_id = ch.city_id";
+                                $choice= "select * from choice ch inner join pic on ch.choice_id = id inner join city c where c.city_id = ch.city_id group by ch.choice_id";
                                 $ch_result = mysqli_query($dbc, $choice);
                                 while($row=$ch_result->fetch_assoc()){
                             ?>
