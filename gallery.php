@@ -67,10 +67,10 @@ $user_id = $_SESSION['user_id'];
             <div class="gallery-filter d-none d-sm-block">
                 <button class="btn btn-default filter-button" data-filter="1"> Hotels </button>
                 <button class="btn btn-default filter-button" data-filter="2"> Army Hotels </button>
-                <button class="btn btn-default filter-button" data-filter="3"> Λέσχες </button>
+                <button class="btn btn-default filter-button" data-filter="3"> Officers' Mess </button>
                 <button class="btn btn-default filter-button" data-filter="4"> Restaurant </button>
                 <button class="btn btn-default filter-button" data-filter="5"> Hospitals </button>
-                <button class="btn btn-default filter-button" data-filter="8"> Available House </button>
+                <button class="btn btn-default filter-button" data-filter="8"> Available Houseσ </button>
             </div>
             <br/>
 
@@ -145,9 +145,9 @@ $user_id = $_SESSION['user_id'];
                                     echo' <div class="content">';
                                     if(($filterValue==8) && ($data['activation']=='active')) { //only when user click available houses
                                         
-                                        echo "<h6><strong> Διεύθυνση: </strong>" .$data['address'] ."</h6>";
+                                        echo "<h6><strong> Αddress: </strong>" .$data['address'] ."</h6>";
                                         echo "<h6><strong> Owner: </strong>" .$data['name'] ."</h6>";
-                                        echo "<h6><strong> Τηλέφωνα: </strong>" .$data['phone_number'] ."</h6>";
+                                        echo "<h6><strong> Phone: </strong>" .$data['phone_number'] ."</h6>";
                                         $date = $data['ch_date'];
                                         $formatted_date = date("d/m/y", strtotime($date));
                                         echo "<h6><strong> Available from: </strong>" .$formatted_date."</h6>";
@@ -165,9 +165,9 @@ $user_id = $_SESSION['user_id'];
                                     }else {
                                         echo "<h3>". $data['name'] . " </h4> ";
                                         echo "<br>";
-                                        echo "<h6><strong> Διεύθυνση: </strong>" .$data['address'] ."</h6>";
-                                        echo "<h6><strong> Τηλέφωνα: </strong>" .$data['phone_number'] ."</h6>";
-                                        echo "<h6> <a href = " .$data['link'] . "><strong>Link:</strong> Επισκεφθείτε μας </a></h6>";
+                                        echo "<h6><strong> Address: </strong>" .$data['address'] ."</h6>";
+                                        echo "<h6><strong> Phone: </strong>" .$data['phone_number'] ."</h6>";
+                                        echo "<h6> <a href = " .$data['link'] . "><strong>Link:</strong> Visit us </a></h6>";
                                         echo '<button class="btn" onclick="window.location.href=\'about_us.php?name=' . urlencode($data['choice_id']) . '\'">Read More</button>';
                                         echo '<div class="icons">';
                                         echo '<input type="hidden" class="choice_id" value="'. $data['choice_id'] . '">';
