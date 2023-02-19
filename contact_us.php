@@ -79,19 +79,19 @@ $user_id = $_SESSION['user_id'];
                         </div>
                     </div>
                     <div  class="row cont-row">
-                        <div  class="col-sm-3"><label>Διεύθυνση </label><span>:</span></div>
+                        <div  class="col-sm-3"><label>Address </label><span>:</span></div>
                         <div class="col-sm-8"><input type="text" name="address" placeholder="Enter the address" class="form-control input-sm" required ></div>
                     </div>
                     <div  class="row cont-row">
-                        <div  class="col-sm-3"><label>Κινητό</label><span>:</span></div>
+                        <div  class="col-sm-3"><label>Phone</label><span>:</span></div>
                         <div class="col-sm-8"><input type="text" name="phone_number" placeholder="Enter owner's phone phone numer" class="form-control input-sm"  required maxlength="10"></div>
                     </div>
                     <div  class="row cont-row">
-                        <div  class="col-sm-3"><label>Διαθέσιμο από</label><span>:</span></div>
+                        <div  class="col-sm-3"><label>Available From</label><span>:</span></div>
                         <div class="col-sm-8"><input type="date" name="availability" placeholder="Διαθέσιμο από" class="form-control input-sm"  required></div>
                     </div>
                     <div  class="row cont-row">
-                        <div  class="col-sm-3"><label>Περιγραφή</label><span>:</span></div>
+                        <div  class="col-sm-3"><label>Description</label><span>:</span></div>
                         <div class="col-sm-8"><textarea rows="5" name ='description' placeholder="Enter some information fo the house e.g (price, floor, parking area)" class="form-control input-sm"required></textarea>
                         </div>
                     </div>
@@ -102,7 +102,7 @@ $user_id = $_SESSION['user_id'];
                     <div style="margin-top:10px;" class="row">
                         <div class="col-sm-3"><label></label></div>
                         <div class="col-sm-8">
-                            <button class="btn btn-success btn-sm" type="submit" name="submit">Αποστολή</button>
+                            <button class="btn btn-success btn-sm" type="submit" name="submit">Post</button>
                         </div>
                     </div>
                 </div>

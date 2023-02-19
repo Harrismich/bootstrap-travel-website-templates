@@ -17,64 +17,64 @@ if (isset($_POST['signUp'])) {
 		mysqli_stmt_close($stmt);
 		//check if the entered password matches the hashed password in the database
 		if(password_verify($password, $pw)) {
-    		if($role == 1){
-				$_SESSION['logged_in_admin'] = true;
-				$_SESSION['user_id']=$userid;
-				$_SESSION['username'] = $username;
-    			header('Location: http://localhost/project%20php/bootstrap-travel-website-templates/adminCRUD/home.php');
-    		}else{
-				$_SESSION['logged_in_user'] = true;
-				$_SESSION['user_id']=$userid;
-				$_SESSION['username']=$username;
-       			header('Location: packages.php');
-   			}	
-		}else {
-			echo '<script>alert("Password or Username are invalid ")</script>';
-		}
+		if($role == 1){
+			$_SESSION['logged_in_admin'] = true;
+			$_SESSION['user_id']=$userid;
+			$_SESSION['username'] = $username;
+			header('Location: http://localhost/project%20php/bootstrap-travel-website-templates/adminCRUD/home.php');
+		}else{
+			$_SESSION['logged_in_user'] = true;
+			$_SESSION['user_id']=$userid;
+			$_SESSION['username']=$username;
+			header('Location: packages.php');
+		}	
 	}else {
 		echo '<script>alert("Password or Username are invalid ")</script>';
 	}
+}else {
+	echo '<script>alert("Password or Username are invalid ")</script>';
+}
 }
 if (isset($_POST['Register'])) {
 
-   $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-   $username = trim(filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING));
-   $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
-   $confirmPassword = filter_input(INPUT_POST, 'confirmPassword', FILTER_SANITIZE_STRING);
-   $first_name = trim(filter_input(INPUT_POST, 'first_name', FILTER_SANITIZE_STRING));
-   $last_name = trim(filter_input(INPUT_POST, 'last_name', FILTER_SANITIZE_STRING));
-   // PHP form validation PHP code
-	if ($password !== $confirmPassword) {
-	   $error = "1";
-	   echo '<script>alert("Password and Confirm passwors is not the same ")</script>';
-	   header("Location: login.php");  
+$email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+$username = trim(filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING));
+$password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
+$confirmPassword = filter_input(INPUT_POST, 'confirmPassword', FILTER_SANITIZE_STRING);
+$first_name = trim(filter_input(INPUT_POST, 'first_name', FILTER_SANITIZE_STRING));
+$last_name = trim(filter_input(INPUT_POST, 'last_name', FILTER_SANITIZE_STRING));
+// PHP form validation PHP code
+if ($password !== $confirmPassword) {
+	$error = "1";
+	echo '<script>alert("Password and Confirm passwors is not the same ")</script>';
+	header("Location: login.php");  
+
+} else {
+
+	//Check if email is already exist in the Database
+	$stmt = mysqli_prepare($dbc, "SELECT user_id FROM user WHERE email = ?");
+	mysqli_stmt_bind_param($stmt, "s", $email);
+	mysqli_stmt_execute($stmt);
+	mysqli_stmt_bind_result($stmt, $user_id);
+	
+	if (mysqli_stmt_fetch($stmt)) {
+		mysqli_stmt_close($stmt);
+		echo '<script>alert("Your email has taken already! ")</script>';
 
 	} else {
-	
-	   //Check if email is already exist in the Database
-	   $stmt = mysqli_prepare($dbc, "SELECT user_id FROM user WHERE email = ?");
-	   mysqli_stmt_bind_param($stmt, "s", $email);
-	   mysqli_stmt_execute($stmt);
-	   mysqli_stmt_bind_result($stmt, $user_id);
-	   
-	   if (mysqli_stmt_fetch($stmt)) {
-		   mysqli_stmt_close($stmt);
-		   echo '<script>alert("Your email has taken already! ")</script>';
+		mysqli_stmt_close($stmt);
+		//Password encryption or Password Hashing
+		$hashedPassword = password_hash($password, PASSWORD_DEFAULT); 
+		$stmt = mysqli_prepare($dbc, "INSERT INTO user (role_id , first_name , last_name, username , password , email) VALUES (2,?,?,?,?,?)");
+		mysqli_stmt_bind_param($stmt, "sssss",  $first_name, $last_name, $username, $hashedPassword, $email);
+		mysqli_stmt_execute($stmt);
+		mysqli_stmt_close($stmt);
 
-	   } else {
-		   mysqli_stmt_close($stmt);
-		   //Password encryption or Password Hashing
-		   $hashedPassword = password_hash($password, PASSWORD_DEFAULT); 
-		   $stmt = mysqli_prepare($dbc, "INSERT INTO user (role_id , first_name , last_name, username , password , email) VALUES (2,?,?,?,?,?)");
-		   mysqli_stmt_bind_param($stmt, "sssss",  $first_name, $last_name, $username, $hashedPassword, $email);
-		   mysqli_stmt_execute($stmt);
-		   mysqli_stmt_close($stmt);
+		//Redirecting user to home page after successfully logged in 
+		header("Location: login.php");  
 
-		   //Redirecting user to home page after successfully logged in 
-		   header("Location: login.php");  
-
-		   }    
-	   }
+		}    
+	}
 }
 
 ?>
@@ -98,21 +98,21 @@ if (isset($_POST['Register'])) {
 		width: 100%;
 		height: 100%;
 	}
-	body {
-  		background-size: cover;
-  		transition: background-image 1.3s ease-in;
-	}
+body {
+	background-size: cover;
+	transition: background-image 1.3s ease-in;
+}
 </style>
-	</style>
+</style>
 
 </head>
 <?php
-  $result = mysqli_query($dbc, "SELECT * FROM pic where type_id = 'city' ORDER BY RAND()");
-  $images = [];
-  while ($row = mysqli_fetch_array($result)) {
-    $images[] = 'images/' . $row['path'] . '.jpg';
-  }
-  
+$result = mysqli_query($dbc, "SELECT * FROM pic where type_id = 'city' ORDER BY RAND()");
+$images = [];
+while ($row = mysqli_fetch_array($result)) {
+$images[] = 'images/' . $row['path'] . '.jpg';
+}
+
 
 ?>
 
@@ -191,16 +191,16 @@ if (isset($_POST['Register'])) {
 	</div>	
 </div>
 <script>
-  function changeBackground() {
-    var images = <?php echo json_encode($images); ?>;
-    var index = 0;
+function changeBackground() {
+var images = <?php echo json_encode($images); ?>;
+var index = 0;
+document.body.style.backgroundImage = "url(" + images[index] + ")";
+setInterval(function () {
 	document.body.style.backgroundImage = "url(" + images[index] + ")";
-    setInterval(function () {
-      document.body.style.backgroundImage = "url(" + images[index] + ")";
-      index = (index + 1) % images.length;
-    }, 4000);
-  }
-  changeBackground();
+	index = (index + 1) % images.length;
+}, 4000);
+}
+changeBackground();
 </script>
 </body>
 </html>

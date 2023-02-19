@@ -38,6 +38,11 @@ $user_id = $_SESSION['user_id'];
     <link rel="stylesheet" href="assets/css/all.min.css" />
     <link rel="stylesheet" href="assets/css/animate.css" />
     <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+    <style>
+    html {
+  scroll-behavior: smooth;
+}
+</style>
   </head>
 
   <body>
@@ -74,7 +79,7 @@ $user_id = $_SESSION['user_id'];
               <a href="gallery.php?filter=1"><i class="fas fa-hotel"></i></a>
               </div>
               <div class="detail">
-              <a href="gallery.php?filter=1"><h4>Ξενοδοχεία</h4><a>
+              <a href="gallery.php?filter=1"><h4>Hotels</h4><a>
                 <p>
                   Turpis accumsan. Proin id ligula suspendisse. Aliquet
                   fringilla, aptent eu dignissim.
@@ -88,7 +93,7 @@ $user_id = $_SESSION['user_id'];
               <a href="gallery.php?filter=4"><i class="fas fa-utensils"></i></a>
               </div>
               <div class="detail">
-                <a href="gallery.php?filter=4"><h4>Εστιατόρια</h4></a>
+                <a href="gallery.php?filter=4"><h4>Restaurants</h4></a>
                 <p>
                   Turpis accumsan. Proin id ligula suspendisse. Aliquet
                   fringilla, aptent eu dignissim.
@@ -97,18 +102,19 @@ $user_id = $_SESSION['user_id'];
             </div>
           </div>
           <div class="col-lg-4 col-md-6">
-            <div class="col-card">
+            <a href="#section2" >
+            <div class="col-card" id="section1">
               <div class="icon">
-              <i class="fas fa-eye"></i>
+                  <i class="fas fa-eye"></i>
+                </div>
+                <div class="detail">
+                  <h4>Sight</h4>
+                  <p>
+                    Turpis accumsan. Proin id ligula suspendisse. Aliquet fringilla, aptent eu dignissim.
+                  </p>
+                </div>
               </div>
-              <div class="detail">
-                <h4>Αξιοθέατα</h4>
-                <p>
-                  Turpis accumsan. Proin id ligula suspendisse. Aliquet
-                  fringilla, aptent eu dignissim.
-                </p>
-              </div>
-            </div>
+            </a>
           </div>
           <div class="col-lg-4 col-md-6">
             <div class="col-card">
@@ -116,7 +122,7 @@ $user_id = $_SESSION['user_id'];
               <i class="fas fa-hospital"></i>
               </div>
               <div class="detail">
-              <a href="gallery.php?filter=5"><h4>Νοσοκομεία</h4></a>
+              <a href="gallery.php?filter=5"><h4>Hospitals</h4></a>
                 <p>
                   Turpis accumsan. Proin id ligula suspendisse. Aliquet
                   fringilla, aptent eu dignissim.
@@ -164,9 +170,9 @@ $result = mysqli_query($dbc, $query);
 echo '<div class="popular-pack no-bgpack container-fluid">';
 echo '  <div class="container">';
 echo '    <div class="session-title">';
-echo '      <h2>Προτάσεις Εστιατορίων</h2>';
+echo '      <h2>Recommended Restaurants</h2>';
 echo '      <p>';
-echo'         <a href="gallery.php?filter=4">Περισσότερα</a>';
+echo'         <a href="gallery.php?filter=4">more...</a>';
 echo '      </p>';
 echo '    </div>';
 echo '    <div class="row pack-row">';
@@ -212,9 +218,9 @@ echo '</div>';
 echo'    <div class="destinations container-fluid">';
 echo'      <div class="container">';
 echo'        <div class="session-title">';
-echo'          <h2>Προτάσεις Ξενοδοχείων</h2>';
+echo'          <h2>Recommended Hotels</h2>';
 echo'          <p>';
-echo'            <a href="gallery.php?filter=1">Περισσότερα</a>';
+echo'            <a href="gallery.php?filter=1">more...</a>';
 echo'           </p>';
 echo'         </div>';
 echo'         <div class="dest-row row">';
@@ -318,28 +324,31 @@ echo'    </div>';
       </div>
         </div>
 
-    <!--*************** Blog Starts Here ***************-->
-    <?php
-    $query = "SELECT * FROM category c inner join choice ch on ch.category_id = c.category_id inner join pic on ch.choice_id =id where city_id='$city_id' AND c.category_id = 6 ORDER BY RAND() LIMIT 3";
-    $result = mysqli_query($dbc, $query);
-    ?>
-    <div class="container-fluid blog">
-      <div class="container">
-        <div class="blog-row row">
-        <?php while ($data = mysqli_fetch_assoc($result)) { ?>
-          <div class="col-lg-4 col-md-6 col-sm-6">
-            <div class="blog-col">
-              <?php echo '<a href=' . $data['map']. '><img src="./pictures/' . $data['path'] . '.jpg" alt="" /></a>'; ?>
-              <h4><?php echo $data['name']; ?></h4>
-              <p>
-                <?php echo $data['description']; ?>
-              </p>
+    <!--*************** Sight Starts Here ***************-->
+    <div id="section2" >
+      <?php
+      $query = "SELECT * FROM category c inner join choice ch on ch.category_id = c.category_id inner join pic on ch.choice_id =id where city_id='$city_id' AND c.category_id = 6 ORDER BY RAND() LIMIT 3";
+      $result = mysqli_query($dbc, $query);
+      ?>
+      <div class="container-fluid blog">
+        <div class="container">
+          <div class="blog-row row">
+          <?php while ($data = mysqli_fetch_assoc($result)) { ?>
+            <div class="col-lg-4 col-md-6 col-sm-6">
+              <div class="blog-col">
+                <?php echo '<a href=' . $data['map']. '><img src="./pictures/' . $data['path'] . '.jpg" alt="" /></a>'; ?>
+                <h4><?php echo $data['name']; ?></h4>
+                <p>
+                  <?php echo $data['description']; ?>
+                </p>
+              </div>
             </div>
+            <?php } ?>
           </div>
-          <?php } ?>
         </div>
       </div>
     </div>
+
 
     <!--  ************************* Footer Start Here ************************** -->
 

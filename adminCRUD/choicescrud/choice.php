@@ -41,7 +41,7 @@ if (!isset($_SESSION['logged_in_admin']) || !$_SESSION['logged_in_admin']) {
                     </thead>
                     <tbody>
                             <?php
-                                $choice= "select * from choice ch inner join pic on ch.choice_id = id inner join city c where c.city_id = ch.city_id group by ch.choice_id";
+                                $choice= "select * from choice ch inner join pic on ch.choice_id = id inner join city c where c.city_id = ch.city_id and category_id != 8 group by ch.choice_id";
                                 $ch_result = mysqli_query($dbc, $choice);
                                 while($row=$ch_result->fetch_assoc()){
                             ?>
