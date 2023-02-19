@@ -50,7 +50,7 @@ $user_id = $_SESSION['user_id'];
         <div class="carousel-inner">
           <div class="carousel-item active">
               <?php 
-                  $query = " select * from pic i inner join city on city_id = id where $city_id = city_id ORDER BY RAND() limit 1 ";
+                  $query = " select * from pic inner join city on city_id = id where $city_id = city_id  ORDER BY RAND() limit 1 ";
                   $result = mysqli_query($dbc, $query);
                   while ($data = mysqli_fetch_assoc($result)){
                     echo"<img src='./images/" . $data['path'] . ".jpg' class='d-block w-100' />";
