@@ -34,7 +34,12 @@ CREATE TABLE image (
     FOREIGN KEY (city_id) REFERENCES city (city_id)
 );
 -- drop table city;
-
+CREATE TABLE pic (
+    pic_id INT AUTO_INCREMENT PRIMARY KEY,
+    id INT NOT NULL,
+    type_id ENUM('city', 'choice','user') NOT NULL,
+    path VARCHAR(255) NOT NULL
+);
 
 CREATE TABLE choice (
     choice_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -47,7 +52,10 @@ CREATE TABLE choice (
     FOREIGN KEY (category_id) REFERENCES category (category_id),
     city_id INT NOT NULL,
     FOREIGN KEY (city_id) REFERENCES city (city_id),
-    description TEXT NOT NULL
+    description TEXT NOT NULL,
+    activation  enum ('active', 'not active'),
+    user_id INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user (user_id)
 );
 CREATE TABLE pictures (
 	picture_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -78,7 +86,19 @@ CREATE TABLE reviews (
     FOREIGN KEY (user_id) REFERENCES user(user_id)
 );
 -- drop table criticals;
-
+CREATE TABLE house (
+    house_id INT AUTO_INCREMENT PRIMARY KEY,
+    choice_id INT NOT NULL,
+    user_id INT NOT NULL,
+    ch_date DATE,
+    activation ENUM('active', 'not active') NOT NULL,
+    FOREIGN KEY (choice_id) REFERENCES choice(choice_id),
+    FOREIGN KEY (user_id) REFERENCES user(user_id)
+);
+drop table house;
+-- inserts for house
+INSERT INTO house (choice_id, user_id, ch_date, activation)
+VALUES (36, 3, '2023-02-16', 'active');
 -- inserts for role
 INSERT INTO role (name) 
 VALUES ('Admin');
@@ -147,6 +167,8 @@ VALUES ('Αξιοθέατα');
 INSERT INTO category (category_name)
 VALUES ('Παρκινγκ');
 
+INSERT INTO category (category_name)
+VALUES ('Σπίτια');
 
 
 
@@ -191,6 +213,9 @@ VALUES ('Ταβέρνα του Άη Γιώργη', 'Παραλία Αγίου Γ
 
 INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description) 
 VALUES ('Πανεπιστημιακό Γενικό Νοσοκομείο Αλεξανδρούπολης', 'Αλεξανδρούπολη 681 00', '2551353000' , 'https://pgna.gr/','https://goo.gl/maps/8N8iwkUmbgvcNAWCA', 5,  1,'fsdfsda');
+
+INSERT INTO choice (name, address, phone_number, category_id, city_id, description) 
+VALUES ('Μιχαηλίδης Χαράλαμπος', 'Αξιουπόλεως 49', '2551353000' , 8,  1,'150$ με Παρκινγκ και 3 Δωμάτια');
 
 
 -- city=2
@@ -271,6 +296,44 @@ INSERT INTO pictures (choice_id, path)
 VALUES (18,'tarolla');
 INSERT INTO pictures (choice_id, path)
 VALUES (19,'hospitalAlexpoli');
+INSERT INTO pictures (choice_id, path)
+VALUES (36,'Spiti');
+
+insert into pic (id,type_id,path) values ( 1 , 'city' , 'alexandroupoli1');
+insert into pic (id,type_id,path) values ( 1 , 'city' , 'alexandroupoli2');
+insert into pic (id,type_id,path) values ( 1 , 'city' , 'alexandroupoli3');
+
+insert into pic (id,type_id,path) values ( 2 , 'city' , 'rodos1');
+insert into pic (id,type_id,path) values ( 2 , 'city' , 'rodos2');
+insert into pic (id,type_id,path) values ( 2 , 'city' , 'rodos3');
+
+insert into pic (id,type_id,path) values ( 1 , 'choice' , 'lighthouse');
+
+insert into pic (id,type_id,path) values ( 3 , 'choice' , 'xenonas_alexpolis');
+insert into pic (id,type_id,path) values ( 4 , 'choice' , 'lesxi_alexpolis');
+insert into pic (id,type_id,path) values ( 5 , 'choice' , 'harama');
+insert into pic (id,type_id,path) values ( 6 , 'choice' , 'taverna-agios');
+insert into pic (id,type_id,path) values ( 7 , 'choice' , 'plaza-hotel');
+insert into pic (id,type_id,path) values ( 8 , 'choice' , 'lydia-hotel');
+insert into pic (id,type_id,path) values ( 9 , 'choice' , 'xenonas-rodos');
+insert into pic (id,type_id,path) values ( 10 , 'choice' , 'lesxi_rodos');
+insert into pic (id,type_id,path) values ( 11 , 'choice' , '4rodies');
+insert into pic (id,type_id,path) values ( 12 , 'choice' , 'carne');
+insert into pic (id,type_id,path) values ( 13 , 'choice' , 'elite');
+insert into pic (id,type_id,path) values ( 14 , 'choice' , 'hotel-fotini');
+insert into pic (id,type_id,path) values ( 15 , 'choice' , 'xenonas_kalamatas');
+insert into pic (id,type_id,path) values ( 16 , 'choice' , 'lesxi_kalamatas');
+insert into pic (id,type_id,path) values ( 17 , 'choice' , 'notias');
+insert into pic (id,type_id,path) values ( 18 , 'choice' , 'tarolla');
+insert into pic (id,type_id,path) values ( 19 , 'choice' , 'hospitalAlexpoli');
+insert into pic (id,type_id,path) values ( 36 , 'choice' , 'Spiti');
+insert into pic (id,type_id,path) values ( 36 , 'choice' , 'harama');
+
+insert into pic (id,type_id,path) values ( 30 , 'choice' , 'alexandroupoli-s-lighthouse');
+
+
+
+
 
 
 

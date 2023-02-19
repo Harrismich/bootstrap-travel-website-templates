@@ -65,8 +65,9 @@ include('../database.php');
       exit();
   } else {
       if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-          $image_insert_stmt = $dbc->prepare("INSERT INTO image (city_id, path) VALUES (?, ?)");
-          $image_insert_stmt->bind_param("is", $city_id, $filename);
+          $image_insert_stmt = $dbc->prepare("INSERT INTO pic (id,type_id, path) VALUES (?,?, ?)");
+          $type_id = 'city';
+          $image_insert_stmt->bind_param("iss", $city_id,$type_id, $filename);
           $image_insert_stmt->execute();
       } else {
           echo "<script>alert('Sorry, there was an error uploading your file.'); history.go(-1);</script>";

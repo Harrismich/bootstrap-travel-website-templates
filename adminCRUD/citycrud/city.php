@@ -2,7 +2,7 @@
 require_once('..\database.php');
 session_start();
 if (!isset($_SESSION['logged_in_admin']) || !$_SESSION['logged_in_admin']) {
-	header("Location: login.php");
+	header("Location: ../../login.php");
 }
 ?>
 <!DOCTYPE html>
@@ -55,7 +55,7 @@ id="empTable" >
 <tbody>
 <?php
 
-$choices= "select * from city c inner join image i on c.city_id = i.city_id group by c.city_id";
+$choices= "select * from city c inner join pic on c.city_id = id group by c.city_id";
 $result = mysqli_query($dbc, $choices);
 while($row=$result->fetch_assoc()){
 ?>
@@ -78,7 +78,7 @@ while($row=$result->fetch_assoc()){
         data-toggle="modal" class="btn btn-danger btn-sm">
         <span class="glyphicon glyphicon-remove">
         </span> Delete</a><br>
-        </td>
+        
         <!-- include edit modal -->
         <?php include('show_detail_modal.php'); ?>
         <!-- End -->

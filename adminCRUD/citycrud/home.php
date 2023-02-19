@@ -1,6 +1,6 @@
 <?php
 if (!isset($_SESSION['logged_in_admin']) || !$_SESSION['logged_in_admin']) {
-	header("Location: login.php");
+	header("Location: ../../login.php");
 }?>
 <!DOCTYPE html>
 

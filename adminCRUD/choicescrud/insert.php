@@ -1,7 +1,9 @@
 <?php
 include('../database.php');
-
-
+session_start();
+if (!isset($_SESSION['logged_in_admin']) || !$_SESSION['logged_in_admin']) {
+	header("Location: ../../login.php");
+}
 $name=$_POST['name'];
 $city= $_POST['city_id'];
 $category=$_POST['category_id'];
@@ -72,8 +74,9 @@ if ($uploadOk == 0) {
     exit();
 } else {
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-        $picture_insert_stmt = $dbc->prepare("INSERT INTO pictures (choice_id, path) VALUES (?, ?)");
-        $picture_insert_stmt->bind_param("is", $choice_id, $filename);
+        $picture_insert_stmt = $dbc->prepare("INSERT INTO pic (id, type_id , path) VALUES ( ?, ?, ?)");
+        $type_id = 'choice';
+        $picture_insert_stmt->bind_param("iss", $choice_id, $type_id, $filename);
         $picture_insert_stmt->execute();
     } else {
         echo "<script>alert('Sorry, there was an error uploading your file.'); history.go(-1);</script>";
