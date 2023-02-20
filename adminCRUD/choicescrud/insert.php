@@ -32,7 +32,7 @@ $choice_insert_stmt->execute();
 
 $choice_id = $dbc->insert_id; // get the last choice inserted ID
 
-$target_dir = "../../pictures/";
+$target_dir = "../../pic/";
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 $uploadOk = 1;
 $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));

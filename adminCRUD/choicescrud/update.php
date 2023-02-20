@@ -29,7 +29,7 @@ $sql = "UPDATE choice SET name='$name', address='$address', phone_number='$phone
 $result = $dbc->query($sql);
 
 
-$target_dir = "../../pictures/"; // specify the directory where you want to store the uploaded files
+$target_dir = "../../pic/"; // specify the directory where you want to store the uploaded files
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]); // get the path of the uploaded file
 $uploadOk = 1;
 $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));

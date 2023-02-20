@@ -23,7 +23,7 @@ include('../database.php');
   
   $city_id = $dbc->insert_id; // get the last inserted ID
   
-  $target_dir = "../../images/";
+  $target_dir = "../../pic/";
   $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
   $uploadOk = 1;
   $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
