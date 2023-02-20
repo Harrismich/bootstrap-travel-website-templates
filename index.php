@@ -160,7 +160,7 @@ $user_id = $_SESSION['user_id'];
     <!-- ################# Προτάσεις Εστιατορίων #######################--->
 <?php
     $query = "SELECT * FROM category c inner join choice ch on ch.category_id = c.category_id inner join pic on ch.choice_id = id where city_id='$city_id' AND c.category_id = 4 ORDER BY RAND() LIMIT 3";
-$result = mysqli_query($dbc, $query);
+    $result = mysqli_query($dbc, $query);
 
 echo '<div class="popular-pack no-bgpack container-fluid">';
 echo '  <div class="container">';
@@ -176,31 +176,35 @@ while ($data = mysqli_fetch_assoc($result)) {
   echo '        <div class="pack-col">';
   echo '          <img src="./pictures/' . $data['path'] . '.jpg" alt="" />';
   echo '          <div class="revire row no-margin">';
-  echo '            <ul class="rat">';
-  echo '              <li><i class="fa fa-star"></i></li>';
-  echo '              <li><i class="fa fa-star"></i></li>';
-  echo '              <li><i class="fa fa-star"></i></li>';
-  echo '              <li><i class="fa fa-star"></i></li>';
-  echo '              <li><i class="fa fa-star"></i></li>';
+                    $query_rate = "SELECT (sum(rate)/count(rate) ) as rev FROM reviews where choice_id = {$data['choice_id']}";
+                    $results = mysqli_query($dbc, $query_rate);
+                    $rating = 0;
+                    if (mysqli_num_rows($results) > 0) {
+                      $row = mysqli_fetch_assoc($results);
+                      $rating = round($row['rev']);
+                    }
+                    for ($i = 1; $i <= 5; $i++) {
+                      if ($i <= $rating) {
+                        echo '<li style="display: inline-block"><i class="fa fa-star" style="color: #f3da35"></i></li>';
+                      } else {
+                        echo '<li style="display: inline-block"><i class="fa fa-star-o" style="color: #f3da35"></i></li>';
+                      }
+                    }
   echo '            </ul>';
+  
   echo '          </div>';
   echo '          <div class="detail row no-margin">';
   echo '            <h4>' . $data['name'] . '</h4>';
- // echo '            <p>' . $data['description'] . '</p>';
   echo '          </div>';
   echo '          <div class="options row no-margin d-flex justify-content-center">';
   echo'           <div class="dest-col">';              
-  echo'               <button class="btn btn-outline-success">Book Now</button>';
+  echo '          <button class="btn" onclick="window.location.href=\'about_us.php?name=' . urlencode($data['choice_id']) . '\'">Read More</button>';
   echo'          </div>';
-  // echo '            <ul>';
-  // echo '              <li><i class="fas fa-utensils"></i></li>';
-  // echo '              <li><i class="fas fa-glass-cheers"></i></li>';
-  // echo '              <li><i class="fas fa-concierge-bell"></i></li>';
-  // echo '            </ul>';
+                
   echo '          </div>';
   echo '        </div>';
   echo '      </div>';
-}
+};
 echo '    </div>';
 echo '  </div>';
 echo '</div>';
@@ -208,7 +212,7 @@ echo '</div>';
     <!--################### Προτάσεις Ξενοδοχείων #######################--->
 
     <?php
-    $query = "SELECT * FROM category c inner join choice ch on ch.category_id = c.category_id inner join pic on ch.choice_id = id where city_id='$city_id' AND ch.category_id = 1 ORDER BY RAND() LIMIT 3";
+    $query = "SELECT * FROM category c inner join choice ch on c.category_id = ch.category_id inner join pic on ch.choice_id = id where city_id='$city_id' AND ch.category_id = 1 ORDER BY RAND() LIMIT 3";
     $result = mysqli_query($dbc, $query);
 echo'    <div class="destinations container-fluid">';
 echo'      <div class="container">';

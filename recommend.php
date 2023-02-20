@@ -1,3 +1,10 @@
+<?php require_once('database.php');
+session_start();
+if (!isset($_SESSION['logged_in_user']) || !$_SESSION['logged_in_user']) {
+	header("Location: login.php");
+}
+$username = $_SESSION['username'];
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -32,7 +39,7 @@ echo $buffer;
 <script>
 var buffer="<?php echo $buffer; ?>";
 //buffer+="has('Αννα',kids).";
-buffer+="has('Georg','kids').";
+buffer+="has('<?php echo $_SESSION['username']; ?>','kids').";
 buffer+="recommendation(X,Y,L):-has(X,W),has(Y,W),visited(Y,L,I),X\\=Y.";
 alert(buffer); 
 var session;
@@ -141,7 +148,8 @@ var places=new Array();
 <div id="recommendations">initially empty</div>
 <hr>
 
-<script>likes3("Georg");</script>
+
+<script>likes3('<?php echo $_SESSION['username']; ?>');</script>
 
 </body>
 </html>
