@@ -164,7 +164,7 @@ $name = urldecode($_GET['name']); ?>
                                 $total_stars += $sum[$i] * $review_counts[$i];
                             }
                             echo '<div class="rating-summary">';
-                            echo '<span class="btn btn-danger">Average stars: ' . ROUND(($total_stars/$total_reviews),1) . ' | Total reviews: ' . $total_reviews . '</span>';
+                            echo '<span class="btn btn-danger">Average rating: ' . ROUND(($total_stars/$total_reviews),1) . ' | Total reviews: ' . $total_reviews . '</span>';
                             echo '</div>';
                             // iterate over each star rating
                             for ($i = 1; $i <= 5; $i++) {
@@ -229,7 +229,7 @@ $name = urldecode($_GET['name']); ?>
                         <?php endforeach; ?>
                     </div>
                 </div>
-                <?php echo '<br><center><a href="' . $data['map'] . '"><button type="button" class="btn btn-danger">Google Map</button></a></center>'; ?>
+                <?php echo '<br><center><a href="' . $data['map'] . '" target="_blank"><button type="button" class="btn btn-danger">Google Map</button></a></center>'; ?>
             </div>
         </div>
     </div>

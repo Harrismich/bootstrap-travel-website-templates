@@ -144,7 +144,6 @@ $user_id = $_SESSION['user_id'];
                                     echo' </div>';
                                     echo' <div class="content">';
                                     if(($filterValue==8) && ($data['activation']=='active')) { //only when user click available houses
-                                        
                                         echo "<h6><strong> Αddress: </strong>" .$data['address'] ."</h6>";
                                         echo "<h6><strong> Owner: </strong>" .$data['name'] ."</h6>";
                                         echo "<h6><strong> Phone: </strong>" .$data['phone_number'] ."</h6>";

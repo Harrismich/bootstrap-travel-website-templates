@@ -73,9 +73,11 @@ $user_id = $_SESSION["user_id"];
      <!--*************** Blog Starts Here ***************-->
 
     <?php
-                
-                $favorites = "SELECT * FROM user_choice uc right join choice c on uc.choice_id = c.choice_id inner join pic on c.choice_id = id where user_id = '$user_id' and type_id='choice' group by id  ";
-                //$query = "SELECT * FROM pictures p inner join choice ch on p.choice_id=ch.choice_id where ch.city_id = '$city' ";
+                $favorites = "SELECT * FROM user_choice uc 
+                right join choice c on uc.choice_id = c.choice_id
+                inner join pic on c.choice_id = id
+                where uc.user_id = '$user_id' and type_id='choice' 
+                group by id";
                 $result = mysqli_query($dbc, $favorites);
                 echo'<div class="container">';        
                     echo'<div class="box-container">';
@@ -85,14 +87,15 @@ $user_id = $_SESSION["user_id"];
                                     echo "<img src='./pic/" . $data['path'] . ".jpg' class='d-block w-100' />";
                                 echo' </div>';
                                 echo' <div class="content">';
-                                    echo "<h3>". $data['name'] . " </h4> ";
-                                    echo"<br>";
-                                    echo "<h6><strong> Address: </strong>" .$data['address'] ."</h6>";
-                                    echo "<h6><strong> Phone: </strong>" .$data['phone_number'] ."</h6>";
-                                    echo "<h6> <a href = " .$data['link'] . "><strong>Link:</strong> Επισκευθείτε μας </a></h6>";
-                                    echo '<button class="btn" onclick="window.location.href=\'about_us.php?name=' . urlencode($data['choice_id']) . '\'">Read More</button>';
-                                    echo '<div class="icons">';
-                                    echo '<input type="hidden" class="choice_id" value="'. $data['choice_id'] . '">';
+                                    if ($data['category_id']==8) { //only when user click available houses
+                                        echo "<h3> Available House </h4> ";
+                                        echo"<br>";
+                                        echo "<h6><strong> Αddress: </strong>" .$data['address'] ."</h6>";
+                                        echo "<h6><strong> Owner: </strong>" .$data['name'] ."</h6>";
+                                        echo "<h6><strong> Phone: </strong>" .$data['phone_number'] ."</h6>";
+                                        echo '<button class="btn" onclick="window.location.href=\'about_us.php?name=' . urlencode($data['choice_id']) . '\'">Read More</button>';
+                                        echo '<div class="icons">';
+                                        echo '<input type="hidden" class="choice_id" value="'. $data['choice_id'] . '">';
                                         echo '<a href="#" class="favorites-btn">';
                                         if($data['choice_id'] >= 1){
                                             echo' <i class="fa fa-heart heart in-favorites"></i>';
@@ -100,18 +103,28 @@ $user_id = $_SESSION["user_id"];
                                             echo' <i class="fa fa-heart heart not-in-favorites"></i>';
                                         }
                                         echo '</a>  ';
-                                        ?>
-                                        <!-- <?php if($_SESSION['logged_in_user']){?><button onclick="myFunction()"><span> <i class="fas fa-star"></i> Make Review </span></button><?php } ?>
-                                        <script>
-                                        function myFunction() {
-                                        var myWindow = window.open("ytcritics.php", "Κριτικές", "width=600,height=600");
+                                        echo' </div>';
+                                    }else {
+                                        echo "<h3>". $data['name'] . " </h4> ";
+                                        echo"<br>";
+                                        echo "<h6><strong> Address: </strong>" .$data['address'] ."</h6>";
+                                        echo "<h6><strong> Phone: </strong>" .$data['phone_number'] ."</h6>";
+                                        echo "<h6> <a href = " .$data['link'] . "><strong>Link:</strong> Visit us </a></h6>";
+                                        echo '<button class="btn" onclick="window.location.href=\'about_us.php?name=' . urlencode($data['choice_id']) . '\'">Read More</button>';
+                                        echo '<div class="icons">';
+                                        echo '<input type="hidden" class="choice_id" value="'. $data['choice_id'] . '">';
+                                        echo '<a href="#" class="favorites-btn">';
+                                        if($data['choice_id'] >= 1){
+                                            echo' <i class="fa fa-heart heart in-favorites"></i>';
+                                        }else{
+                                            echo' <i class="fa fa-heart heart not-in-favorites"></i>';
                                         }
-                                        </script> -->
-                                        <?php //echo'<a href="index.php"> <span> <i class="fas fa-star"></i> Make Review </span></a>';
-                                    echo' </div>';
+                                        echo '</a>  ';
+                                        echo' </div>';
+                                    }    
                                 echo' </div>';
                             echo'</div>';
-                                }
+                        }//while loop
                     echo'</div>';
                     if(mysqli_num_rows($result) >3){
                         echo'<div id="load-more"> load more </div>';
