@@ -112,7 +112,7 @@ $user_id = $_SESSION['user_id'];
     if (isset($_GET["filter"])) {
     $filterValue = $_GET["filter"];
     }
-    $query = "SELECT * FROM pic p inner join choice ch on choice_id=id  where city_id = '$city' ";
+    $query = "SELECT * FROM pic inner join choice ch on choice_id=id  where city_id = '$city' and type_id='choice' ";
     if($filterValue == "1"){
         $query .= "AND category_id = '$filterValue' " ;
     }else if($filterValue == "2"){
@@ -124,23 +124,23 @@ $user_id = $_SESSION['user_id'];
     }else if($filterValue == "5"){
         $query .= " AND category_id = '$filterValue' ";
     }else if($filterValue == "8"){
-        $query = "SELECT * FROM pic inner join choice ch  on id=choice_id inner join house h on ch.choice_id=h.choice_id where ch.city_id = '$city' AND ch.category_id = '$filterValue'";
+        $query = "SELECT * FROM pic inner join choice ch  on id=choice_id inner join house h on ch.choice_id=h.choice_id where ch.city_id = '$city' AND ch.category_id = '$filterValue' and type_id='choice'";
         // $query .= " AND category_id = '$filterValue' ";
     }else{
         $query .= "AND category_id = '$filterValue' " ;
     }
-    $query.= "GROUP BY ch.choice_id";
+    $query .= "GROUP BY ch.choice_id";
     $_SESSION['category'] = $filterValue;
     $result = mysqli_query($dbc, $query);
                 echo'<div class="container">';        
                     echo'<div class="box-container">';
                         while ($data = mysqli_fetch_assoc($result)) { 
                             if( ($filterValue!=8 ) || ($data['activation']=='active')){  
-                                $favorite = "select * from user_choice where choice_id = {$data['choice_id']}" ;
+                                $favorite = "SELECT * from user_choice where choice_id = {$data['choice_id']}" ;
                                 $fav_result = mysqli_query($dbc, $favorite);
                                 echo' <div class="box">';
                                     echo' <div class="image">';
-                                    echo "<img src='./pictures/" . $data['path'] . ".jpg' class='d-block w-100' />";
+                                    echo "<img src='./pic/" . $data['path'] . ".jpg' class='d-block w-100' />";
                                     echo' </div>';
                                     echo' <div class="content">';
                                     if(($filterValue==8) && ($data['activation']=='active')) { //only when user click available houses

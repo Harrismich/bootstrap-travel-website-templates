@@ -55,10 +55,10 @@ $user_id = $_SESSION['user_id'];
         <div class="carousel-inner">
           <div class="carousel-item active">
               <?php 
-                  $query = " select * from pic inner join city on city_id = id where $city_id = city_id  ORDER BY RAND() limit 1 ";
+                  $query = "SELECT * from pic inner join city on city_id = id where $city_id = city_id and type_id='city'  ORDER BY RAND() limit 1 ";
                   $result = mysqli_query($dbc, $query);
                   while ($data = mysqli_fetch_assoc($result)){
-                    echo"<img src='./images/" . $data['path'] . ".jpg' class='d-block w-100' />";
+                    echo"<img src='./pic/" . $data['path'] . ".jpg' class='d-block w-100' />";
                   }
               ?>
           </div>
@@ -81,7 +81,7 @@ $user_id = $_SESSION['user_id'];
               <div class="detail">
               <a href="gallery.php?filter=1"><h4>Hotels</h4><a>
                 <p>
-                  Providin informations about the hotels in the area.
+                  Providing informations about the hotels in the area.
                 </p>
               </div>
             </div>
@@ -106,7 +106,7 @@ $user_id = $_SESSION['user_id'];
                   <i class="fas fa-eye"></i>
                 </div>
                 <div class="detail">
-                  <h4>Sight</h4>
+                  <h4>Sights</h4>
                   <p>
                     Landmarks you should visit with your family in the city.
                   </p>
@@ -159,8 +159,10 @@ $user_id = $_SESSION['user_id'];
 
     <!-- ################# Προτάσεις Εστιατορίων #######################--->
 <?php
-    $query = "SELECT * FROM category c inner join choice ch on ch.category_id = c.category_id inner join pic on ch.choice_id = id where city_id='$city_id' AND c.category_id = 4 ORDER BY RAND() LIMIT 3";
-    $result = mysqli_query($dbc, $query);
+
+    $query = "SELECT * FROM category c inner join choice ch on ch.category_id = c.category_id inner join pic on ch.choice_id = id where city_id='$city_id' AND c.category_id = 4 and type_id='choice' ORDER BY RAND() LIMIT 3";
+$result = mysqli_query($dbc, $query);
+
 
 echo '<div class="popular-pack no-bgpack container-fluid">';
 echo '  <div class="container">';
@@ -174,7 +176,7 @@ echo '    <div class="row pack-row">';
 while ($data = mysqli_fetch_assoc($result)) {
   echo '      <div class="col-lg-4 col-md-6 col-sm-6">';
   echo '        <div class="pack-col">';
-  echo '          <img src="./pictures/' . $data['path'] . '.jpg" alt="" />';
+  echo '          <img src="./pic/' . $data['path'] . '.jpg" alt="" />';
   echo '          <div class="revire row no-margin">';
                     $query_rate = "SELECT (sum(rate)/count(rate) ) as rev FROM reviews where choice_id = {$data['choice_id']}";
                     $results = mysqli_query($dbc, $query_rate);
@@ -212,7 +214,9 @@ echo '</div>';
     <!--################### Προτάσεις Ξενοδοχείων #######################--->
 
     <?php
-    $query = "SELECT * FROM category c inner join choice ch on c.category_id = ch.category_id inner join pic on ch.choice_id = id where city_id='$city_id' AND ch.category_id = 1 ORDER BY RAND() LIMIT 3";
+
+    $query = "SELECT * FROM category c inner join choice ch on ch.category_id = c.category_id inner join pic on ch.choice_id = id where city_id='$city_id' AND ch.category_id = 1 and type_id='choice' ORDER BY RAND() LIMIT 3";
+
     $result = mysqli_query($dbc, $query);
 echo'    <div class="destinations container-fluid">';
 echo'      <div class="container">';
@@ -227,7 +231,7 @@ echo'         <div class="dest-row row">';
 echo'          <div class="col-lg-4 col-md-6">';
 echo'            <div class="dest-col">';
 echo'              <div class="dest-img">';
-echo'                <img src="./pictures/' . $data['path'] . '.jpg" alt="" />';
+echo'                <img src="./pic/' . $data['path'] . '.jpg" alt="" />';
 echo'              </div>';
 echo'              <h3> ' . $data["name"] . ' </h3>';
 
@@ -326,7 +330,7 @@ echo'    </div>';
     <!--*************** Sight Starts Here ***************-->
     <div id="section2" >
       <?php
-      $query = "SELECT * FROM category c inner join choice ch on ch.category_id = c.category_id inner join pic on ch.choice_id =id where city_id='$city_id' AND c.category_id = 6 ORDER BY RAND() LIMIT 3";
+      $query = "SELECT * FROM category c inner join choice ch on ch.category_id = c.category_id inner join pic on ch.choice_id =id where city_id='$city_id' AND c.category_id = 6 and type_id='choice' ORDER BY RAND() LIMIT 3";
       $result = mysqli_query($dbc, $query);
       ?>
       <div class="container-fluid blog">
@@ -335,7 +339,7 @@ echo'    </div>';
           <?php while ($data = mysqli_fetch_assoc($result)) { ?>
             <div class="col-lg-4 col-md-6 col-sm-6">
               <div class="blog-col">
-                <?php echo '<a href=' . $data['map']. '><img src="./pictures/' . $data['path'] . '.jpg" alt="" /></a>'; ?>
+                <?php echo '<a href=' . $data['map']. '><img src="./pic/' . $data['path'] . '.jpg" alt="" /></a>'; ?>
                 <h4><?php echo $data['name']; ?></h4>
                 <p>
                   <?php echo $data['description']; ?>

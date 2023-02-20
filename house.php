@@ -29,7 +29,7 @@ if (isset($_POST['submit'])) {
     $house_insert_stmt->execute();
 
     $dir = getcwd();
-    $target_dir = $dir . "/pictures/"; 
+    $target_dir = $dir . "/pic/"; 
     $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
     $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
