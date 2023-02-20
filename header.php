@@ -71,7 +71,7 @@
                     <?php } ?> -->
                     <?php if (isset($_SESSION['logged_in_user'])){?>
                     <li class="nav-item">
-                        <a class="nav-link" href="contact_us.php">Contact US</a>
+                        <a class="nav-link" href="contact_us.php">Houses</a>
                     </li>
                     <?php } ?>
                     <?php if (!isset($_SESSION['logged_in_user'])){?>

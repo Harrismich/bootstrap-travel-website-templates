@@ -60,7 +60,8 @@ $user_id = $_SESSION['user_id'];
         <div class="container">
             <div class="row">
                 <div style="padding:20px" class="col-sm-9 mx-auto">
-                    <h2>Please complete the form.</h2> <br>
+                    <h2 style="text-align:center; color:black;">Posting your house, could help a coworker find a new home. </h2>
+                    <h4>Please complete the form.</h4> <br>
                     <div  class="row cont-row">
                         <div  class="col-sm-3"><label> Owner's Name </label><span>:</span></div>
                         <div class="col-sm-8"><input type="text" name="name" placeholder="Enter owner's name" class="form-control input-sm" required ></div>

@@ -245,7 +245,7 @@ $_SESSION['user_id'];
                                                                 <label class="control-label" style="position:relative; top:7px;">Avalaible From:</label>
                                                                 </div>
                                                             <div class="col-lg-8">
-                                                                <input type="date" class="form-control" name="availability">
+                                                                <input type="date" class="form-control" name="availability" value="<?php echo $row['ch_date']; ?>">
                                                             </div>
                                                         </div>
                                                         <div style="height:10px;"></div>
@@ -278,21 +278,8 @@ $_SESSION['user_id'];
                                                                     $status_from_database = $status_row['activation'];
                                                                 ?>
                                                                 <select name="activation">
-                                                                    <?php   
-                                                                        $sql= "select activation from house group by activation";
-                                                                        $status_res = mysqli_query($dbc, $sql);
-                                                                        while($crow=$status_res->fetch_assoc()){
-                                                                            $selected = '';
-                                                                            if ($crow['activation'] == $category_from_database) {
-                                                                                $selected = 'selected';
-                                                                            }
-                                                                            if(($crow['activation'] == 'active')){
-                                                                                echo "<option name='status' value= '" .$crow['activation']."' ".$selected.">" . $crow['activation']."</option>";
-                                                                            }else{
-                                                                                echo "<option name='status' value= '" .$crow['activation']."' ".$selected.">" . $crow['activation']."</option>";
-                                                                            }
-                                                                        }
-                                                                    ?>
+                                                                    <option name='activation' value= "active">Active</option>
+                                                                    <option name='activation' value= "not active">Inactive</option>
                                                                 </select>
                                                             </div>
                                                         </div>
