@@ -81,8 +81,7 @@ $user_id = $_SESSION['user_id'];
               <div class="detail">
               <a href="gallery.php?filter=1"><h4>Hotels</h4><a>
                 <p>
-                  Turpis accumsan. Proin id ligula suspendisse. Aliquet
-                  fringilla, aptent eu dignissim.
+                  Providin informations about the hotels in the area.
                 </p>
               </div>
             </div>
@@ -95,8 +94,7 @@ $user_id = $_SESSION['user_id'];
               <div class="detail">
                 <a href="gallery.php?filter=4"><h4>Restaurants</h4></a>
                 <p>
-                  Turpis accumsan. Proin id ligula suspendisse. Aliquet
-                  fringilla, aptent eu dignissim.
+                  Choose where your next meal is going to be.
                 </p>
               </div>
             </div>
@@ -110,7 +108,7 @@ $user_id = $_SESSION['user_id'];
                 <div class="detail">
                   <h4>Sight</h4>
                   <p>
-                    Turpis accumsan. Proin id ligula suspendisse. Aliquet fringilla, aptent eu dignissim.
+                    Landmarks you should visit with your family in the city.
                   </p>
                 </div>
               </div>
@@ -124,8 +122,7 @@ $user_id = $_SESSION['user_id'];
               <div class="detail">
               <a href="gallery.php?filter=5"><h4>Hospitals</h4></a>
                 <p>
-                  Turpis accumsan. Proin id ligula suspendisse. Aliquet
-                  fringilla, aptent eu dignissim.
+                  Here is some information about hospitals in the area.
                 </p>
               </div>
             </div>
@@ -138,8 +135,7 @@ $user_id = $_SESSION['user_id'];
               <div class="detail">
                 <h4>Parking</h4>
                 <p>
-                  Turpis accumsan. Proin id ligula suspendisse. Aliquet
-                  fringilla, aptent eu dignissim.
+                  You don't have to worry where to park tour vehicle.
                 </p>
               </div>
             </div>
@@ -152,8 +148,7 @@ $user_id = $_SESSION['user_id'];
               <div class="detail">
               <a href="gallery.php?filter=8"><h4>Available Houses </h4></a>
                 <p>
-                  Turpis accumsan. Proin id ligula suspendisse. Aliquet
-                  fringilla, aptent eu dignissim.
+                  Here you can check houses other's coworkers in the city.
                 </p>
               </div>
             </div>

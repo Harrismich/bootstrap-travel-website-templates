@@ -89,10 +89,35 @@ $name = urldecode($_GET['name']); ?>
     object-fit: cover;
     cursor: pointer; 
 }
-    #f_rate {
-        border-radius: .5rem;
-        box-shadow: 0 0 5px #ccc;
-    }
+
+#f_rate {
+    border-radius: .5rem;
+    box-shadow: 0 0 5px #ccc;
+}
+
+.rating_2 {
+    margin-top:120px;
+    
+}
+
+.rating_2 .star {
+    margin-right: 5px;
+}
+
+.rating_2 br {
+    display: block;
+    margin-bottom: 10px;
+    content: "";
+}
+
+.rating-summary {
+    
+  color: #000;
+  font-weight: bold;
+  padding-top: 10px;
+  border-radius: 5px;
+  
+}
 </style>
 </head>
 
@@ -182,6 +207,32 @@ $name = urldecode($_GET['name']); ?>
                     </div>
                 </div>
                 <?php echo '<br><center><a href="' . $data['map'] . '"><button type="button" class="btn btn-danger">Google Map</button></a></center>'; ?>
+                <div class="rating_2">
+                    <?php
+                    $query = "SELECT FORMAT(CAST(SUM(rate) AS FLOAT) / COUNT(*), 1) AS avg_rate, COUNT(*) AS total_reviews, rate FROM reviews WHERE choice_id = '$name' GROUP BY rate;";
+                    $result = mysqli_query($dbc, $query);
+                    if(mysqli_num_rows($result) > 0) {
+                        $data2 = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                        $review_counts = array_fill(1, 5, 0);
+                        foreach ($data2 as $row) {
+                            $review_counts[$row['rate']] = $row['total_reviews'];
+                        }
+                        $total_reviews = array_sum($review_counts);
+                        echo '<div class="rating-summary">';
+                        echo '<span class="btn btn-danger">Average stars: ' . ($data2[0]['avg_rate']) . ' | Total reviews: ' . $total_reviews . '</span>';
+                        echo '</div>';
+                        // iterate over each star rating
+                        for ($i = 1; $i <= 5; $i++) {
+                            for ($j = 1; $j <= $i; $j++) {
+                                echo '<span class="star" data-value="' . $j . '"><i class="fas fa-star" style="color:  #ffd700;"></i></span>';
+                            }
+                            // output the number of reviews for this rating
+                            echo ' (' . $review_counts[$i] . ')';
+                            echo '<br>';
+                        }
+                    }
+                    ?>
+                </div>
             </div>
         </div>
     </div>
@@ -197,13 +248,13 @@ $name = urldecode($_GET['name']); ?>
             <div class="reviews_filters">
                 <label>Filter By Rate: </label>
                 <select name="f_rate" id="f_rate">
-                    <option class="filter-button" data-filter="all">All</option>
-                    <option class="filter-button" data-filter=1>1</option>
-                    <option class="filter-button" data-filter=2>2</option>
-                    <option class="filter-button" data-filter=3>3</option>
-                    <option class="filter-button" data-filter=4>4</option>
-                    <option class="filter-button" data-filter=5>5</option>
-                </select> 
+                <option class="filter-button" data-filter="all" <?php if(!isset($_GET['filter']) || $_GET['filter'] == 'all') { echo 'selected'; } ?>>All</option>
+                    <option class="filter-button" data-filter=1 <?php if(isset($_GET['filter']) && $_GET['filter'] == 1) { echo 'selected'; } ?>>1</option>
+                    <option class="filter-button" data-filter=2 <?php if(isset($_GET['filter']) && $_GET['filter'] == 2) { echo 'selected'; } ?>>2</option>
+                    <option class="filter-button" data-filter=3 <?php if(isset($_GET['filter']) && $_GET['filter'] == 3) { echo 'selected'; } ?>>3</option>
+                    <option class="filter-button" data-filter=4 <?php if(isset($_GET['filter']) && $_GET['filter'] == 4) { echo 'selected'; } ?>>4</option>
+                    <option class="filter-button" data-filter=5 <?php if(isset($_GET['filter']) && $_GET['filter'] == 5) { echo 'selected'; } ?>>5</option>
+                </select>
             </div>
         </div>
 <?php
