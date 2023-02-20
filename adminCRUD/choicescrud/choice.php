@@ -41,12 +41,12 @@ if (!isset($_SESSION['logged_in_admin']) || !$_SESSION['logged_in_admin']) {
                     </thead>
                     <tbody>
                             <?php
-                                $choice= "select * from choice ch inner join pic on ch.choice_id = id inner join city c where c.city_id = ch.city_id and category_id != 8 group by ch.choice_id";
+                                $choice= "SELECT * from choice ch inner join pic on ch.choice_id = id inner join city c where c.city_id = ch.city_id and category_id != 8  and type_id='choice group by ch.choice_id";
                                 $ch_result = mysqli_query($dbc, $choice);
                                 while($row=$ch_result->fetch_assoc()){
                             ?>
                         <tr>
-                            <td><?php echo '<img src="../../pictures/' . $row['path'] . '.jpg" height="50px" width="70px"/>'; ?></td>
+                            <td><?php echo '<img src="../../pic/' . $row['path'] . '.jpg" height="50px" width="70px"/>'; ?></td>
                             <td><?php echo $row['name']; ?></td>
                             <td><?php echo $row['city_name']; ?></td>
                             <td><?php echo $row['address']; ?></td>
@@ -70,7 +70,7 @@ if (!isset($_SESSION['logged_in_admin']) || !$_SESSION['logged_in_admin']) {
                                                     <form method="POST" action="update.php?id=<?php echo $erow['choice_id']; ?>" enctype="multipart/form-data"> 
                                                         <div class="row">
                                                             <div class="col-lg-12" align="center">
-                                                                <?php echo '<img src="../../pictures/' . $row['path'] . '.jpg" height="230px" width="230px"/>'; ?>
+                                                                <?php echo '<img src="../../pic/' . $row['path'] . '.jpg" height="230px" width="230px"/>'; ?>
                                                             </div>
                                                         </div>
                                                         <div style="height:10px;"></div>

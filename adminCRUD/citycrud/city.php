@@ -55,12 +55,12 @@ id="empTable" >
 <tbody>
 <?php
 
-$choices= "select * from city c inner join pic on c.city_id = id group by c.city_id";
+$choices= "SELECT * from city c inner join pic on c.city_id = id where type_id='city' group by c.city_id";
 $result = mysqli_query($dbc, $choices);
 while($row=$result->fetch_assoc()){
 ?>
 <tr>
-    <td><?php  echo '<img src="../../images/' . $row['path'] . '.jpg" height="50px" width="70px"/>'; ?></td>
+    <td><?php  echo '<img src="../../pic/' . $row['path'] . '.jpg" height="50px" width="70px"/>'; ?></td>
     <td><?php echo $row['city_name']; ?></td>
     <td><?php echo $row['description']; ?></td>
     <td>

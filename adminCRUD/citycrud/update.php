@@ -11,7 +11,7 @@ $description=$_POST['description'];
 $dbc->query("update city set city_name='$city_name', description='$description' where city_id=$city_id");
  
  
-$target_dir = "../../pictures/"; // specify the directory where you want to store the uploaded files
+$target_dir = "../../pic/"; // specify the directory where you want to store the uploaded files
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]); // get the path of the uploaded file
 $uploadOk = 1;
 $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));

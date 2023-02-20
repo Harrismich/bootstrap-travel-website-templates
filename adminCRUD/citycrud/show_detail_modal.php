@@ -15,7 +15,7 @@
                     <form method="POST" action="update.php?id=<?php echo $erow['city_id']; ?>" enctype="multipart/form-data">
                         <div class="row">
                             <div class="col-lg-12" align="center">
-                                <?php  echo '<img src="../../images/' . $row['path'] . '.jpg" height="230px" width="230px"/>';?>
+                                <?php  echo '<img src="../../pic/' . $row['path'] . '.jpg" height="230px" width="230px"/>';?>
                             </div>
                         </div>
                         <div style="height:10px;"></div>

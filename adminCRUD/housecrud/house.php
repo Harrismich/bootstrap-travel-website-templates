@@ -43,7 +43,7 @@ $_SESSION['user_id'];
                     </thead>
                     <tbody>
                             <?php
-                                $choice= "select distinct * from choice ch inner join  house h on h.choice_id = ch.choice_id inner join pic on id = ch.choice_id group by id";
+                                $choice= "SELECT distinct * from choice ch inner join  house h on h.choice_id = ch.choice_id inner join pic on id = ch.choice_id where type_id='choice' group by id";
                                 $ch_result = mysqli_query($dbc, $choice);
                                 while($row=$ch_result->fetch_assoc()){
                                 $city=$dbc->query("select city_name from city where city_id = {$row['city_id']}");
@@ -51,7 +51,7 @@ $_SESSION['user_id'];
                                 $city_name = $c_result['city_name'];
                             ?>
                         <tr>
-                            <td><?php echo '<img src="../../pictures/' . $row['path'] . '.jpg" height="50px" width="70px"/>'; ?></td>
+                            <td><?php echo '<img src="../../pic/' . $row['path'] . '.jpg" height="50px" width="70px"/>'; ?></td>
                             <td><?php echo $row['name']; ?></td>
                             <td><?php echo $city_name; ?></td>
                             <td><?php echo $row['address']; ?></td>
@@ -80,7 +80,7 @@ $_SESSION['user_id'];
                                                     <form method="POST" action="houseupdate.php?id=<?php echo $erow['choice_id']; ?>" enctype="multipart/form-data"> 
                                                         <div class="row">
                                                             <div class="col-lg-12" align="center">
-                                                                <?php echo '<img src="../../pictures/' . $row['path'] . '.jpg" height="230px" width="230px"/>'; ?>
+                                                                <?php echo '<img src="../../pic/' . $row['path'] . '.jpg" height="230px" width="230px"/>'; ?>
                                                             </div>
                                                         </div>
                                                         <div style="height:10px;"></div>
