@@ -95,10 +95,10 @@ $name = urldecode($_GET['name']); ?>
     box-shadow: 0 0 5px #ccc;
 }
 
-.rating_2 {
+/* .rating_2 {
     margin-top:120px;
     
-}
+} */
 
 .rating_2 .star {
     margin-right: 5px;
@@ -110,14 +110,6 @@ $name = urldecode($_GET['name']); ?>
     content: "";
 }
 
-.rating-summary {
-    
-  color: #000;
-  font-weight: bold;
-  padding-top: 10px;
-  border-radius: 5px;
-  
-}
 </style>
 </head>
 
@@ -132,7 +124,7 @@ $name = urldecode($_GET['name']); ?>
     <div class="page-nav no-margin row">
         <div class="container">
             <div class="row">
-                <?php $query ="SELECT * FROM choice ch inner join pic p on choice_id = id where choice_id = '$name'" ;
+                <?php $query ="SELECT * FROM choice ch inner join pic p on choice_id = id where choice_id = '$name' and type_id='choice'" ;
                         $result = mysqli_query($dbc, $query);
                         $data = mysqli_fetch_assoc($result)
                 ?>
@@ -154,6 +146,38 @@ $name = urldecode($_GET['name']); ?>
                 <div class="text-part col-md-6">
                     <h2><?php if ($data['category_id']!=8) { echo $data['name']; } else {echo 'Details';}  ?></h2>
                     <p><?php echo $data['description']  ?></p>
+                    <div class="rating_2">
+                        <?php
+                        $query = "SELECT FORMAT(CAST(SUM(rate) AS FLOAT) / COUNT(*), 1) AS sum_rate, COUNT(*) AS total_reviews, rate FROM reviews WHERE choice_id = '$name' GROUP BY rate;";
+                        $result = mysqli_query($dbc, $query);
+                        if(mysqli_num_rows($result) > 0) {
+                            $data2 = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                            $review_counts = array_fill(1, 5, 0);
+                            $sum = array_fill(1, 5, 0);
+                            $total_stars=0;
+                            foreach ($data2 as $row) {
+                                $review_counts[$row['rate']] = $row['total_reviews'];
+                                $sum[$row['rate']] = $row['sum_rate'];
+                            }
+                            $total_reviews = array_sum($review_counts);
+                            for ($i = 1; $i <= 5; $i++) {
+                                $total_stars += $sum[$i] * $review_counts[$i];
+                            }
+                            echo '<div class="rating-summary">';
+                            echo '<span class="btn btn-danger">Average stars: ' . ROUND(($total_stars/$total_reviews),1) . ' | Total reviews: ' . $total_reviews . '</span>';
+                            echo '</div>';
+                            // iterate over each star rating
+                            for ($i = 1; $i <= 5; $i++) {
+                                for ($j = 1; $j <= $i; $j++) {
+                                    echo '<span class="star" data-value="' . $j . '"><i class="fas fa-star" style="color:  #ffd700;"></i></span>';
+                                }
+                                // output the number of reviews for this rating
+                                echo ' (' . $review_counts[$i] . ')';
+                                echo '<br>';
+                            }
+                        }
+                        ?>
+                    </div>
                 </div>
             <div class="image-part col-md-6">
                 <?php
@@ -172,7 +196,6 @@ $name = urldecode($_GET['name']); ?>
                         }
                     }
                     ?>
-            
                 <?php
                 }
                 ?>
@@ -181,7 +204,7 @@ $name = urldecode($_GET['name']); ?>
                         <div class="carousel-inner">
                             <?php foreach ($pictures as $index => $picture) : ?>
                                 <div class="carousel-item <?php if ($picture['path'] == $data['path']) echo 'active'; ?>">
-                                    <img src="./pictures/<?php echo $picture['path']; ?>.jpg" class="d-block w-100" alt="Main Image">
+                                    <img src="./pic/<?php echo $picture['path']; ?>.jpg" class="d-block w-100" alt="Main Image">
                                 </div>
                             <?php endforeach; ?>
                         </div>
@@ -201,46 +224,20 @@ $name = urldecode($_GET['name']); ?>
                     <div class="row">
                         <?php foreach ($pictures as $index => $picture) : ?>
                             <div class="col-3 thumbnail-item <?php if ($picture['path'] == $data['path']) echo 'active'; ?>" data-index="<?php echo $index; ?>">
-                                <img src="./pictures/<?php echo $picture['path']; ?>.jpg" class="img-fluid" alt="Thumbnail Image">
+                                <img src="./pic/<?php echo $picture['path']; ?>.jpg" class="img-fluid" alt="Thumbnail Image">
                             </div>
                         <?php endforeach; ?>
                     </div>
                 </div>
                 <?php echo '<br><center><a href="' . $data['map'] . '"><button type="button" class="btn btn-danger">Google Map</button></a></center>'; ?>
-                <div class="rating_2">
-                    <?php
-                    $query = "SELECT FORMAT(CAST(SUM(rate) AS FLOAT) / COUNT(*), 1) AS avg_rate, COUNT(*) AS total_reviews, rate FROM reviews WHERE choice_id = '$name' GROUP BY rate;";
-                    $result = mysqli_query($dbc, $query);
-                    if(mysqli_num_rows($result) > 0) {
-                        $data2 = mysqli_fetch_all($result, MYSQLI_ASSOC);
-                        $review_counts = array_fill(1, 5, 0);
-                        foreach ($data2 as $row) {
-                            $review_counts[$row['rate']] = $row['total_reviews'];
-                        }
-                        $total_reviews = array_sum($review_counts);
-                        echo '<div class="rating-summary">';
-                        echo '<span class="btn btn-danger">Average stars: ' . ($data2[0]['avg_rate']) . ' | Total reviews: ' . $total_reviews . '</span>';
-                        echo '</div>';
-                        // iterate over each star rating
-                        for ($i = 1; $i <= 5; $i++) {
-                            for ($j = 1; $j <= $i; $j++) {
-                                echo '<span class="star" data-value="' . $j . '"><i class="fas fa-star" style="color:  #ffd700;"></i></span>';
-                            }
-                            // output the number of reviews for this rating
-                            echo ' (' . $review_counts[$i] . ')';
-                            echo '<br>';
-                        }
-                    }
-                    ?>
-                </div>
             </div>
         </div>
     </div>
 </div>
 <!--*****************Our Reviews Start Here ****************** -->
-   <?php
+<?php
     if ($data['category_id']!=8) {  // dont show reviews for houses
-   ?>     
+?>     
 <div class="review container-fluid" style="background-color: #fcfcfc;">
     <div class="container">
         <div class="session-title">

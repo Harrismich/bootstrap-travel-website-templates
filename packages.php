@@ -49,7 +49,7 @@ $user_id = $_SESSION['user_id'];
                 <div class="col-lg-4 col-md-6 col-sm-6">
                     <div class="pack-col">
                         <?php
-                            echo "<a href='index.php?city_id=" . $data['city_id'] . "'> <img src='./images/" . $data['path'] . ".jpg' class='d-block w-100' />";
+                            echo "<a href='index.php?city_id=" . $data['city_id'] . "'> <img src='./pic/" . $data['path'] . ".jpg' class='d-block w-100' />";
                             echo '<div class="detail row no-margin">';
                             echo "<h4>". $data['city_name'] . " </h4> ";
                             echo'</div></a>';
