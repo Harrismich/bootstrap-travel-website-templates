@@ -4,7 +4,7 @@ CREATE TABLE role (
     role_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL
 );
--- drop table role;
+
 CREATE TABLE user (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
     role_id INT NOT NULL,
@@ -15,25 +15,18 @@ CREATE TABLE user (
     password VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL  
 );
--- drop table user;
+
 CREATE TABLE category (
 	category_id INT AUTO_INCREMENT PRIMARY KEY,
     category_name VARCHAR(255) NOT NULL
 );
--- drop table category;
+
 CREATE TABLE city (
 	city_id INT AUTO_INCREMENT PRIMARY KEY,
     city_name VARCHAR(255) NOT NULL,
     description VARCHAR(1000) NOT NULL
 );
 
-CREATE TABLE image (
-    image_id INT AUTO_INCREMENT PRIMARY KEY,
-    city_id INT NOT NULL,
-    path VARCHAR(255) NOT NULL,
-    FOREIGN KEY (city_id) REFERENCES city (city_id)
-);
--- drop table city;
 CREATE TABLE pic (
     pic_id INT AUTO_INCREMENT PRIMARY KEY,
     id INT NOT NULL,
@@ -52,28 +45,17 @@ CREATE TABLE choice (
     FOREIGN KEY (category_id) REFERENCES category (category_id),
     city_id INT NOT NULL,
     FOREIGN KEY (city_id) REFERENCES city (city_id),
-    description TEXT NOT NULL,
-    activation  enum ('active', 'not active'),
-    user_id INT NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES user (user_id)
-);
-CREATE TABLE pictures (
-	picture_id INT AUTO_INCREMENT PRIMARY KEY,
-    choice_id INT NOT NULL,
-    path VARCHAR(255) NOT NULL,
-      timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	FOREIGN KEY (choice_id) REFERENCES choice (choice_id)
+    description TEXT NOT NULL
 );
 
--- drop table choice;
 CREATE TABLE user_choice (
-	user_choice_id INT AUTO_INCREMENT PRIMARY KEY ,
-    user_id INT NOT NULL,
+	user_choice_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT not null,
     choice_id INT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES user(user_id),
 	FOREIGN KEY (choice_id) REFERENCES choice(choice_id)
 );
--- drop table user_choice;
+
 CREATE TABLE reviews (
     reviews_id INT AUTO_INCREMENT PRIMARY KEY,
     choice_id INT NOT NULL,
@@ -85,20 +67,17 @@ CREATE TABLE reviews (
     FOREIGN KEY (choice_id) REFERENCES choice(choice_id),
     FOREIGN KEY (user_id) REFERENCES user(user_id)
 );
--- drop table criticals;
+
 CREATE TABLE house (
     house_id INT AUTO_INCREMENT PRIMARY KEY,
     choice_id INT NOT NULL,
     user_id INT NOT NULL,
     ch_date DATE,
-    activation ENUM('active', 'not active') NOT NULL,
+	activation ENUM('active', 'not active') NOT NULL,
     FOREIGN KEY (choice_id) REFERENCES choice(choice_id),
     FOREIGN KEY (user_id) REFERENCES user(user_id)
 );
-drop table house;
--- inserts for house
-INSERT INTO house (choice_id, user_id, ch_date, activation)
-VALUES (36, 3, '2023-02-16', 'active');
+
 -- inserts for role
 INSERT INTO role (name) 
 VALUES ('Admin');
@@ -106,9 +85,13 @@ VALUES ('Admin');
 INSERT INTO role (name) 
 VALUES ('User');
 
+-- inserts for user
+INSERT INTO user (role_id, first_name, last_name, username, password, email) VALUES (2,'george','kafkias','user1','$2y$10$YPtYDsJ0bbryn5d2Y0QLK.FTTzZ89DOF8e9QYz9rImZDI8XXP04R6','kafkiasgiorgos@gmail.com');
+INSERT INTO user (role_id, first_name, last_name, username, password, email) VALUES (1,'admin','kafkias','admin1','$2y$10$YPtYDsJ0bbryn5d2Y0QLK.FTTzZ89DOF8e9QYz9rImZDI8XXP04R6','giors@gmail.com');
+
 -- inserts for city
 INSERT INTO city (city_name, description) 
-VALUES ('Αλεξανδρούπολη', 'Η Αλεξανδρούπολη είναι πόλη της Θράκης και πρωτεύουσα του Νομού Έβρου. Έχει 71.601 (απογραφή πόλης 2021) κατοίκους[2] και είναι η μεγαλύτερη (σε έκταση και πληθυσμό) πόλη της Θράκης και της περιφέρειας Ανατολικής Μακεδονίας και Θράκης. Αποτελεί σημαντικό λιμάνι και εμπορικό κέντρο της βορειοανατολικής Ελλάδας. Κατέχει στρατηγική γεωγραφική θέση συνδέοντας την Ευρώπη με την Ασία. Μέσα στο 2022 ξαναήρθαν στο προσκήνιο οι συζητήσεις για την κατασκευή αγωγού πετρελαίου Μπουργκάς- Αλεξανδρούπολη, κάτι που αποδεικνύει την καίρια γεωπολιτική θέση της πόλης. Η Αλεξανδρούπολη είναι μία από τις νεότερες πόλεις στην Ελλάδα, δεδομένου ότι ιδρύθηκε ως ένα απλό ψαροχώρι στα μέσα του 19ου αιώνα.');
+VALUES ('Αλεξανδρούπολη', 'Η Αλεξανδρούπολη είναι πόλη της Θράκης και πρωτεύουσα του Νομού Έβρου. Έχει 71.601 κατοίκους και είναι η μεγαλύτερη (σε έκταση και πληθυσμό) πόλη της Θράκης και της περιφέρειας Ανατολικής Μακεδονίας και Θράκης. Αποτελεί σημαντικό λιμάνι και εμπορικό κέντρο της βορειοανατολικής Ελλάδας. Κατέχει στρατηγική γεωγραφική θέση συνδέοντας την Ευρώπη με την Ασία. Μέσα στο 2022 ξαναήρθαν στο προσκήνιο οι συζητήσεις για την κατασκευή αγωγού πετρελαίου Μπουργκάς- Αλεξανδρούπολη, κάτι που αποδεικνύει την καίρια γεωπολιτική θέση της πόλης. Η Αλεξανδρούπολη είναι μία από τις νεότερες πόλεις στην Ελλάδα, δεδομένου ότι ιδρύθηκε ως ένα απλό ψαροχώρι στα μέσα του 19ου αιώνα.');
 
 INSERT INTO city (city_name, description) 
 VALUES ('Ρόδος','Η Ρόδος είναι ένα νησί της Ελλάδας που βρίσκεται στο νοτιοανατολικό Αιγαίο και ανήκει στα Δωδεκάνησα. Σύμφωνα με την απογραφή του 2022, ο πληθυσμός του νησιού ανέρχεται σε 124.581 κατοίκους, γεγονός που καθιστά τη Ρόδο το τρίτο πολυπληθέστερο ελληνικό νησί.Στο βορειοανατολικό άκρο του νησιού βρίσκεται η πρωτεύουσά του, η πόλη της Ρόδου, που με πληθυσμό περίπου 55.000 κατοίκους αποτελεί και τον μεγαλύτερο οικισμό του. Εντός των ορίων της πόλης της Ρόδου, βρίσκεται η Μεσαιωνική πόλη της Ρόδου ή Παλιά Πόλη, όπως αποκαλείται από τους ντόπιους, μια από τις καλύτερα διατηρημένες μεσαιωνικές πόλεις του κόσμου, που έχει αναγνωριστεί από το 1988 ως μνημείο παγκόσμιας κληρονομιάς της UNESCO. Εντός των τειχών της Παλιάς Πόλης βρίσκονται αξιόλογα μνημεία από τη Βυζαντινή εποχή, την Τουρκοκρατία και την περίοδο της Ιταλοκρατίας, με επιβλητικότερο το παλάτι του Μεγάλου Μαγίστρου.');
@@ -116,189 +99,95 @@ VALUES ('Ρόδος','Η Ρόδος είναι ένα νησί της Ελλάδ
 INSERT INTO city (city_name, description) 
 VALUES ('Καλαμάτα', 'Η Καλαμάτα, είναι πόλη της νοτιοδυτικής Πελοποννήσου, πρωτεύουσα του Νομού Μεσσηνίας και λιμάνι της νότιας ηπειρωτικής Ελλάδας. Η Καλαμάτα έχει πληθυσμό 54.100 κατοίκους, ενώ ο Δήμος Καλαμάτας έχει πληθυσμό 69.849 κατοίκους, σύμφωνα με την απογραφή του 2011. Η πόλη είναι κτισμένη στους πρόποδες του όρους Καλάθι (παρυφή του Ταϋγέτου), στην καρδιά του Μεσσηνιακού κόλπου. Απέχει 223 χιλιόμετρα από την Αθήνα, 215 χλμ. από την Πάτρα και 715 χλμ. από τη Θεσσαλονίκη. Η ιστορία της Καλαμάτας ξεκινάει από τον Όμηρο, ο οποίος αναφέρει τις Φαρές, αρχαία πόλη χτισμένη περίπου εκεί που βρίσκεται σήμερα το Φράγκικο κάστρο της πόλης.');
 
--- inserts for image
-INSERT INTO image (city_id, path)
-VALUES (1,'alexandroupoli1');
-
-INSERT INTO image (city_id, path)
-VALUES (1,'alexandroupoli2');
-
-INSERT INTO image (city_id, path)
-VALUES (1,'alexandroupoli3');
-
-INSERT INTO image (city_id, path)
-VALUES (2,'rodos1');
-
-INSERT INTO image (city_id, path)
-VALUES (2,'rodos2');
-
-INSERT INTO image (city_id, path)
-VALUES (2,'rodos3');
-
-INSERT INTO image (city_id, path)
-VALUES (3,'kalamata1');
-
-INSERT INTO image (city_id, path)
-VALUES (3,'kalamata2');
-
-INSERT INTO image (city_id, path)
-VALUES (3,'kalamata3');
-
 
 -- inserts for category
 INSERT INTO category (category_name) 
-VALUES ('Ξενοδοχεία');
+VALUES ('Hotels');
 
 INSERT INTO category (category_name) 
-VALUES ('Ξενώνες');
+VALUES ('Army Hotels');
 
 INSERT INTO category (category_name) 
-VALUES ('Λέσχη');
+VALUES ('Officers Mess');
 
 INSERT INTO category (category_name) 
-VALUES ('Εστιατόρια');
+VALUES ('Restaurants');
 
 INSERT INTO category (category_name)
-VALUES ('Νοσοκομεία');
+VALUES ('Hospitals');
 
 INSERT INTO category (category_name)
-VALUES ('Αξιοθέατα');
+VALUES ('Sights');
 
 INSERT INTO category (category_name)
-VALUES ('Παρκινγκ');
+VALUES ('Parking');
 
 INSERT INTO category (category_name)
-VALUES ('Σπίτια');
-
-
-
-
--- inserts for user
-INSERT INTO user (role_id, first_name, last_name, username, password, email) 
-VALUES (2, 'giorgos' , 'kaf', 'gk7', '1234', 'george@gmail.com');
-
+VALUES ('Avaiable Houses');
 
 -- inserts for choice
 ALTER TABLE choice AUTO_INCREMENT = 1;
 
 INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description) 
-VALUES ('Lighthouse Hotel', 'Αθανασίου Διάκου 11', '2551023300' , 'https://www.lighthousehotel.gr','https://goo.gl/maps/769osfcGXywQbByq5', 1,  1,'Σε απόσταση 700μ. από την παραλία, το Lighthouse Hotel βρίσκεται στο χωριό Φάρος της Σίφνου και διαθέτει πισίνα με τμήμα για παιδιά και σνακ μπαρ. Προσφέρει κομψά διακοσμημένα καταλύματα με δωρεάν Wi-Fi και θέα στην πισίνα, στον κήπο ή στο Αιγαίο Πέλαγος.
-Τα στούντιο, οι σουίτες και τα διαμερίσματα στο Lighthouse έχουν δοκάρια στην οροφή, δάπεδα από πέτρα και κρεβάτια από σφυρήλατο σίδηρο. Κάθε μονάδα ανοίγει σε μπαλκόνι και περιλαμβάνει καθιστικό και μικρή κουζίνα με τραπεζαρία, ψυγείο και εστίες μαγειρέματος. Παρέχονται τηλεόραση, κλιματισμός και θυρίδα ασφαλείας.
-Καθημερινά σερβίρεται ευρωπαϊκό πρωινό στην τραπεζαρία. Στο σνακ μπαρ μπορείτε να απολαύσετε ποτά και ελαφριά γεύματα όλη την ημέρα. Σε ακτίνα 700μ. από την ιδιοκτησία θα βρείτε εστιατόρια και καταστήματα.
-Το Lighthouse Hotel απέχει 18χλμ. από το λιμάνι Καμάρες και 8χλμ. από τη γραφική Απολλωνία. Το προσωπικό στη ρεσεψιόν μπορεί να κανονίσει ενοικίαση αυτοκινήτου για να εξερευνήσετε διάσημα μέρη, όπως το χωριό Κάστρο με το ενετικό φρούριο σε απόσταση 10 χιλιομέτρων. Παρέχεται δωρεάν ιδιωτικός χώρος στάθμευσης στις εγκαταστάσεις.');
+VALUES ('Lighthouse Hotel', 'Αθανασίου Διάκου 11', '2551023300' , 'https://www.lighthousehotel.gr','https://goo.gl/maps/769osfcGXywQbByq5', 1,  1,'Σε απόσταση 700μ. από την παραλία, το Lighthouse Hotel βρίσκεται στο χωριό Φάρος της Σίφνου και διαθέτει πισίνα με τμήμα για παιδιά και σνακ μπαρ. Προσφέρει κομψά διακοσμημένα καταλύματα με δωρεάν Wi-Fi και θέα στην πισίνα, στον κήπο ή στο Αιγαίο Πέλαγος.\nΤα στούντιο, οι σουίτες και τα διαμερίσματα στο Lighthouse έχουν δοκάρια στην οροφή, δάπεδα από πέτρα και κρεβάτια από σφυρήλατο σίδηρο. Κάθε μονάδα ανοίγει σε μπαλκόνι και περιλαμβάνει καθιστικό και μικρή κουζίνα με τραπεζαρία, ψυγείο και εστίες μαγειρέματος. Παρέχονται τηλεόραση, κλιματισμός και θυρίδα ασφαλείας.\nΚαθημερινά σερβίρεται ευρωπαϊκό πρωινό στην τραπεζαρία. Στο σνακ μπαρ μπορείτε να απολαύσετε ποτά και ελαφριά γεύματα όλη την ημέρα. Σε ακτίνα 700μ. από την ιδιοκτησία θα βρείτε εστιατόρια και καταστήματα.\nΤο Lighthouse Hotel απέχει 18χλμ. από το λιμάνι Καμάρες και 8χλμ. από τη γραφική Απολλωνία. Το προσωπικό στη ρεσεψιόν μπορεί να κανονίσει ενοικίαση αυτοκινήτου για να εξερευνήσετε διάσημα μέρη, όπως το χωριό Κάστρο με το ενετικό φρούριο σε απόσταση 10 χιλιομέτρων. Παρέχεται δωρεάν ιδιωτικός χώρος στάθμευσης στις εγκαταστάσεις.');
 
-INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description) 
-VALUES ('31 Doors Hotel', 'Λεωφ. Δημοκρατίας 422', '2551 033130' , 'https://31doorshotel.com','https://goo.gl/maps/WFJYmWhYjBsg3N4d7', 1,  1,'Το 31 Doors Hotel είναι ένα κατάλυμα 3 αστέρων στην Αλεξανδρούπολη, 600μ. από τη Νέα Παραλία της Αλεξανδρούπολης και λιγότερο από 1χλμ. από την Παραλία EOT. Αυτό το ξενοδοχείο 3 αστέρων προσφέρει δωρεάν Wi-Fi, βεράντα και μπαρ. Το κατάλυμα προσφέρει υπηρεσία δωματίου, υπηρεσία θυρωρείου και χώρο φύλαξης αποσκευών.
-Το ξενοδοχείο διαθέτει κλιματιζόμενα δωμάτια με επιφάνεια εργασίας, καφετιέρα, ψυγείο, θυρίδα ασφαλείας, τηλεόραση επίπεδης οθόνης και ιδιωτικό μπάνιο με μπιντέ. Τα δωμάτια του 31 Doors Hotel περιλαμβάνουν κλινοσκεπάσματα και πετσέτες.
-Οι επισκέπτες μπορούν να απολαύσουν μπουφέ πρωινού ή ευρωπαϊκό πρωινό. Η περιοχή είναι δημοφιλής για ποδηλασία. Αυτό το ξενοδοχείο 3 αστέρων προσφέρει υπηρεσία ενοικίασης ποδηλάτων
-Τα δημοφιλή σημεία ενδιαφέροντος κοντά στο 31 Doors Hotel περιλαμβάνουν την παραλία Δελφίνι, το Φάρο της Αλεξανδρούπολης και το Δημοτικό Στάδιο Φώτης Κοσμάς της Αλεξανδρούπολης. Το πλησιέστερο αεροδρόμιο είναι το Αεροδρόμιο της Αλεξανδρούπολης, σε απόσταση 7χλμ. από το ξενοδοχείο. Παρέχεται υπηρεσία μεταφοράς από/προς το αεροδρόμιο με επιπλέον χρέωση.');
+INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description)
+VALUES ('31 Doors Hotel', 'Λεωφ. Δημοκρατίας 422', '2551 033130' , 'https://31doorshotel.com','https://goo.gl/maps/WFJYmWhYjBsg3N4d7', 1,  1,'Το 31 Doors Hotel είναι ένα κατάλυμα 3 αστέρων στην Αλεξανδρούπολη, 600μ. από τη Νέα Παραλία της Αλεξανδρούπολης και λιγότερο από 1χλμ. από την Παραλία EOT. Αυτό το ξενοδοχείο 3 αστέρων προσφέρει δωρεάν Wi-Fi, βεράντα και μπαρ. Το κατάλυμα προσφέρει υπηρεσία δωματίου, υπηρεσία θυρωρείου και χώρο φύλαξης αποσκευών.\nΤο ξενοδοχείο διαθέτει κλιματιζόμενα δωμάτια με επιφάνεια εργασίας, καφετιέρα, ψυγείο, θυρίδα ασφαλείας, τηλεόραση επίπεδης οθόνης και ιδιωτικό μπάνιο με μπιντέ. Τα δωμάτια του 31 Doors Hotel περιλαμβάνουν κλινοσκεπάσματα και πετσέτες.\nΟι επισκέπτες μπορούν να απολαύσουν μπουφέ πρωινού ή ευρωπαϊκό πρωινό. Η περιοχή είναι δημοφιλής για ποδηλασία. Αυτό το ξενοδοχείο 3 αστέρων προσφέρει υπηρεσία ενοικίασης ποδηλάτων\nΤα δημοφιλή σημεία ενδιαφέροντος κοντά στο 31 Doors Hotel περιλαμβάνουν την παραλία Δελφίνι, το Φάρο της Αλεξανδρούπολης και το Δημοτικό Στάδιο Φώτης Κοσμάς της Αλεξανδρούπολης. Το πλησιέστερο αεροδρόμιο είναι το Αεροδρόμιο της Αλεξανδρούπολης, σε απόσταση 7χλμ. από το ξενοδοχείο. Παρέχεται υπηρεσία μεταφοράς από/προς το αεροδρόμιο με επιπλέον χρέωση.');
 
-INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description) 
-VALUES ('Ξενώνας Στρατού Αλεξανδρούπολης', 'Νικηφόρου Φωκά 1', '2551 062911' , null,'https://goo.gl/maps/vecmbKbW3STjsuJk8', 2,  1,'Το Γενικό Επιτελείο Στρατού, στο πλαίσιο της μέριμνας υπέρ του στρατιωτικού προσωπικού και της διαρκούς αναβάθμισης των υποδομών του, προέβη στις παρακάτω δράσεις: Παράδοση προς χρήση 10 ξενώνων, οι οποίοι προήλθαν από την πλήρη μετατροπή και ανακαίνιση του κτηρίου της Λέσχης Αξιωματικών Φρουράς (ΛΑΦ) Κορίνθου. Οι νέοι ξενώνες, οι οποίοι διαθέτουν παιδότοπο και ασύρματο δίκτυο internet ταχύτητας 100 Mbps, ανταποκρίνονται πλήρως στις σύγχρονες οικιστικές απαιτήσεις και παρέχουν άριστες συνθήκες διαμονής για το στρατιωτικό προσωπικό και τις οικογένειές του.');
+INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description)
+VALUES ('Ξενώνας Στρατού Αλεξανδρούπολης', 'Νικηφόρου Φωκά 1', '2551 062911' , null,'https://goo.gl/maps/vecmbKbW3STjsuJk8', 2,  1, 'Το Γενικό Επιτελείο Στρατού, στο πλαίσιο της μέριμνας υπέρ του στρατιωτικού προσωπικού και της διαρκούς αναβάθμισης των υποδομών του, προέβη στις παρακάτω δράσεις: Παράδοση προς χρήση 10 ξενώνων, οι οποίοι προήλθαν από την πλήρη μετατροπή και ανακαίνιση του κτηρίου της Λέσχης Αξιωματικών Φρουράς (ΛΑΦ) Κορίνθου. Οι νέοι ξενώνες, οι οποίοι διαθέτουν παιδότοπο και ασύρματο δίκτυο internet ταχύτητας 100 Mbps, ανταποκρίνονται πλήρως στις σύγχρονες οικιστικές απαιτήσεις και παρέχουν άριστες συνθήκες διαμονής για το στρατιωτικό προσωπικό και τις οικογένειές του.');
 
-INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description) 
-VALUES ('Λέσχη Αξιωματικών Φρουράς Αλεξανδρούπολης', 'Λεωφ. Δημοκρατίας 333', '2551 053301' , null,'https://goo.gl/maps/P5yDq31SfgBHRy179', 3,  1,'21');
+INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description)
+VALUES ('Λέσχη Αξιωματικών Φρουράς Αλεξανδρούπολης', 'Λεωφ. Δημοκρατίας 333', '2551 053301' , null,'https://goo.gl/maps/P5yDq31SfgBHRy179', 3,  1, 'Το Γενικό Επιτελείο Στρατού, στο πλαίσιο της μέριμνας υπέρ του στρατιωτικού προσωπικού και της διαρκούς αναβάθμισης των υποδομών του, προέβη στις παρακάτω δράσεις: Παράδοση προς χρήση 10 ξενώνων, οι οποίοι προήλθαν από την πλήρη μετατροπή και ανακαίνιση του κτηρίου της Λέσχης Αξιωματικών Φρουράς (ΛΑΦ) Κορίνθου. Οι νέοι ξενώνες, οι οποίοι διαθέτουν παιδότοπο και ασύρματο δίκτυο internet ταχύτητας 100 Mbps, ανταποκρίνονται πλήρως στις σύγχρονες οικιστικές απαιτήσεις και παρέχουν άριστες συνθήκες διαμονής για το στρατιωτικό προσωπικό και τις οικογένειές του.');
 
-INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description) 
-VALUES ('Χαραμα στη θάλασσα', 'Λεωφόρος Μάκρη 27', '2551 035833' , 'https://www.facebook.com/xarama','https://goo.gl/maps/hrb6xuYWiGgnpG3x5', 4,  1,'Η πολύχρονη εμπειρία μας στο χώρο της εστίασης από το 1992 καθώς και η εμπιστοσύνη των πελατών μας όλα αυτά τα χρόνια, μας οδήγησε το 2011 να εξελιχθούμε και να δημιουργήσουμε ένα πολυχώρο απόλαυσης δίπλα στο κύμα.
-Σε απόσταση αναπνοής από το κέντρο της Αλεξανδρούπολης, δίπλα στο δημοτικό κάμπινγκ του Ε.Ο.Τ, με θέα το απέραντο γαλάζιο του Θρακικού Πελάγους και το νησί των Καβείρων τη Σαμοθράκη, συνδυάσαμε την ποιότητα και το φυσικό περιβάλλον παρέχοντας υπηρεσίες υψηλών προδιαγραφών που καλύπτουν τις ανάγκες όλων όσων θέλουν να αποδράσουν από την καθημερινότητα.
-Σε μία έκταση 4.000 τ.μ, οι πελάτες μας μπορούν να επιλέξουν ή και να συνδυάσουν :
-Το ΕΣΤΙΑΤΟΡΙΟ : Με βάση την Μεσογειακή κουζίνα, που περιλαμβάνει πιάτα από ολόφρεσκα Πελαγίσια ψάρια, θαλασσινά και νωπά εντόπια κρεατικά, σας καλεί σε ένα ταξίδι γαστρονομικής απόλαυσης και ιδιαιτέρων γεύσεων επιμελημένα με την φροντίδα των ΣΕΦ.
-Τη ΠΑΡΑΛΙΑ-BEACH BAR : Η άρτια οργανωμένη παραλία κατά τη διάρκεια της καλοκαιρινής περιόδου προσφέρει στιγμές ξεγνοιασιάς από νωρίς το πρωί  έως αργά το βράδυ, για όλους όσους θέλουν να πάρουν μία «ανάσα δροσιάς», με συνοδεία καφέ-χυμών-αναψυκτικών-δροσιστικών κοκτέιλ και διάφορες ποικιλίες.
-Τον ΥΠΑΙΘΡΙΟ ΠΑΙΔΟΤΟΠΟ : Ο οποίος σε απόλυτη αρμονία με τη φύση υπόσχεται στους μικρούς μας φίλους, δημιουργική απασχόληση από έμπειρο και εξειδικευμένο προσωπικό, πληρώντας όλες τις προδιαγραφές ασφάλειας  της Ευρωπαϊκές Νομοθεσίας.');
+INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description)
+VALUES ('Χαραμα στη θάλασσα', 'Λεωφόρος Μάκρη 27', '2551 035833' , 'https://www.facebook.com/xarama','https://goo.gl/maps/hrb6xuYWiGgnpG3x5', 4,  1, 'Η πολύχρονη εμπειρία μας στο χώρο της εστίασης από το 1992 καθώς και η εμπιστοσύνη των πελατών μας όλα αυτά τα χρόνια, μας οδήγησε το 2011 να εξελιχθούμε και να δημιουργήσουμε ένα πολυχώρο απόλαυσης δίπλα στο κύμα.\nΣε απόσταση αναπνοής από το κέντρο της Αλεξανδρούπολης, δίπλα στο δημοτικό κάμπινγκ του Ε.Ο.Τ, με θέα το απέραντο γαλάζιο του Θρακικού Πελάγους και το νησί των Καβείρων τη Σαμοθράκη, συνδυάσαμε την ποιότητα και το φυσικό περιβάλλον παρέχοντας υπηρεσίες υψηλών προδιαγραφών που καλύπτουν τις ανάγκες όλων όσων θέλουν να αποδράσουν από την καθημερινότητα.\nΣε μία έκταση 4.000 τ.μ, οι πελάτες μας μπορούν να επιλέξουν ή και να συνδυάσουν :\nΤο ΕΣΤΙΑΤΟΡΙΟ : Με βάση την Μεσογειακή κουζίνα, που περιλαμβάνει πιάτα από ολόφρεσκα Πελαγίσια ψάρια, θαλασσινά και νωπά εντόπια κρεατικά, σας καλεί σε ένα ταξίδι γαστρονομικής απόλαυσης και ιδιαιτέρων γεύσεων επιμελημένα με την φροντίδα των ΣΕΦ.\nΤη ΠΑΡΑΛΙΑ-BEACH BAR : Η άρτια οργανωμένη παραλία κατά τη διάρκεια της καλοκαιρινής περιόδου προσφέρει στιγμές ξεγνοιασιάς από νωρίς το πρωί  έως αργά το βράδυ, για όλους όσους θέλουν να πάρουν μία «ανάσα δροσιάς», με συνοδεία καφέ-χυμών-αναψυκτικών-δροσιστικών κοκτέιλ και διάφορες ποικιλίες.\nΤον ΥΠΑΙΘΡΙΟ ΠΑΙΔΟΤΟΠΟ : Ο οποίος σε απόλυτη αρμονία με τη φύση υπόσχεται στους μικρούς μας φίλους, δημιουργική απασχόληση από έμπειρο και εξειδικευμένο προσωπικό, πληρώντας όλες τις προδιαγραφές ασφάλειας  της Ευρωπαϊκές Νομοθεσίας.');
 
-INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description) 
-VALUES ('Ταβέρνα του Άη Γιώργη', 'Παραλία Αγίου Γεωργίου', '2551 071777' , 'https://aigiorgis.com/','https://goo.gl/maps/NVqZm8No75Ue55g87', 4,  1,'Η Ταβέρνα του Άη Γιώργη στην Αλεξανδρούπολη σας περιμένει για να ζήσετε αξέχαστες γευστικές εμπειρίες σε έναν χώρο που τον διακρίνει το γούστο και η κομψότητα. Είτε επιλέξετε τη βεράντα πάνω από τη θάλασσα με την απαράμιλλη θέα, είτε επιλέξετε να απολαύσετε ένα γεύμα στον εξαιρετικά διακοσμημένο εσωτερικό του χώρο, ένα είναι σίγουρο, οι γεύσεις του θα σας ταξιδέψουν και θα σας μαγέψουν. Από τον Μάη του 2002 η Ταβέρνα του Άη Γιώργη στην Αλεξανδρούπολη  καταφέρνει να συνδυάσει μυρωδιές της παραδοσιακής κουζίνας με σύγχρονες αλχημείες και να τις ταιριάξει αρμονικά με αγνό τσίπουρο και καλό κρασί.
-Θα συναντήσετε τη Ταβέρνα του Άη Γιώργη βγαίνοντας από την Αλεξανδρούπολη και περνώντας από το ελαιώνα της Μάκρης και θα έχετε την ευκαιρία να απολαύσετε εξαιρετικά πιάτα, όπως ριζότο θαλασσινών ή μανιταριών, αστακομακαρονάδα, καρπάτσιο ψαριού ή γαρίδας και κριθαρότο μόσχου. Τέλος στη Ταβέρνα του Άη Γιώργη  στην Αλεξανδρούπολη μπορείτε να απολαύσετε το φαγητό σας υπό τους ήχους ελληνικής έντεχνης μουσικής σε μια φανταστική ατμοσφαίρα με άψογο service.');
+INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description)
+VALUES ('Ταβέρνα του Άη Γιώργη', 'Παραλία Αγίου Γεωργίου', '2551 071777' , 'https://aigiorgis.com/','https://goo.gl/maps/NVqZm8No75Ue55g87', 4,  1, 'Η Ταβέρνα του Άη Γιώργη στην Αλεξανδρούπολη σας περιμένει για να ζήσετε αξέχαστες γευστικές εμπειρίες σε έναν χώρο που τον διακρίνει το γούστο και η κομψότητα. Είτε επιλέξετε τη βεράντα πάνω από τη θάλασσα με την απαράμιλλη θέα, είτε επιλέξετε να απολαύσετε ένα γεύμα στον εξαιρετικά διακοσμημένο εσωτερικό του χώρο, ένα είναι σίγουρο, οι γεύσεις του θα σας ταξιδέψουν και θα σας μαγέψουν. Από τον Μάη του 2002 η Ταβέρνα του Άη Γιώργη στην Αλεξανδρούπολη  καταφέρνει να συνδυάσει μυρωδιές της παραδοσιακής κουζίνας με σύγχρονες αλχημείες και να τις ταιριάξει αρμονικά με αγνό τσίπουρο και καλό κρασί.\nΘα συναντήσετε τη Ταβέρνα του Άη Γιώργη βγαίνοντας από την Αλεξανδρούπολη και περνώντας από το ελαιώνα της Μάκρης και θα έχετε την ευκαιρία να απολαύσετε εξαιρετικά πιάτα, όπως ριζότο θαλασσινών ή μανιταριών, αστακομακαρονάδα, καρπάτσιο ψαριού ή γαρίδας και κριθαρότο μόσχου. Τέλος στη Ταβέρνα του Άη Γιώργη  στην Αλεξανδρούπολη μπορείτε να απολαύσετε το φαγητό σας υπό τους ήχους ελληνικής έντεχνης μουσικής σε μια φανταστική ατμοσφαίρα με άψογο service.');
 
-INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description) 
-VALUES ('Πανεπιστημιακό Γενικό Νοσοκομείο Αλεξανδρούπολης', 'Αλεξανδρούπολη 681 00', '2551353000' , 'https://pgna.gr/','https://goo.gl/maps/8N8iwkUmbgvcNAWCA', 5,  1,'fsdfsda');
-
-INSERT INTO choice (name, address, phone_number, category_id, city_id, description) 
-VALUES ('Μιχαηλίδης Χαράλαμπος', 'Αξιουπόλεως 49', '2551353000' , 8,  1,'150$ με Παρκινγκ και 3 Δωμάτια');
-
+INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description)
+VALUES ('Πανεπιστημιακό Γενικό Νοσοκομείο Αλεξανδρούπολης', 'Αλεξανδρούπολη 681 00', '2551353000' , 'https://pgna.gr/','https://goo.gl/maps/8N8iwkUmbgvcNAWCA', 5,  1, 'Η παροχή φροντίδας υγείας όλων των επιπέδων και κυρίως τριτοβάθμιας στον πληθυσμό της Ανατολικής Μακεδονίας- Θράκης, καθώς και σε ασθενείς που παραπέμπονται από όλη την 4η Υγειονομική Περιφέρεια Μακεδονίας και Θράκη. Η φροντίδα υγείας παρέχεται ισότιμα σε κάθε άτομο ανεξάρτητα από την οικονομική, κοινωνική και επαγγελματική του κατάσταση, σύμφωνα με τους κανόνες του Εθνικού Συστήματος Υγείας.');
 
 -- city=2
-INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description) 
-VALUES ('Rhodes Plaza Hotel', 'Ιερού Λόχου 7', '2241 022501' ,'https://www.rhodesplazahotel.com', 'https://goo.gl/maps/2MKjV2bciN8jnfyZA', 1,  2,'dsa');
+INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description)
+VALUES ('Rhodes Plaza Hotel', 'Ιερού Λόχου 7', '2241 022501' , 'https://www.rhodesplazahotel.com', 'https://goo.gl/maps/2MKjV2bciN8jnfyZA', 1,  2, 'Το 4 αστέρων Best Western βρίσκεται στο κέντρο της πόλης της Ρόδου και διαθέτει πισίνα με ηλιόλουστη βεράντα και σάουνα. Τα δωμάτια έχουν θέα στη θάλασσα ή στη Μεσαιωνική Πόλη. Το Best Western Plaza Hotel προσφέρει καλόγουστα δωμάτια, διακοσμημένα σε απαλά χρώματα. Είναι κλιματιζόμενα και εξοπλισμένα με δορυφορική τηλεόραση επίπεδης οθόνης LED 26 ιντσών, θυρίδα ασφαλείας και δωρεάν Wi-Fi πρόσβαση. Το μαρμάρινο μπάνιο περιλαμβάνει στεγνωτήρα μαλλιών. Στο Best Western υπάρχει εστιατόριο που σερβίρει ελληνική και διεθνή κουζίνα σε στιλ μπουφέ. Στο ξενοδοχείο θα βρείτε ένα καλόγουστο εσωτερικό μπαρ και ένα pool bar για ποτά και κοκτέιλ. Το Διεθνές Αεροδρόμιο της Ρόδου απέχει 14 χιλιόμετρα. Η παραλία και το Καζίνο της Ρόδου βρίσκονται σε ακτίνα 300 μέτρων.');
 
 INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description) 
-VALUES ('Lydia Hotel', '25ης Μαρτίου 31', '2241 022871' , 'https://lydiahotel.gr/','https://goo.gl/maps/UTytxfNHnK8KgzPQ8', 1,  2,'dsa');
+VALUES ('Lydia Hotel', '25ης Μαρτίου 31', '2241 022871' , 'https://lydiahotel.gr/', 'https://goo.gl/maps/UTytxfNHnK8KgzPQ8', 1,  2, 'Το ξενοδοχείο Athens Lydia Hotel βρίσκεται στην Αθήνα, σε απόσταση μόλις 100μ. Από το σταθμό του μετρό Αττική. Προσφέρει δωμάτια με δωρεάν Wi-Fi, ηχομόνωση και κλιματισμό. Τα δωμάτια στο Athens Lydia είναι διακοσμημένα σε ζωντανά χρώματα και διαθέτουν τηλεόραση πλάσματος 24 ιντσών και DVD player. Στο μπάνιο θα βρείτε παντόφλες, στεγνωτήρα μαλλιών και χρηματοκιβώτιο. Το Εθνικό Αρχαιολογικό Μουσείο της Αθήνας απέχει 1,5χλμ. Από το ξενοδοχείο Athens Lydia Hotel. Το αεροδρόμιο Ελευθέριος Βενιζέλος απέχει 20χλμ. Η αίθουσα μουσικής music hall “Gagarin 205” βρίσκεται 10 λεπτά με τα πόδια από το ξενοδοχείο. Ο εθνικός και προαστιακός σιδηρόδρομος (Σταθμός Λάρισας) απέχει 5 λεπτά με τα πόδια από το ξενοδοχείο. Η Western Union και 3 διαφορετικές τράπεζες με ΑΤΜ βρίσκονται δίπλα στο ξενοδοχείο. Καθημερινά εστιατόρια, καφετέριες και ελληνικές ταβέρνες όλα βρίσκονται σε κοντινή απόσταση!');
 
-INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description) 
-VALUES ('Ξενώνας Στρατού Ρόδου', 'Εθνάρχου Μακαρίου 18', '2241 055351' , null, 'https://goo.gl/maps/kxh7phRBdBHJT2CZ9', 2,  2,'dssa');
+INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description)
+VALUES ('Ξενώνας Στρατού Ρόδου', 'Εθνάρχου Μακαρίου 18', '2241 055351' , null, 'https://goo.gl/maps/kxh7phRBdBHJT2CZ9', 2,  2, 'Μέσα στα γραφικά αλλά και πολύβουα, κυρίως τους καλοκαιρινούς μήνες, σοκάκια  του κέντρου της Ρόδου βρίσκεται η χτισμένη το 1932απο τον Armando Bernabiti η Λέσχη Εθνοφυλακής Ρόδου. Πρόκειται για ένα τριώροφο κτήριο με μεγάλα ανοίγματα στο ισόγειο και ιδιαίτερα τονισμένο τον κατακόρυφο άξονα και σημαντικά εκλεκτικιστικά. Οι εκπλήξεις διαδέχονται η μία την άλλη, όταν ο επισκέπτης βρεθεί στο χώρο της ΛΕΘ Ρόδου, μετά την ευγενέστατη υποδοχή από το προσωπικό.  Στο χώρο της Λέσχης λειτουργούν άψογα το εστιατόριο, το κομμωτήριο και οι ξενώνες!');
 
-INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description) 
-VALUES ('Λέσχη Αξιωματικών Φρουράς Ρόδου', 'Εθνάρχου Μακαρίου 18', '2241 055351' , 'https://lethrodou.gr/','https://goo.gl/maps/pUDfjipDzEq5SMLX7', 3,  2,'sadd');
+INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description)
+VALUES ('Λέσχη Αξιωματικών Φρουράς Ρόδου', 'Εθνάρχου Μακαρίου 18', '2241 055351' , 'https://lethrodou.gr/', 'https://goo.gl/maps/pUDfjipDzEq5SMLX7', 3,  2, 'Μέσα στα γραφικά αλλά και πολύβουα, κυρίως τους καλοκαιρινούς μήνες, σοκάκια  του κέντρου της Ρόδου βρίσκεται η χτισμένη το 1932απο τον Armando Bernabiti η Λέσχη Εθνοφυλακής Ρόδου. Πρόκειται για ένα τριώροφο κτήριο με μεγάλα ανοίγματα στο ισόγειο και ιδιαίτερα τονισμένο τον κατακόρυφο άξονα και σημαντικά εκλεκτικιστικά. Οι εκπλήξεις διαδέχονται η μία την άλλη, όταν ο επισκέπτης βρεθεί στο χώρο της ΛΕΘ Ρόδου, μετά την ευγενέστατη υποδοχή από το προσωπικό.  Στο χώρο της Λέσχης λειτουργούν άψογα το εστιατόριο, το κομμωτήριο και οι ξενώνες!');
 
-INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description) 
-VALUES ('4 Ροδιές', 'Καναδά 29', '2241 130214' , 'https://www.facebook.com/4rodies/','https://goo.gl/maps/RXWeQpD2YCtNhYfLA', 4,  2,'treter');
+INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description)
+VALUES ('4 Ροδιές', 'Καναδά 29', '2241 130214' , 'https://www.facebook.com/4rodies/', 'https://goo.gl/maps/RXWeQpD2YCtNhYfLA', 4,  2, 'Το μεζεδοπωλείο 4 Ροδιές στη Ρόδο θα σας υποδεχθεί σε ένα χώρο που θα σας κάνει να νιώσετε πραγματικά σαν το σπίτι σας! Ετοιμαστείτε να φιλοξενηθείτε σε ένα αρχοντικό με υπέροχη διακόσμηση και σε έναν κήπο που θυμίζει έντονα τα Κυριακάτικα τραπέζια με τις οικογένειές μας. Δεν είναι, όμως, μόνο ο χώρος αυτός που θα σας γεμίσει αναμνήσεις.... Τα πιάτα που θα γευτείτε θα αποτυπώσουν με το καλύτερο δυνατό τρόπο την κουζίνα της μαμάς και της γιαγιάς και τα γλυκά στο τέλος θα σας προκαλέσουν να ξεσηκώστε τη συνταγή.Θα συναντήσετε τις 4 Ροδιές στην οδό Καναδά 29 και θα δυσκολευτείτε, σίγουρα, να επιλέξετε ανάμεσα στις παραδοσιακές πίτες με το χειροποίητο φύλλο');
 
-INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description) 
-VALUES ('Carne', 'Ορφανίδου 1', '2241 075443' , 'https://www.carnerhodes.com/','https://goo.gl/maps/G4UUfuG9eqdcBPTq6', 4,  2,'uytreyer');
-
+INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description)
+VALUES ('Carne', 'Ορφανίδου 1', '2241 075443' , 'https://www.carnerhodes.com/', 'https://goo.gl/maps/G4UUfuG9eqdcBPTq6', 4,  2, 'Το Carne – Meat, Fire & Wine ανοίγει τις πόρτες του και είναι το ιδανικό μέρος για όλους όσους αγαπούν το καλό κρέας. Ο ορισμός της λέξης “Carne” είναι κρέας και προέρχεται από την Ιταλική γλώσσα. Λαμβάνοντας αυτό υπόψη, οι ιδιοκτήτες του εστιατορίου εστιάζουν σε μια αρχή: στο να δημιουργούν και να σερβίρουν πιάτα τα οποία είναι βασισμένα σε κρέας υψηλής ποιότητας, δίνοντας ταυτόχρονα μεγάλη προσοχή στην λεπτομέρεια.');
 
 -- city=3
-INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description) 
-VALUES ('Elite City Resort', 'Ναυαρίνου 237', '2721 022434' , 'https://www.elite.com.gr/', 'https://goo.gl/maps/yuxVSe3GRvCLx6nn6',1,  3,'ytggnh');
+INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description)
+VALUES ('Elite City Resort', 'Ναυαρίνου 237', '2721 022434' , 'https://www.elite.com.gr/', 'https://goo.gl/maps/yuxVSe3GRvCLx6nn6', 1,  3, 'Το ξενοδοχείο Elite City Resort σας καλωσορίζει και σας υποδέχεται στην όμορφη Καλαμάτα Μεσσηνίας, μία από τις ομορφότερες πόλεις της Πελοποννήσου. Με θέα το μαγευτικό Μεσσηνιακό Κόλπο, μπορείτε να απολαύσετε τις πολυάριθμες και πολυτελείς υπηρεσίες μας, σε έναν ευρύ χώρο 35 στρεμμάτων, καθ όλη τη διάρκεια του χρόνου. Το Elite City Resort και το άρτια εκπαιδευμένο προσωπικό του, είναι στη διάθεσή σας, προκειμένου να ικανοποιήσει όλες σας τις ανάγκες. Ο συνδυασμός των γήινων χρωμάτων της φύσης με το γαλάζιο της θάλασσας και οι σύγχρονα ανακαινισμένες εγκαταστάσεις με τη μοντέρνα αρχιτεκτονική και διακόσμηση, μετατρέπει τη διαμονή ή την επίσκεψή σας σε μια απολαυστική εμπειρία.');
+
+INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description)
+VALUES ('Hotel Fotini', 'Βέργα 27', '2721 093494' , 'https://www.hotel-fotini.gr', 'https://goo.gl/maps/oUrsCdQWAtbXXpKHA',1,  3, 'Το Hotel Fotini είναι ένα σύγχρονο συγκρότημα 3 αστέρων, κτισμένο σε μία εξαιρετική τοποθεσία της πόλης, στην Βέργα, στις παρυφές του επιβλητικού Ταϋγέτου και μόλις 100 μ από τη θάλασσα, αποτελώντας έναν μοναδικό προορισμό για όσους αναζητούν στιγμές αναζωογόνησης και χαλάρωσης. Το ξενοδοχείο διαθέτει 29 δωμάτια με έμφαση στην άνεση. Όλα τα δωμάτια παρέχουν δυνατότητα προετοιμασίας γευμάτων, τηλεόραση επίπεδης οθόνης και δωρεάν wi-fi, ιδιωτικό μπάνιο με δωρεάν προϊόντα περιποίησης και μπαλκόνι με θέα την καταγάλανη θάλασσα του μεσσηνιακού κόλπου. Στο χώρο υποδοχής λειτουργεί από το πρωί σνακ μπαρ, όπου μπορείτε να απολαύσετε το πρωινό σας, το οποίο σερβίρεται, επίσης, και στα δωμάτια.');
+
+INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description)
+VALUES ('Ξενώνας Στρατού Καλαμάτας', 'Θησέα 56', '2721 063578' , null, 'https://goo.gl/maps/xd7zGWA4C48vzMpj8',2,  3, 'Αναλυτικότερα, παραδόθηκαν προς χρήση 18 διαμερίσματα ξενώνων, τα οποία προέκυψαν από την πλήρη διαμόρφωση – ανακαίνιση παλαιοτέρων κτηριακών εγκαταστάσεων. Οι νέοι ξενώνες, οι οποίοι έχουν την δυνατότητα φιλοξενίας ΑμεΑ, διαθέτουν ασύρματο δίκτυο internet, ανταποκρίνονται πλήρως στις σύγχρονες οικιστικές απαιτήσεις και παρέχουν άριστες συνθήκες διαμονής για το στρατιωτικό προσωπικό και τις οικογένειές του.');
+
+INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description)
+VALUES ('Λέσχη Αξιωματικών Φρουράς Καλαμάτας', 'Αριστομένους 119', '2721 087316' , null, 'https://goo.gl/maps/xd7zGWA4C48vzMpj8',3,  3, 'Στην τελετή εγκαινίων, παρέστησαν επίσης Βουλευτές του Ελληνικού Κοινοβουλίου, ο Πρόεδρος του Ιδρύματος «Καπετάν Βασίλη και Κάρμεν Κωνσταντακόπουλου» κ. Αχιλλέας Κωνσταντακόπουλος, ο Διοικητής της Ανώτατης Στρατιωτικής Διοίκησης Υποστήριξης Στρατού (ΑΣΔΥΣ «ΘΗΣΕΑΣ») Αντιστράτηγος Γεώργιος Κωστίδης, εκπρόσωποι της Τοπικής Αυτοδιοίκησης και της Εκκλησίας και ο επίτιμος Διοικητής της ΑΣΔΥΣ «ΘΗΣΕΑΣ» Αντιστράτηγος ε.α. Λεωνίδας Κακαβάς');
+
+INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description)
+VALUES ('Νοτιάς', 'Ποσειδώνος 4', '2721 095280' , 'https://notiaskalamata.gr/', 'https://goo.gl/maps/gmNKTCd1tj1Yh1s86',4,  3, 'Ο Νότιας πρόσφατα (2019) άνοιξε με καινούργια διεύθυνση στη μαρίνα της Καλαμάτας. Αυτό που μου άρεσε είναι η αυθεντικότητα των πιάτων εδώ, αυτό το κάνει διαφορετικό από άλλα εστιατόρια που γνωρίζω στην περιοχή (δεν τα γνωρίζω όλα). Είναι επίσης κοντά στο νερό, αλλά δεν βρίσκεται στο κύριο ρεύμα κυκλοφορίας, οπότε η διάθεση είναι πολύ ήρεμη εδώ.');
 
 INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description) 
-VALUES ('Hotel Fotini', 'Βέργα 27', '2721 093494' , 'https://www.hotel-fotini.gr','https://goo.gl/maps/oUrsCdQWAtbXXpKHA', 1,  3,'ytggnh');
+VALUES ('Τα Ρολλά', 'Σπάρτης 53', '2721 026218' , 'http://www.ta-rolla.gr/', 'https://goo.gl/maps/52LEwinLcGLwoLAZ7',4,  3, 'Το εστιατόριο ιδρύθηκε το 1924 από τον «Μπάρμπα Γιάννη», ο οποίος είχε επιστρέψει από την Αμερική όπου δούλευε ως μετανάστης. Το εστιατόριο πήρε το όνομα «Ρολλά» επειδή εκείνη την εποχή το κτήριο εκτός από τις τζαμαρίες για ασφάλεια είχε και εξωτερικά μεταλλικά «Ρολλά». Το εστιατόριο συνεχίζει να είναι οικογενειακή επιχείρηση και πρόσφατα ανακαινίστηκε από τον εγγονό του «Μπάρμπα Γιάννη» και ιδιοκτήτη του εστιατορίου Γιώργο Αθανασόπουλο. Επίσης είναι από τα ελάχιστα εστιατόρια που κατέχουν το σήμα της «Ελληνικής κουζίνας» από τον ΕΟΤ και την ΕΟΚ, απόδειξη της υψηλής ποιότητας και των φρέσκων υλικών.');
 
-INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description) 
-VALUES ('Ξενώνας Στρατού Καλαμάτας', 'Θησέα 56', '2721 063578' , null,'https://goo.gl/maps/xd7zGWA4C48vzMpj8', 2,  3,'ytggnh');
-
-INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description) 
-VALUES ('Λέσχη Αξιωματικών Φρουράς Καλαμάτας', 'Αριστομένους 119', '2721 087316' , null,'https://goo.gl/maps/xd7zGWA4C48vzMpj8', 3,  3,'ytggnh');
-
-INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description) 
-VALUES ('Νοτιάς', 'Ποσειδώνος 4', '2721 095280' , 'https://notiaskalamata.gr/','https://goo.gl/maps/gmNKTCd1tj1Yh1s86', 4,  3,'ytggnh');
-
-INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description) 
-VALUES ('Τα Ρολλά', 'Σπάρτης 53', '2721 026218' , 'http://www.ta-rolla.gr/', 'https://goo.gl/maps/52LEwinLcGLwoLAZ7',4,  3,'ytggnh');
-
--- inserts for pictures
-INSERT INTO pictures (choice_id, path)
-VALUES (1,'lighthouse');
-INSERT INTO pictures (choice_id, path)
-VALUES (2,'31doors');
-INSERT INTO pictures (choice_id, path)
-VALUES (3,'xenonas_alexpolis');
-INSERT INTO pictures (choice_id, path)
-VALUES (4,'lesxi_alexpolis');
-INSERT INTO pictures (choice_id, path)
-VALUES (5,'harama');
-INSERT INTO pictures (choice_id, path)
-VALUES (6,'taverna-agios');
-INSERT INTO pictures (choice_id, path)
-VALUES (7,'plaza-hotel');
-INSERT INTO pictures (choice_id, path)
-VALUES (8,'lydia-hotel');
-INSERT INTO pictures (choice_id, path)
-VALUES (9,'xenonas-rodos');
-INSERT INTO pictures (choice_id, path)
-VALUES (10,'lesxi_rodos');
-INSERT INTO pictures (choice_id, path)
-VALUES (11,'4rodies');
-INSERT INTO pictures (choice_id, path)
-VALUES (12,'carne');
-INSERT INTO pictures (choice_id, path)
-VALUES (13,'elite');
-INSERT INTO pictures (choice_id, path)
-VALUES (14,'hotel-fotini');
-INSERT INTO pictures (choice_id, path)
-VALUES (15,'xenonas_kalamatas');
-INSERT INTO pictures (choice_id, path)
-VALUES (16,'lesxi_kalamatas');
-INSERT INTO pictures (choice_id, path)
-VALUES (17,'notias');
-INSERT INTO pictures (choice_id, path)
-VALUES (18,'tarolla');
-INSERT INTO pictures (choice_id, path)
-VALUES (19,'hospitalAlexpoli');
-INSERT INTO pictures (choice_id, path)
-VALUES (36,'Spiti');
-
+-- inserts for pic
 insert into pic (id,type_id,path) values ( 1 , 'city' , 'alexandroupoli1');
 insert into pic (id,type_id,path) values ( 1 , 'city' , 'alexandroupoli2');
 insert into pic (id,type_id,path) values ( 1 , 'city' , 'alexandroupoli3');
@@ -307,34 +196,39 @@ insert into pic (id,type_id,path) values ( 2 , 'city' , 'rodos1');
 insert into pic (id,type_id,path) values ( 2 , 'city' , 'rodos2');
 insert into pic (id,type_id,path) values ( 2 , 'city' , 'rodos3');
 
-insert into pic (id,type_id,path) values ( 1 , 'choice' , 'lighthouse');
+insert into pic (id,type_id,path) values ( 3 , 'city' , 'kalamata1');
+insert into pic (id,type_id,path) values ( 3 , 'city' , 'kalamata2');
+insert into pic (id,type_id,path) values ( 3 , 'city' , 'kalamata3');
 
+insert into pic (id,type_id,path) values ( 1 , 'choice' , 'lighthouse');
+insert into pic (id,type_id,path) values ( 2 , 'choice' , '31 Doors Hotel');
 insert into pic (id,type_id,path) values ( 3 , 'choice' , 'xenonas_alexpolis');
 insert into pic (id,type_id,path) values ( 4 , 'choice' , 'lesxi_alexpolis');
 insert into pic (id,type_id,path) values ( 5 , 'choice' , 'harama');
 insert into pic (id,type_id,path) values ( 6 , 'choice' , 'taverna-agios');
-insert into pic (id,type_id,path) values ( 7 , 'choice' , 'plaza-hotel');
-insert into pic (id,type_id,path) values ( 8 , 'choice' , 'lydia-hotel');
-insert into pic (id,type_id,path) values ( 9 , 'choice' , 'xenonas-rodos');
-insert into pic (id,type_id,path) values ( 10 , 'choice' , 'lesxi_rodos');
-insert into pic (id,type_id,path) values ( 11 , 'choice' , '4rodies');
-insert into pic (id,type_id,path) values ( 12 , 'choice' , 'carne');
-insert into pic (id,type_id,path) values ( 13 , 'choice' , 'elite');
-insert into pic (id,type_id,path) values ( 14 , 'choice' , 'hotel-fotini');
-insert into pic (id,type_id,path) values ( 15 , 'choice' , 'xenonas_kalamatas');
-insert into pic (id,type_id,path) values ( 16 , 'choice' , 'lesxi_kalamatas');
-insert into pic (id,type_id,path) values ( 17 , 'choice' , 'notias');
-insert into pic (id,type_id,path) values ( 18 , 'choice' , 'tarolla');
-insert into pic (id,type_id,path) values ( 19 , 'choice' , 'hospitalAlexpoli');
+insert into pic (id,type_id,path) values ( 7 , 'choice' , 'hospitalAlexpoli');
+insert into pic (id,type_id,path) values ( 8 , 'choice' , 'plaza-hotel');
+insert into pic (id,type_id,path) values ( 9 , 'choice' , 'lydia-hotel');
+insert into pic (id,type_id,path) values ( 10 , 'choice' , 'xenonas_rodos');
+insert into pic (id,type_id,path) values ( 11 , 'choice' , 'lesxi_rodos');
+insert into pic (id,type_id,path) values ( 12 , 'choice' , '4rodies');
+insert into pic (id,type_id,path) values ( 13 , 'choice' , 'carne');
+insert into pic (id,type_id,path) values ( 14 , 'choice' , 'elite');
+insert into pic (id,type_id,path) values ( 15 , 'choice' , 'hotel-fotini');
+insert into pic (id,type_id,path) values ( 16 , 'choice' , 'xenonas_kalamatas');
+insert into pic (id,type_id,path) values ( 17 , 'choice' , 'lesxi_kalamatas');
+insert into pic (id,type_id,path) values ( 18 , 'choice' , 'notias');
+insert into pic (id,type_id,path) values ( 19 , 'choice' , 'tarolla' );
 insert into pic (id,type_id,path) values ( 36 , 'choice' , 'Spiti');
-insert into pic (id,type_id,path) values ( 36 , 'choice' , 'harama');
-
 insert into pic (id,type_id,path) values ( 30 , 'choice' , 'alexandroupoli-s-lighthouse');
 
-
-
-
-
-
-
-
+-- inserts for reviews
+INSERT INTO reviews (choice_id, user_id, rate, title, comment, r_date) VALUES (1,1,3,'Ένα εξαιρετικό ξενοδοχείο πόλης','Εξαιρετικό ξενοδοχείο, υπέροχο προσωπικό, εξυπηρέτηση, ευγένεια και χαμόγελα!! Άνθρωποι που γνωρίζουν από διοίκηση ξενοδοχειακών επιχειρήσεων και φαίνεται στην αντιμετώπιση τόσο των πελατών αλλά και του προσωπικού τους. Καθαροί σύγχρονοι χώροι, πλούσιος μπουφές και αμέτρητες επιλογές λόγω της εξαιρετικής θέσης του στο νησί. Απιστευτη θέα στο Αιγαίο πέλαγος!!Το συνιστώ ανεπιφύλακτα!! Η καλύτερη επιλογή!!','2023-02-07 12:57:59');
+INSERT INTO reviews (choice_id, user_id, rate, title, comment, r_date) VALUES (1,1,4,'Διαμονή','Το μισό είναι ανακαινισμένο με θέα προς τη θάλασσα και το άλλο μισό προβληματικό, με κακό ίντερνετ. Πολύ καλό και ευγενέστατο το προσωπικό στο εστιατόριο, σε αντίθεση με το μπαρ. Σε καλή τοποθεσία, δίπλα στο κέντρο και άνετο πάρκινγκ γιατί δίπλα έχει ένα εγκαταλελειμένο νοσοκομείο','2023-02-07 12:57:59');
+INSERT INTO reviews (choice_id, user_id, rate, title, comment, r_date) VALUES (1,1,1,'Εξαιρετικό πρωινό και δείπνο','Το Semiramis City Hotel είναι ένα εξαιρετικό ξενοδοχείο για όσους προτιμήσουν διαμονή στην πόλη της Ρόδο. Με πολύ καλές παροχές που ανταποκρίνονται στο κόστος διαμονής, εν΄\'ω η άριστη εξυπηρέτηση και φροντίδα από το προσωπικό είναι το bonus του ξενοδοχείου','2023-02-07 12:57:59');
+INSERT INTO reviews (choice_id, user_id, rate, title, comment, r_date) VALUES (2,1,3,'Θερμά Συγχαρητήρια!!','Δεν ξέρω τι να πρωτοπώ γι αυτό το ξενοδοχείο. Ανακαινισμένο με εξαιρετικα δωμάτια, απίστευτα καθαρά με όμορφη αισθητική. Προσωπικό ΕΥΓΕΝΕΣΤΑΤΟ, από πάνω απ τον πελάτη κάθε στιγμή, πρόθυμο να τον εξυπηρετήσει. Αλλά αυτό που μου έκανε τεράστια εντύπωση ήταν η κουζίνα του…. Φαγητά ΑΣΣΥΛΗΠΤΩΝ γεύσεων και μεγάλης ποικιλίας - γεύσεις που παραπέμπουν σε δγκουρμέ εστιατόρια…','2023-02-08 09:56:31');
+INSERT INTO reviews (choice_id, user_id, rate, title, comment, r_date) VALUES (2,1,2,'Χειμώνας στη Ρόδο','Πολύ άνετο κρεβάτι και μαξιλάρια, πεντακάθαρο, προσφάτως ανακαινισμένο, πλούσιο πρωινό, φιλικό προσωπικό, σχετικά κοντά στην πόλη. Τί άλλο να ζητήσει κανείς; Είναι καλύτερα να πάει κανείς off season βέβαια,κατά τη γνώμη μου...','2023-02-08 09:56:31');
+INSERT INTO reviews (choice_id, user_id, rate, title, comment, r_date) VALUES (3,1,5,'Εξαιρετικό!','Εξαιρετικός ξενώνας  με άψογο service σε μια ζεστή εορταστική ατμοσφαιρα μόλις λίγα λεπτά απόσταση από το κέντρο της πόλης και την παλιά πόλη. Το δωμάτιο ευρύχωρο με όλες τις ανεσεις, υπηρεσία δωματίου σε καθημερινή βάση και το προσωπικό πρόθυμο να εξυπηρετήσει διαρκώς! Θα το συνιστούσα ανεπιφύλακτα.','2023-02-08 09:56:31');
+INSERT INTO reviews (choice_id, user_id, rate, title, comment, r_date) VALUES (4,1,2,'Άψογα!!','Πολύ καλό φαγητό και τέλεια εξυπηρέτηση.Το ριζότο γαρίδες και το Λινγκουινι θαλασσινών ήταν καταπληκτικα.Το συνιστώ ανεπιφυλακτα','2023-02-08 18:49:45');
+INSERT INTO reviews (choice_id, user_id, rate, title, comment, r_date) VALUES (1,1,5,'Εξαιρετικό!','Εξαιρετικός ξενώνας  με άψογο service σε μια ζεστή εορταστική ατμοσφαιρα μόλις λίγα λεπτά απόσταση από το κέντρο της πόλης και την παλιά πόλη. Το δωμάτιο ευρύχωρο με όλες τις ανεσεις, υπηρεσία δωματίου σε καθημερινή βάση και το προσωπικό πρόθυμο ναι διαρκώς! Θα το συνιστούσα ανεπιφύλακτα.','2023-02-09 11:34:47');
+INSERT INTO reviews (choice_id, user_id, rate, title, comment, r_date) VALUES (1,1,4,'Θερμά Συγχαρητήρια!!','Πολύ άνετο κρεβάτι και μαξιλάρια, πεντακάθαρο, προσφάτως ανακαινισμένο, πλούσιο πρωινό, φιλικό προσωπικό, σχετικά κοντά στην πόλη. Τί άλλο να ζητήσει κανείς; Είναι καλύτερα να πάει κανείς off season βέβαια,κατά τη γνώμη μου...','2023-02-16 11:38:43');
