@@ -16,7 +16,7 @@ $buffer = "";
 $query = "SELECT * from user u inner join reviews r on u.user_id = r.user_id  inner join choice ch on ch.choice_id = r.choice_id where rate between 4 AND 5 ";
 $results = mysqli_query($dbc, $query);
 while($row=$results->fetch_assoc()){
-  $buffer = $buffer. "visited( '". $row['first_name']. "' , '" . $row['name'] . "'). ";
+  $buffer = $buffer. "visited( '" . $row['first_name']. "' , '" . $row['name'] . "' , " . $row['choice_id'] . " ). ";
   
 }
 $query_family = "SELECT user_id , first_name, family_status from user where family_status='kids'  group by user_id";
@@ -31,8 +31,13 @@ echo $buffer;
 
 <script>
 var buffer="<?php echo $buffer; ?>";
+//buffer+="has('Αννα',kids).";
+buffer+="has('Georg','kids').";
+buffer+="recommendation(X,Y,L):-has(X,W),has(Y,W),visited(Y,L,I),X\\=Y.";
 alert(buffer); 
 var session;
+var counting_index;
+var places=new Array();
 
 </script>
 
@@ -54,16 +59,45 @@ var session;
       
       function show() {
         alert("got into show");
+        success:
         return function (answer) {
-          // Valid answer
-          if (pl.type.is_substitution(answer)) {
-            // Get the value of the food
-            //var p1 = answer.lookup("K");
-            var p2 = answer.lookup("L");
-            alert(" visited " + p2 );
-          }
-        }
+    
+        if (pl.type.is_substitution(answer)) {
+      
+          var p1 = answer.lookup("Y");
+          var p2 = answer.lookup("L");
+          places[counting_index] = p2; 
+          counting_index++;
+          alert( p1 + "-" + p2+ "-" + places[counting_index-1]);
+    }
+    else {
+      //alert('first recommendation is '+places[0]);
+      var rec_text="";
+      for(i=0;i<counting_index;i++){ 
+        rec_text+= "System recommends "+places[i] +"<br>";
       }
+      alert(rec_text);
+      document.getElementById("recommendations").innerHTML=rec_text;
+       }
+  }
+}
+
+
+
+// function show() {
+//         alert("got into show");
+//         return function (answer) {
+    
+//         if (pl.type.is_substitution(answer)) {
+      
+//           var p1 = answer.lookup("K");
+//           var p2 = answer.lookup("L");
+//           places[counting_index] = p1; 
+//           counting_index++;
+//           alert( p1 + "-" + p2+ "-" + places[counting_index-1]);
+//     }
+//   }
+// }
 
       // Show the likes of a person
       function likes() {
@@ -74,12 +108,25 @@ var session;
 
       function likes2(usr) {
         alert("likes2 activated");
-        var my_query="visited('"+usr+"', L).";
+        counting_index=0;
+        var my_query="visited('"+usr+"', K, L).";
         alert(my_query);
         session.query(my_query);
         alert("trying to present outputs");
         session.answers(show(), 1000);
       }
+
+
+      function likes3(usr) {
+        alert("likes3 activated");
+        counting_index=0;
+        var my_query="recommendation('"+usr+"', Y, L).";
+        alert(my_query);
+        session.query(my_query);
+        alert("trying to present outputs");
+        session.answers(show(), 1000);
+      }
+
 
       // onClick #button
       function clickButton() {
@@ -90,6 +137,11 @@ var session;
       likes();
 
 </script>
+<hr>
+<div id="recommendations">initially empty</div>
+<hr>
 
-  </body>
+<script>likes3("Georg");</script>
+
+</body>
 </html>
