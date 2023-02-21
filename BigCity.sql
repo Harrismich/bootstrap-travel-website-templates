@@ -13,7 +13,8 @@ CREATE TABLE user (
     last_name VARCHAR(255) NOT NULL,
     username VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL  
+    email VARCHAR(255) NOT NULL,
+    family_status ENUM('kids') DEFAULT 'no kids'
 );
 
 CREATE TABLE category (
@@ -40,7 +41,7 @@ CREATE TABLE choice (
     address VARCHAR(255) NOT NULL,
     phone_number VARCHAR(45),
     link VARCHAR(255),
-    map VARCHAR(255) NOT NULL,	
+    map VARCHAR(255),	
     category_id INT NOT NULL,
     FOREIGN KEY (category_id) REFERENCES category (category_id),
     city_id INT NOT NULL,
@@ -149,6 +150,16 @@ VALUES ('Ταβέρνα του Άη Γιώργη', 'Παραλία Αγίου Γ
 INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description)
 VALUES ('Πανεπιστημιακό Γενικό Νοσοκομείο Αλεξανδρούπολης', 'Αλεξανδρούπολη 681 00', '2551353000' , 'https://pgna.gr/','https://goo.gl/maps/8N8iwkUmbgvcNAWCA', 5,  1, 'Η παροχή φροντίδας υγείας όλων των επιπέδων και κυρίως τριτοβάθμιας στον πληθυσμό της Ανατολικής Μακεδονίας- Θράκης, καθώς και σε ασθενείς που παραπέμπονται από όλη την 4η Υγειονομική Περιφέρεια Μακεδονίας και Θράκη. Η φροντίδα υγείας παρέχεται ισότιμα σε κάθε άτομο ανεξάρτητα από την οικονομική, κοινωνική και επαγγελματική του κατάσταση, σύμφωνα με τους κανόνες του Εθνικού Συστήματος Υγείας.');
 
+INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description)
+VALUES ('Φάρος Αλεξανδρούπολης', 'Αλεξανδρούπολη 681 00', '2551353000' , 'https://pgna.gr/','https://goo.gl/maps/8N8iwkUmbgvcNAWCA', 5,  1, 'Η παροχή φροντίδας υγείας όλων των επιπέδων και κυρίως τριτοβάθμιας στον πληθυσμό της Ανατολικής Μακεδονίας- Θράκης, καθώς και σε ασθενείς που παραπέμπονται από όλη την 4η Υγειονομική Περιφέρεια Μακεδονίας και Θράκη. Η φροντίδα υγείας παρέχεται ισότιμα σε κάθε άτομο ανεξάρτητα από την οικονομική, κοινωνική και επαγγελματική του κατάσταση, σύμφωνα με τους κανόνες του Εθνικού Συστήματος Υγείας.');
+
+INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description)
+VALUES ('Εθνολογικό Μουσείο Θράκης', '14ης Μαΐου 63', ' 2551036663' , 'https://emthrace.org/','https://goo.gl/maps/dQJLBEpQDGM3M5fi9', 6,  1, 'Το Εθνολογικό Μουσείο Θράκης ιδρύθηκε για να διατηρήσει την ιστορική μνήμη στην ευρύτερη γεωγραφική περιοχή της Θράκης. Στεγάζεται, σε ένα μισθωμένο πέτρινο νεοκλασικό κτήριο του 1899, στην Αλεξανδρούπολη, επί της 14ης Μαΐου 63. Λειτουργεί από τον Οκτώβριο του 2002 και είναι ένα έργο αυτοχρηματοδοτούμενο. Ιδρύτρια και πρόεδρος του ΕΜΘ είναι η Αγγελική Γιαννακίδου. Επιχορηγήθηκε μερικώς από το Ίδρυμα Νιάρχου και το ΥΠΠΟ. Λειτουργεί με τη νομική μορφή Αστικής Εταιρείας μη κερδοσκοπικού χαρακτήρα');
+
+INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description)
+VALUES ('Ιερά Μονή Κορνοφωλιάς', 'Δήμος Σουφλίου 684 00', null , null,null, 6,  1, 'Η χρονολογία ίδρυσης της μονής δεν είναι ακριβής αλλά σύμφωνα με την παράδοση χρονολογείται στον 16ο αιω. Αναφέρεται ότι στην ίδια τοποθεσία υπήρχε μικρό εξωκλήσι αφιερωμένο στην Κοίμηση της Θεοτόκου, δίπλα σε πηγή με καθαρό και πόσιμο νερό[3]. Στις αρχές του 18ου αιώνα παραχωρήθηκε ανεπίσημα ως μετόχι στο Άγιο Όρος και εν συνέχεια (το 1747) πέρασε στην κυριότητα της Μονής Ιβήρων του Αγίου Όρους. Στη βιβλιοθήκη της Μονής Ιβήρων υπάρχει το σχετικό πατριαρχικό σιγίλλιο (απόφαση) της Ιεράς Συνόδου.');
+
+
 -- city=2
 INSERT INTO choice (name, address, phone_number, link, map, category_id, city_id, description)
 VALUES ('Rhodes Plaza Hotel', 'Ιερού Λόχου 7', '2241 022501' , 'https://www.rhodesplazahotel.com', 'https://goo.gl/maps/2MKjV2bciN8jnfyZA', 1,  2, 'Το 4 αστέρων Best Western βρίσκεται στο κέντρο της πόλης της Ρόδου και διαθέτει πισίνα με ηλιόλουστη βεράντα και σάουνα. Τα δωμάτια έχουν θέα στη θάλασσα ή στη Μεσαιωνική Πόλη. Το Best Western Plaza Hotel προσφέρει καλόγουστα δωμάτια, διακοσμημένα σε απαλά χρώματα. Είναι κλιματιζόμενα και εξοπλισμένα με δορυφορική τηλεόραση επίπεδης οθόνης LED 26 ιντσών, θυρίδα ασφαλείας και δωρεάν Wi-Fi πρόσβαση. Το μαρμάρινο μπάνιο περιλαμβάνει στεγνωτήρα μαλλιών. Στο Best Western υπάρχει εστιατόριο που σερβίρει ελληνική και διεθνή κουζίνα σε στιλ μπουφέ. Στο ξενοδοχείο θα βρείτε ένα καλόγουστο εσωτερικό μπαρ και ένα pool bar για ποτά και κοκτέιλ. Το Διεθνές Αεροδρόμιο της Ρόδου απέχει 14 χιλιόμετρα. Η παραλία και το Καζίνο της Ρόδου βρίσκονται σε ακτίνα 300 μέτρων.');
@@ -201,16 +212,23 @@ insert into pic (id,type_id,path) values ( 3 , 'city' , 'kalamata2');
 insert into pic (id,type_id,path) values ( 3 , 'city' , 'kalamata3');
 
 insert into pic (id,type_id,path) values ( 1 , 'choice' , 'lighthouse');
+insert into pic (id,type_id,path) values ( 1 , 'choice' , 'lighthouse1');
 insert into pic (id,type_id,path) values ( 2 , 'choice' , '31 Doors Hotel');
+insert into pic (id,type_id,path) values ( 2 , 'choice' , '31 Doors Hotel1');
 insert into pic (id,type_id,path) values ( 3 , 'choice' , 'xenonas_alexpolis');
 insert into pic (id,type_id,path) values ( 4 , 'choice' , 'lesxi_alexpolis');
 insert into pic (id,type_id,path) values ( 5 , 'choice' , 'harama');
+insert into pic (id,type_id,path) values ( 5 , 'choice' , 'harama1');
 insert into pic (id,type_id,path) values ( 6 , 'choice' , 'taverna-agios');
 insert into pic (id,type_id,path) values ( 7 , 'choice' , 'hospitalAlexpoli');
+insert into pic (id,type_id,path) values ( 7 , 'choice' , 'hospitalAlexpoli1');
 insert into pic (id,type_id,path) values ( 8 , 'choice' , 'plaza-hotel');
+insert into pic (id,type_id,path) values ( 8 , 'choice' , 'plaza-hotel1');
 insert into pic (id,type_id,path) values ( 9 , 'choice' , 'lydia-hotel');
+insert into pic (id,type_id,path) values ( 9 , 'choice' , 'lydia-hotel1');
 insert into pic (id,type_id,path) values ( 10 , 'choice' , 'xenonas_rodos');
 insert into pic (id,type_id,path) values ( 11 , 'choice' , 'lesxi_rodos');
+insert into pic (id,type_id,path) values ( 11 , 'choice' , 'lesxi_rodos1');
 insert into pic (id,type_id,path) values ( 12 , 'choice' , '4rodies');
 insert into pic (id,type_id,path) values ( 13 , 'choice' , 'carne');
 insert into pic (id,type_id,path) values ( 14 , 'choice' , 'elite');
@@ -221,6 +239,8 @@ insert into pic (id,type_id,path) values ( 18 , 'choice' , 'notias');
 insert into pic (id,type_id,path) values ( 19 , 'choice' , 'tarolla' );
 insert into pic (id,type_id,path) values ( 36 , 'choice' , 'Spiti');
 insert into pic (id,type_id,path) values ( 30 , 'choice' , 'alexandroupoli-s-lighthouse');
+insert into pic (id,type_id,path) values ( 22 , 'choice' , 'mousiothrakis');
+insert into pic (id,type_id,path) values ( 23 , 'choice' , 'ieramoni');
 
 -- inserts for reviews
 INSERT INTO reviews (choice_id, user_id, rate, title, comment, r_date) VALUES (1,1,3,'Ένα εξαιρετικό ξενοδοχείο πόλης','Εξαιρετικό ξενοδοχείο, υπέροχο προσωπικό, εξυπηρέτηση, ευγένεια και χαμόγελα!! Άνθρωποι που γνωρίζουν από διοίκηση ξενοδοχειακών επιχειρήσεων και φαίνεται στην αντιμετώπιση τόσο των πελατών αλλά και του προσωπικού τους. Καθαροί σύγχρονοι χώροι, πλούσιος μπουφές και αμέτρητες επιλογές λόγω της εξαιρετικής θέσης του στο νησί. Απιστευτη θέα στο Αιγαίο πέλαγος!!Το συνιστώ ανεπιφύλακτα!! Η καλύτερη επιλογή!!','2023-02-07 12:57:59');

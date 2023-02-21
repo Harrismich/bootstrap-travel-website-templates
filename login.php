@@ -21,7 +21,7 @@ if (isset($_POST['signUp'])) {
 			$_SESSION['logged_in_admin'] = true;
 			$_SESSION['user_id']=$userid;
 			$_SESSION['username'] = $username;
-			header('Location: http://localhost/project%20php/bootstrap-travel-website-templates/adminCRUD/home.php');
+			header('Location: adminCRUD/home.php');
 		}else{
 			$_SESSION['logged_in_user'] = true;
 			$_SESSION['user_id']=$userid;
@@ -84,7 +84,7 @@ if ($password !== $confirmPassword) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Travelet Free Website Tempalte | Smarteyeapps.com</title>
+    <title>Smart City</title>
 	<link rel="shortcut icon" href="assets/images/fav.png" type="image/x-icon">
     <link rel="shortcut icon" href="assets/images/fav.jpg">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />

@@ -9,7 +9,7 @@ $_SESSION['user_id'];
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Choices CRUD</title>
+        <title>Houses CRUD</title>
         <script src="../citycrud/js/jquery.min.js"></script>
         <link rel="stylesheet" href="../citycrud/css/bootstrap.min.css" />
         <script src="../citycrud/js/bootstrap.min.js"></script>
