@@ -18,19 +18,19 @@ body {
   background-color: #dc143c22;
 }
 
-.container {
+.container2 {
   max-width: 1200px;
   margin: 0 auto;
   text-align: center;
   padding: 25px 20px;
 }
-.container .box-container {
+.container2 .box-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 20px;
 }
 
-.container .box-container .box {
+.container2 .box-container .box {
   background-color: #fff;
   padding: 20px;
   border-radius: 5px;
@@ -38,42 +38,42 @@ body {
   display: none;
 }
 
-.container .box-container .box:nth-child(1),
-.container .box-container .box:nth-child(2),
-.container .box-container .box:nth-child(3) {
+.container2 .box-container .box:nth-child(1),
+.container2 .box-container .box:nth-child(2),
+.container2 .box-container .box:nth-child(3) {
   display: inline-block;
 }
 
-.container .box-container .box .image {
+.container2 .box-container .box .image {
   margin-bottom: 20px;
   overflow: hidden;
   height: 250px;
   border-radius: 5px;
 }
 
-.container .box-container .box .image img {
+.container2 .box-container .box .image img {
   height: 100%;
   width: 100%;
   object-fit: cover;
 }
 
-.container .box-container .box:hover .image img {
+.container2 .box-container .box:hover .image img {
   transform: scale(1.1);
 }
 
-.container .box-container .box .content h3 {
+.container2 .box-container .box .content h3 {
   font-size: 20px;
   color: #334;
 }
 
-.container .box-container .box .content p {
+.container2 .box-container .box .content p {
   font-size: 15px;
   color: #777;
   line-height: 2;
   padding: 15px 0;
 }
 
-.container .box-container .box .content .btn {
+.container2 .box-container .box .content .btn {
   display: inline-block;
   padding: 10px 30px;
   border: 1px solid #334;
@@ -81,13 +81,13 @@ body {
   font-size: 16px;
 }
 
-.container .box-container .box .content .btn:hover {
+.container2 .box-container .box .content .btn:hover {
   background-color: crimson;
   border-color: crimson;
   color: #fff;
 }
 
-.container .box-container .box .content .icons {
+.container2 .box-container .box .content .icons {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -96,12 +96,12 @@ body {
   border-top: 1px solid #334;
 }
 
-.container .box-container .box .content .icons span {
+.container2 .box-container .box .content .icons span {
   font-size: 14px;
   color: #777;
 }
 
-.container .box-container .box .content .icons span i {
+.container2 .box-container .box .content .icons span i {
   color: crimson;
   padding-right: 5px;
 }

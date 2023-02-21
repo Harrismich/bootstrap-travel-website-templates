@@ -9,7 +9,7 @@ if (!isset($_SESSION['logged_in_admin']) || !$_SESSION['logged_in_admin']) {
 <html>
 <head>
 
-<title>PHP/MySQLi CRUD Operation using Bootstrap/Modal</title>
+<title>Smart City Administrator</title>
 <script src="citycrud/js/jquery.min.js"></script>
         <link rel="stylesheet" href="citycrud/css/bootstrap.min.css" />
         <script src="citycrud/js/bootstrap.min.js"></script>
