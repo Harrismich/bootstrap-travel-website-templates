@@ -8,10 +8,10 @@ if (isset($_POST['signUp'])) {
 	$username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
     $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);	
 
-	$stmt = mysqli_prepare($dbc, "SELECT user_id, Username, Password, role_id FROM User WHERE Username = ?");
+	$stmt = mysqli_prepare($dbc, "SELECT user_id, Username, Password, role_id, family_status FROM User WHERE Username = ?");
 	mysqli_stmt_bind_param($stmt, "s", $username);
 	mysqli_stmt_execute($stmt);
-	mysqli_stmt_bind_result($stmt, $userid, $username, $pw, $role);
+	mysqli_stmt_bind_result($stmt, $userid, $username, $pw, $role, $family_status);
 
 	if (mysqli_stmt_fetch($stmt)) {
 		mysqli_stmt_close($stmt);
@@ -21,8 +21,9 @@ if (isset($_POST['signUp'])) {
 			$_SESSION['logged_in_admin'] = true;
 			$_SESSION['user_id']=$userid;
 			$_SESSION['username'] = $username;
-			header('Location: adminCRUD/home.php');
+			header('Location: http://localhost/project%20php/bootstrap-travel-website-templates/adminCRUD/home.php');
 		}else{
+			$_SESSION['family_status'] = $family_status;
 			$_SESSION['logged_in_user'] = true;
 			$_SESSION['user_id']=$userid;
 			$_SESSION['username']=$username;
@@ -84,7 +85,7 @@ if ($password !== $confirmPassword) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Smart City</title>
+    <title>Travelet Free Website Tempalte | Smarteyeapps.com</title>
 	<link rel="shortcut icon" href="assets/images/fav.png" type="image/x-icon">
     <link rel="shortcut icon" href="assets/images/fav.jpg">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
