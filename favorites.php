@@ -79,7 +79,7 @@ $user_id = $_SESSION["user_id"];
                 where uc.user_id = '$user_id' and type_id='choice' 
                 group by id";
                 $result = mysqli_query($dbc, $favorites);
-                echo'<div class="container">';        
+                echo'<div class="container2">';        
                     echo'<div class="box-container">';
                         while ($data = mysqli_fetch_assoc($result)) {   
                             echo' <div class="box">';
@@ -182,7 +182,7 @@ $user_id = $_SESSION["user_id"];
             let loadMoreBtn = document.querySelector('#load-more');
             let currentItem = 3;
             loadMoreBtn.onclick = () =>{
-            let boxes = [...document.querySelectorAll('.container .box-container .box')];
+            let boxes = [...document.querySelectorAll('.container2 .box-container .box')];
             for (var i = currentItem; i < currentItem + 3; i++){
             boxes[i].style.display = 'inline-block';
             }

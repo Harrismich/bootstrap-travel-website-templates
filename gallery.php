@@ -62,15 +62,15 @@ $user_id = $_SESSION['user_id'];
     
     <!--  ************************* Gallery Starts Here ************************** -->
 <div id="portfolio" class="gallery">    
-    <div class="container">              
+    <div class="container2">              
         <div class="row">
             <div class="gallery-filter d-none d-sm-block">
                 <button class="btn btn-default filter-button" data-filter="1"> Hotels </button>
                 <button class="btn btn-default filter-button" data-filter="2"> Army Hotels </button>
-                <button class="btn btn-default filter-button" data-filter="3"> Officers' Mess </button>
+                <button class="btn btn-default filter-button" data-filter="3"> Army Clubs </button>
                 <button class="btn btn-default filter-button" data-filter="4"> Restaurant </button>
                 <button class="btn btn-default filter-button" data-filter="5"> Hospitals </button>
-                <button class="btn btn-default filter-button" data-filter="8"> Available Houseσ </button>
+                <button class="btn btn-default filter-button" data-filter="8"> Available Houses </button>
             </div>
             <br/>
 

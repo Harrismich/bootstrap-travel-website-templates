@@ -25,14 +25,9 @@ $user_id = $_SESSION['user_id'];
     <meta charset="utf-8" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <title>Bootstrap Travel Website Template | Smarteyeapps.com</title>
-    <link
-      rel="shortcut icon"
-      href="assets/images/fav.png"
-      type="image/x-icon"
-    />
+    <link rel="shortcut icon" href="assets/images/fav.png" type="image/x-icon"/>
     <link rel="shortcut icon" href="assets/images/fav.jpg" />
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
     <link rel="stylesheet" href="assets/css/all.min.css" />
