@@ -16,6 +16,8 @@ if(!isset( $_SESSION['city_id'])){
   header("Location: packages.php");
 }
 $user_id = $_SESSION['user_id'];
+$family_status = $_SESSION['family_status'];
+include('recommend.php');
 
 ?>
 
@@ -25,9 +27,14 @@ $user_id = $_SESSION['user_id'];
     <meta charset="utf-8" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    <title>Smart City</title>
-    <link rel="shortcut icon" href="assets/images/fav.png" type="image/x-icon"/>
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>Bootstrap Travel Website Template | Smarteyeapps.com</title>
+    <link
+      rel="shortcut icon"
+      href="assets/images/fav.png"
+      type="image/x-icon"
+    />
     <link rel="shortcut icon" href="assets/images/fav.jpg" />
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
     <link rel="stylesheet" href="assets/css/all.min.css" />
@@ -171,7 +178,9 @@ echo '    <div class="row pack-row">';
 while ($data = mysqli_fetch_assoc($result)) {
   echo '      <div class="col-lg-4 col-md-6 col-sm-6">';
   echo '        <div class="pack-col">';
+  echo'         <center>';
   echo"             <img src='./pic/" . $data['path'] . ".jpg' style='width: 350px; height: 270px;' class='d-block' />";
+  echo'         </center>';
   echo '          <div class="revire row no-margin">';
                     $query_rate = "SELECT (sum(rate)/count(rate) ) as rev FROM reviews where choice_id = {$data['choice_id']}";
                     $results = mysqli_query($dbc, $query_rate);
@@ -188,7 +197,6 @@ while ($data = mysqli_fetch_assoc($result)) {
                       }
                     }
   echo '            </ul>';
-  
   echo '          </div>';
   echo '          <div class="detail row no-margin">';
   echo '            <h4>' . $data['name'] . '</h4>';
@@ -197,7 +205,6 @@ while ($data = mysqli_fetch_assoc($result)) {
   echo'           <div class="dest-col">';              
   echo '          <button class="btn" onclick="window.location.href=\'about_us.php?name=' . urlencode($data['choice_id']) . '\'">Read More</button>';
   echo'          </div>';
-                
   echo '          </div>';
   echo '        </div>';
   echo '      </div>';
@@ -210,34 +217,9 @@ echo '</div>';
 
     <?php
 
-    $query = "SELECT * FROM category c inner join choice ch on ch.category_id = c.category_id inner join pic on ch.choice_id = id where city_id='$city_id' AND ch.category_id = 1 and type_id='choice' ORDER BY RAND() LIMIT 3";
+echo'    <div class="destinations container-fluid" id="x1"></div>';
 
-    $result = mysqli_query($dbc, $query);
-echo'    <div class="destinations container-fluid">';
-echo'      <div class="container">';
-echo'        <div class="session-title">';
-echo'          <h2>Recommended Hotels</h2>';
-echo'          <p>';
-echo'            <a href="gallery.php?filter=1">more...</a>';
-echo'           </p>';
-echo'         </div>';
-echo'         <div class="dest-row row">';
-          while ($data = mysqli_fetch_assoc($result)) {
-echo'          <div class="col-lg-4 col-md-6">';
-echo'            <div class="dest-col">';
-echo'              <div class="dest-img">';
-echo"                 <img src='./pic/" . $data['path'] . ".jpg' style='width: 330px; height: 300px;' class='d-block' />";
-echo'              </div>';
-echo'              <h3> ' . $data["name"] . ' </h3>';
-
-echo'              <button class="btn btn-outline-success">Book Now</button>';
-echo'            </div>';
-echo'          </div>';
-          }
-echo'        </div>';
-echo'      </div>';
-echo'    </div>';
- ?>
+?>
 
     <!-- ################### Tour Type Starts Here ####################### -->
 

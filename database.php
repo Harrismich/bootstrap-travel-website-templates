@@ -10,11 +10,11 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 try {
     $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 } catch (mysqli_sql_exception $e) {
-    echo '<p style="color:red;">Cannot connect to the database</p>';
+    // echo '<p style="color:red;">Cannot connect to the database</p>';
     echo $e->getMessage();
     exit();
 }
 
-echo '<p style="color:green;" hidden>Successfully connected to the database</p>';
+// echo '<p style="color:green;" hidden>Successfully connected to the database</p>';
 
 ?>
