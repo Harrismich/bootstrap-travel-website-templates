@@ -27,7 +27,7 @@ $user_id = $_SESSION["user_id"];
     <link rel="stylesheet" href="assets/css/animate.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
-    <title>Travelet Free Website Tempalte | Smarteyeapps.com</title>
+    <title>Smart City</title>
 
     <style>
     .heart{

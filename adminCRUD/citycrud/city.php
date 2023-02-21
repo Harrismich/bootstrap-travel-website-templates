@@ -10,7 +10,7 @@ if (!isset($_SESSION['logged_in_admin']) || !$_SESSION['logged_in_admin']) {
 <html>
 <head>
 
-<title>PHP/MySQLi CRUD Operation using Bootstrap/Modal</title>
+<title>City CRUD</title>
 <script src="js/jquery.min.js"></script>
 <link rel="stylesheet" href="css/bootstrap.min.css" />
 <script src="js/bootstrap.min.js"></script>

@@ -26,7 +26,7 @@ $user_id = $_SESSION['user_id'];
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    <title>Bootstrap Travel Website Template | Smarteyeapps.com</title>
+    <title>Smart City</title>
     <link rel="shortcut icon" href="assets/images/fav.png" type="image/x-icon"/>
     <link rel="shortcut icon" href="assets/images/fav.jpg" />
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
@@ -171,7 +171,7 @@ echo '    <div class="row pack-row">';
 while ($data = mysqli_fetch_assoc($result)) {
   echo '      <div class="col-lg-4 col-md-6 col-sm-6">';
   echo '        <div class="pack-col">';
-  echo '          <img src="./pic/' . $data['path'] . '.jpg" alt="" />';
+  echo"             <img src='./pic/" . $data['path'] . ".jpg' style='width: 350px; height: 270px;' class='d-block' />";
   echo '          <div class="revire row no-margin">';
                     $query_rate = "SELECT (sum(rate)/count(rate) ) as rev FROM reviews where choice_id = {$data['choice_id']}";
                     $results = mysqli_query($dbc, $query_rate);
@@ -226,7 +226,7 @@ echo'         <div class="dest-row row">';
 echo'          <div class="col-lg-4 col-md-6">';
 echo'            <div class="dest-col">';
 echo'              <div class="dest-img">';
-echo'                <img src="./pic/' . $data['path'] . '.jpg" alt="" />';
+echo"                 <img src='./pic/" . $data['path'] . ".jpg' style='width: 330px; height: 300px;' class='d-block' />";
 echo'              </div>';
 echo'              <h3> ' . $data["name"] . ' </h3>';
 
